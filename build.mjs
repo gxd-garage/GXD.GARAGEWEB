@@ -69,6 +69,9 @@ const productos = leerColeccion("contenido/productos")
     return {
       slug, titulo: String(d.titulo), categoria, etiqueta: d.etiqueta ? String(d.etiqueta).trim() : "", resumen: d.resumen ? String(d.resumen).trim() : "",
       precio: numero(d.precio), precio_desde: d.precio_desde === true,
+      oferta_activa: d.oferta_activa === true, precio_oferta: numero(d.precio_oferta),
+      oferta_texto: d.oferta_texto ? String(d.oferta_texto).trim() : "", oferta_detalle: d.oferta_detalle ? String(d.oferta_detalle).trim() : "",
+      oferta_hasta: fecha(d.oferta_hasta, null),
       imagenes: lista(d.imagenes).map(ruta).filter(Boolean),
       detalles: lista(d.detalles).map(String).filter((s) => s.trim()),
       destacado: d.destacado === true, orden: numero(d.orden) ?? 100,
@@ -121,7 +124,18 @@ fs.copyFileSync(path.join(RAIZ, "src/estilos.css"), path.join(SALIDA, "estilos.c
 fs.copyFileSync(path.join(RAIZ, "src/cotizacion.js"), path.join(SALIDA, "cotizacion.js"));
 fs.copyFileSync(path.join(RAIZ, "src/sitio.js"), path.join(SALIDA, "sitio.js"));
 T.fijarVersion(Date.now().toString(36));
-T.fijarOpciones({ mostrarPrecios: sitio.mostrar_precios === true });
+let promo = null;
+const archivoPromo = path.join(RAIZ, "contenido/promocion.json");
+if (fs.existsSync(archivoPromo)) {
+  try {
+    const d = JSON.parse(fs.readFileSync(archivoPromo, "utf8"));
+    promo = { ...d, activa: d.activa === true, imagen: ruta(d.imagen), desde: fecha(d.desde, null), hasta: fecha(d.hasta, null) };
+  } catch (e) { avisos.push(`contenido/promocion.json tiene un error y se ignoró (${e.message})`); }
+}
+for (const p of productos) {
+  if (p.oferta_activa && !(p.precio_oferta > 0)) avisos.push(`${p.slug}: la oferta está activa pero no tiene precio de oferta, no se muestra`);
+}
+T.fijarOpciones({ mostrarPrecios: sitio.mostrar_precios === true, promo, hoy: new Date() });
 
 function relativizar(html, archivo) {
   const prof = archivo.split("/").length - 1;

@@ -596,3 +596,49 @@ html:not(.js) .fade-up { opacity: 1; transform: none; }
 /* Contacto: filas con datos copiables */
 .contact-link .copy { margin-left: auto; }
 .form-hint { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--dim); }
+
+/* Ofertas */
+.badge-oferta {
+  position: absolute; top: 1rem; left: 1rem; z-index: 2;
+  background: var(--white); color: var(--black);
+  font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.12em;
+  padding: 0.35rem 0.75rem; line-height: 1;
+}
+.offer-box .badge-oferta { position: static; display: inline-block; align-self: flex-start; }
+.product-price.oferta { color: var(--white); display: flex; align-items: baseline; gap: 0.6rem; }
+.product-price.oferta s, .ref-price s { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.05em; color: var(--dim); }
+.ref-price s { font-size: 0.9rem; margin-right: 0.75rem; }
+.offer-box { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.25); background: var(--gray); }
+.offer-box .ref-price { font-size: 2.6rem; line-height: 1; }
+.solo-normal { display: none; }
+.oferta-vencida .solo-oferta, .oferta-vencida.solo-oferta { display: none; }
+.oferta-vencida .solo-normal { display: initial; }
+.oferta-vencida .product-price.solo-normal { display: inline; }
+
+/* Ventana promocional */
+.promo { position: fixed; inset: 0; z-index: 900; display: grid; place-items: center; padding: 1.5rem; }
+.promo[hidden] { display: none; }
+.promo-fondo { position: absolute; inset: 0; background: rgba(10,10,10,0.82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.promo-caja {
+  position: relative; width: min(100%, 760px); max-height: calc(100vh - 3rem); overflow: auto;
+  background: var(--black); border: 1px solid rgba(255,255,255,0.18);
+  display: grid; grid-template-columns: 1fr 1fr; animation: promoIn 0.35s ease;
+}
+.promo-caja:not(:has(.promo-img)) { grid-template-columns: 1fr; width: min(100%, 520px); }
+@keyframes promoIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+.promo-img { background: var(--mid); min-height: 100%; }
+.promo-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.promo-cuerpo { padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: 1.25rem; justify-content: center; }
+.promo-cuerpo .section-title { font-size: clamp(2.4rem, 5vw, 3.6rem); }
+.promo-texto { font-size: 0.8rem; line-height: 1.9; color: var(--dim); }
+.promo-x {
+  position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2; width: 40px; height: 40px;
+  background: rgba(10,10,10,0.7); color: var(--white); border: 1px solid var(--border); font-size: 1.4rem; line-height: 1;
+}
+.promo-x:hover { border-color: rgba(255,255,255,0.5); }
+html.promo-abierta { overflow: hidden; }
+@media (max-width: 640px) {
+  .promo-caja { grid-template-columns: 1fr; }
+  .promo-img { max-height: 200px; }
+  .promo-cuerpo { padding: 2rem 1.5rem; }
+}

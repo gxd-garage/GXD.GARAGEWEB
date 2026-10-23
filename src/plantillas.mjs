@@ -29,7 +29,7 @@ export const waLink = (sitio, texto) =>
 const mapa = (sitio) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`${sitio.direccion}, ${sitio.comuna}, Chile`);
 const ext = 'target="_blank" rel="noopener"';
 
-let OPC = { mostrarPrecios: false };
+let OPC = { mostrarPrecios: false, promo: null, hoy: new Date() };
 export const fijarOpciones = (o) => { OPC = { ...OPC, ...o }; };
 let VERSION = "1";
 export const fijarVersion = (v) => { VERSION = v; };
@@ -39,6 +39,21 @@ export const precioTexto = (p) => {
   if (!OPC.mostrarPrecios || typeof p.precio !== "number" || !(p.precio > 0)) return null;
   return (p.precio_desde ? "Desde " : "") + pesos(p.precio);
 };
+
+// Oferta vigente de un producto (se revisa al publicar y otra vez en el navegador del visitante)
+export const ofertaDe = (p) => {
+  if (!p.oferta_activa || !(p.precio_oferta > 0)) return null;
+  if (p.oferta_hasta && p.oferta_hasta < finDelDia(OPC.hoy, -1)) return null;
+  return {
+    ahora: pesos(p.precio_oferta),
+    antes: p.precio > 0 && p.precio > p.precio_oferta ? pesos(p.precio) : null,
+    texto: p.oferta_texto || "Oferta",
+    detalle: p.oferta_detalle || "",
+    hasta: p.oferta_hasta ? fechaISO(p.oferta_hasta) : "",
+    hastaLarga: p.oferta_hasta ? fechaLarga(p.oferta_hasta) : "",
+  };
+};
+function finDelDia(d, dias = 0) { const x = new Date(d); x.setUTCDate(x.getUTCDate() + dias); x.setUTCHours(23, 59, 59, 999); return x; }
 
 // ---------- gráficos ----------
 const LOGO_D = "M4839.9,3312.8c-127,110.3-274.9,161.9-440.6,179.4l-1118.1.2-446.1-446-447,445.8-417.8-2.9,652.9-654.9-621-620.3-2.7,259.1-687.3,1.3c-107.3.2-208.1,41.1-286.9,107-85.6,71.6-121.4,177.2-90.5,287.8,46,164.6,191.3,308.1,367.6,322.5,136.9,11.2,266.6.9,401.1,3.8l.7-364.3,295.6-.9-.5,529.6c0,67.8-67.7,134-135.9,132.1-202.1-5.8-393.2,12.3-595.7-5.4-297.9-26.1-545.5-261.2-621-543.2-61.5-229.7,18.7-455.2,199.3-601.1,130.8-105.6,287.4-158.9,458.1-165.5h1084.2c0,.1,446.4,446.2,446.4,446.2l446.2-446,417.8,3.1-652.5,654.7,621,620.3,2.7-259.1,687.4-1.2c107.3-.2,208-41.2,286.8-107.1,85.6-71.6,121.4-177.2,90.5-287.8-46-164.7-191.3-307.9-367.6-322.5-136.8-11.3-266.6-.9-401.1-3.9l-.7,364.5-295.6.9.5-529.7c0-68,67.6-133.9,136-132,202.1,5.8,393.2-12.3,595.8,5.4,300.1,26.3,549.8,264.9,622.6,550.1,55.9,219-15.3,433.2-184.5,580Z";
@@ -118,8 +133,39 @@ ${cuerpo}
 ${pie(sitio)}
 ${flotante ? `<a class="wa-float" href="${waLink(sitio, "Hola GXD Garage, quiero consultar sobre sus servicios.")}" ${ext} aria-label="Escríbenos por WhatsApp">${WA}</a>` : ""}
 <div class="toast" role="status" aria-live="polite" data-toast hidden></div>
+${popup(sitio, ruta)}
 </body>
 </html>`;
+}
+
+// Ventana promocional (se configura en contenido/promocion.json desde el panel)
+function popup(sitio, ruta) {
+  const pr = OPC.promo;
+  if (!pr || !pr.activa || !pr.titulo) return "";
+  if (pr.paginas === "Solo el inicio" && ruta !== "/") return "";
+  if (pr.hasta && pr.hasta < finDelDia(OPC.hoy, -1)) return "";
+  const id = slug(`${pr.titulo}-${pr.desde ? fechaISO(pr.desde) : ""}-${pr.hasta ? fechaISO(pr.hasta) : ""}`).slice(0, 60);
+  const enlace = pr.boton_enlace || "";
+  const esWa = !enlace || enlace === "whatsapp";
+  const href = esWa ? waLink(sitio, pr.mensaje_whatsapp || `Hola GXD Garage, vi la promoción "${pr.titulo}" en la web.`) : enlace;
+  const externo = esWa || /^https?:/.test(href);
+  return `<div class="promo" data-promo="${esc(id)}" data-desde="${pr.desde ? fechaISO(pr.desde) : ""}" data-hasta="${pr.hasta ? fechaISO(pr.hasta) : ""}" data-retraso="${Math.max(0, Number(pr.retraso) || 0)}" data-frecuencia="${esc(pr.frecuencia || "Una vez")}" hidden>
+  <div class="promo-fondo" data-promo-cerrar></div>
+  <div class="promo-caja" role="dialog" aria-modal="true" aria-labelledby="promo-titulo">
+    <button class="promo-x" type="button" data-promo-cerrar aria-label="Cerrar promoción">×</button>
+    ${pr.imagen ? `<div class="promo-img"><img src="${esc(pr.imagen)}" alt=""></div>` : ""}
+    <div class="promo-cuerpo">
+      ${pr.etiqueta ? `<p class="section-label" style="margin:0">// ${esc(pr.etiqueta)}</p>` : ""}
+      <h2 class="section-title" id="promo-titulo">${esc(pr.titulo)}${pr.titulo_cursiva ? `<br><em>${esc(pr.titulo_cursiva)}</em>` : ""}</h2>
+      ${pr.texto ? `<p class="promo-texto">${esc(pr.texto)}</p>` : ""}
+      <div class="hero-actions">
+        <a class="${esWa ? "btn-wa" : "btn-primary"}" href="${esc(href)}"${externo ? ` ${ext}` : ""} data-promo-cta>${esWa ? WA : ""}${esc(pr.boton_texto || "Lo quiero")}</a>
+        <button class="mini" type="button" data-promo-cerrar>Ahora no</button>
+      </div>
+      ${pr.hasta ? `<p class="fine">Válida hasta el ${esc(fechaLarga(pr.hasta))}.</p>` : ""}
+    </div>
+  </div>
+</div>`;
 }
 
 function pie(sitio) {
@@ -187,10 +233,15 @@ export function tarjetaProducto(sitio, p) {
   const g = grupo(p.categoria);
   const img = p.imagenes[0];
   const ref = precioTexto(p);
-  const msg = `Hola GXD Garage, quiero cotizar: *${p.titulo}*\n\nDetalles:`;
-  return `<article class="product-card fade-up">
+  const of = ofertaDe(p);
+  const msg = of ? `Hola GXD Garage, quiero la oferta: *${p.titulo}* (${of.texto}, ${of.ahora})\n\nDetalles:` : `Hola GXD Garage, quiero cotizar: *${p.titulo}*\n\nDetalles:`;
+  const normal = `<span class="product-price${ref ? "" : " cot"}${of ? " solo-normal" : ""}">${esc(ref || "A cotizar")}</span>`;
+  const precio = of
+    ? `<span class="product-price oferta solo-oferta">${of.antes ? `<s>${esc(of.antes)}</s>` : ""}${esc(of.ahora)}</span>${normal}`
+    : normal;
+  return `<article class="product-card fade-up"${of && of.hasta ? ` data-oferta-hasta="${of.hasta}"` : ""}>
   <a class="product-link" href="/catalogo/${p.slug}/">
-    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : `<div class="product-img-placeholder">${g.abrev}</div>`}</div>
+    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : `<div class="product-img-placeholder">${g.abrev}</div>`}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}</div>
     <div class="product-body">
       <span class="product-cat">${esc(g.nombre)}${p.etiqueta ? ` · ${esc(p.etiqueta)}` : ""}</span>
       <h3 class="product-name">${esc(p.titulo)}</h3>
@@ -198,7 +249,7 @@ export function tarjetaProducto(sitio, p) {
     </div>
   </a>
   <div class="product-footer">
-    <span class="product-price${ref ? "" : " cot"}">${esc(ref || "A cotizar")}</span>
+    ${precio}
     <a class="btn-wa-product" href="${waLink(sitio, msg)}" ${ext}>${WA}Cotizar</a>
   </div>
 </article>`;
@@ -420,6 +471,7 @@ export function paginaProducto({ sitio, p, relacionados }) {
   const abs = (u) => (u.startsWith("http") ? u : base + u);
   const url = `${base}/catalogo/${p.slug}/`;
   const ref = precioTexto(p);
+  const of = ofertaDe(p);
   const ldServ = {
     "@context": "https://schema.org", "@type": "Service",
     name: p.titulo, description: p.resumen, serviceType: g.nombre, url,
@@ -427,6 +479,7 @@ export function paginaProducto({ sitio, p, relacionados }) {
     provider: { "@type": "LocalBusiness", name: sitio.nombre, telephone: "+" + sitio.whatsapp,
       address: { "@type": "PostalAddress", streetAddress: sitio.direccion, addressLocality: sitio.comuna, addressRegion: sitio.region, addressCountry: "CL" } },
     areaServed: [{ "@type": "City", name: sitio.comuna }, { "@type": "AdministrativeArea", name: sitio.region }],
+    ...(of ? { offers: { "@type": "Offer", priceCurrency: "CLP", price: p.precio_oferta, url, ...(of.hasta ? { priceValidUntil: of.hasta } : {}) } } : {}),
   };
   const galeria = p.imagenes.length
     ? `<div class="gallery-main"><img id="foto" src="${esc(p.imagenes[0])}" alt="${esc(p.titulo)}"></div>
@@ -441,13 +494,19 @@ export function paginaProducto({ sitio, p, relacionados }) {
       <span class="product-cat">${esc(g.nombre)}${p.etiqueta ? ` · ${esc(p.etiqueta)}` : ""}</span>
       <h1 class="section-title">${esc(p.titulo)}</h1>
       ${p.resumen ? `<p class="lead">${esc(p.resumen)}</p>` : ""}
-      ${ref ? `<p class="ref-price"><small>Valor de referencia</small>${esc(ref)}</p>` : ""}
+      ${of ? `<div class="offer-box solo-oferta"${of.hasta ? ` data-oferta-hasta="${of.hasta}"` : ""}>
+        <span class="badge-oferta">${esc(of.texto)}</span>
+        <p class="ref-price">${of.antes ? `<s>${esc(of.antes)}</s>` : ""}${esc(of.ahora)}</p>
+        ${of.detalle ? `<p class="lead">${esc(of.detalle)}</p>` : ""}
+        ${of.hastaLarga ? `<p class="fine">Válida hasta el ${esc(of.hastaLarga)}.</p>` : ""}
+      </div>` : ""}
+      ${ref ? `<p class="ref-price${of ? " solo-normal" : ""}"><small>Valor de referencia</small>${esc(ref)}</p>` : ""}
       <div class="quote-box">
         <div class="form-group"><label for="cant">Cantidad</label><input id="cant" type="number" min="1" max="9999" value="1" inputmode="numeric"></div>
         <button class="btn-primary" type="button" data-add data-slug="${esc(p.slug)}" data-titulo="${esc(p.titulo)}">Agregar a mi cotización</button>
       </div>
       <p class="added" data-added hidden>Agregado a tu cotización. <a href="/cotizar/">Ver mi cotización →</a></p>
-      <a class="btn-wa" style="align-self:flex-start" href="${waLink(sitio, `Hola GXD Garage, quiero cotizar: *${p.titulo}*\n${url}\n\nDetalles:`)}" ${ext}>${WA}Cotizar directo por WhatsApp</a>
+      <a class="btn-wa" style="align-self:flex-start" href="${waLink(sitio, of ? `Hola GXD Garage, quiero la oferta: *${p.titulo}* (${of.texto}, ${of.ahora})\n${url}\n\nDetalles:` : `Hola GXD Garage, quiero cotizar: *${p.titulo}*\n${url}\n\nDetalles:`)}" ${ext}>${WA}${of ? "Pedir esta oferta por WhatsApp" : "Cotizar directo por WhatsApp"}</a>
       ${p.detalles.length ? `<ul class="spec-list">${p.detalles.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
       <p class="fine">Cada pieza se fabrica a pedido. El valor depende de la complejidad del diseño, el tamaño, el material y la cantidad, y te lo confirmamos en la cotización.</p>
     </div>

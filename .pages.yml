@@ -48,6 +48,26 @@ content:
         label: Mostrar como "Desde"
         type: boolean
         description: Actívalo cuando el precio es el mínimo y depende del tamaño o la cantidad.
+      - name: oferta_activa
+        label: Oferta activa
+        type: boolean
+        description: Muestra el precio de oferta y la etiqueta en el catálogo y en la ficha, aunque el resto del catálogo esté "A cotizar".
+      - name: precio_oferta
+        label: Precio de oferta (CLP)
+        type: number
+        description: Solo el número. Si además completas "Valor de referencia", se muestra tachado como precio anterior.
+      - name: oferta_texto
+        label: Etiqueta de la oferta
+        type: string
+        description: Texto corto de la etiqueta, por ejemplo "Promo Noviembre" o "-20%". Si lo dejas vacío dice "Oferta".
+      - name: oferta_detalle
+        label: Detalle de la oferta
+        type: string
+        description: Opcional. Por ejemplo "$2.700 c/u comprando 15 o más".
+      - name: oferta_hasta
+        label: Oferta válida hasta
+        type: date
+        description: Opcional. Después de esta fecha la oferta deja de mostrarse sola.
       - name: imagenes
         label: Fotos
         type: image
@@ -167,6 +187,72 @@ content:
         type: rich-text
         options:
           format: markdown
+
+  - name: promocion
+    label: Ventana promocional
+    type: file
+    path: contenido/promocion.json
+    fields:
+      - name: activa
+        label: Mostrar la ventana
+        type: boolean
+        description: Enciéndela para que aparezca a los visitantes. Apágala cuando termine la promoción.
+      - name: etiqueta
+        label: Etiqueta pequeña
+        type: string
+        description: Opcional, aparece arriba del título. Por ejemplo "Promo del mes".
+      - name: titulo
+        label: Título
+        type: string
+        required: true
+      - name: titulo_cursiva
+        label: Segunda línea en cursiva
+        type: string
+        description: Opcional. Va debajo del título con la letra en cursiva, como en el resto del sitio.
+      - name: texto
+        label: Texto
+        type: text
+        options:
+          maxlength: 220
+      - name: imagen
+        label: Imagen
+        type: image
+        description: Opcional. Se muestra al lado del texto en computador y arriba en celular.
+        options:
+          extensions: [jpg, jpeg, png, webp]
+      - name: boton_texto
+        label: Texto del botón
+        type: string
+      - name: boton_enlace
+        label: Enlace del botón
+        type: string
+        description: Escribe "whatsapp" para abrir WhatsApp, o una página del sitio como /catalogo/llavero-nfc/ o /cotizar/.
+      - name: mensaje_whatsapp
+        label: Mensaje de WhatsApp
+        type: string
+        description: Solo si el botón abre WhatsApp. Si lo dejas vacío se arma un mensaje con el título de la promoción.
+      - name: desde
+        label: Mostrar desde
+        type: date
+        description: Opcional.
+      - name: hasta
+        label: Mostrar hasta
+        type: date
+        description: Opcional. Después de esta fecha deja de aparecer sola.
+      - name: paginas
+        label: Dónde aparece
+        type: select
+        options:
+          values: ["Todas las páginas", "Solo el inicio"]
+      - name: frecuencia
+        label: Cada cuánto se muestra a un mismo visitante
+        type: select
+        options:
+          values: ["Una vez", "Una vez por día", "Cada visita"]
+      - name: retraso
+        label: Segundos antes de aparecer
+        type: number
+        description: Recomendado entre 3 y 8 para no interrumpir apenas entra la persona.
 
   - name: sitio
     label: Datos del negocio

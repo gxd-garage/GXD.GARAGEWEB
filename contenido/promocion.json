@@ -1,0 +1,16 @@
+{
+  "activa": false,
+  "etiqueta": "Promo del mes",
+  "titulo": "Llaveros NFC",
+  "titulo_cursiva": "para tu negocio",
+  "texto": "Comparte tu Instagram, WhatsApp o reseñas de Google con un toque. Precio especial por mayor.",
+  "imagen": "",
+  "boton_texto": "Lo quiero",
+  "boton_enlace": "/catalogo/llavero-nfc/",
+  "mensaje_whatsapp": "",
+  "desde": "",
+  "hasta": "",
+  "paginas": "Todas las páginas",
+  "frecuencia": "Una vez",
+  "retraso": 4
+}

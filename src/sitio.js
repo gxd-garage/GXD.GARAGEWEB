@@ -79,6 +79,61 @@
     });
   });
 
+  // ---------- Ofertas con fecha de término ----------
+  // Si una oferta ya venció (y el sitio aún no se ha vuelto a publicar), se oculta en el navegador.
+  var hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  function vencida(iso) { if (!iso) return false; var d = new Date(iso + "T23:59:59"); return d < hoy; }
+  document.querySelectorAll("[data-oferta-hasta]").forEach(function (el) {
+    if (vencida(el.dataset.ofertaHasta)) {
+      var cont = el.closest(".product-card, .prod-info") || el;
+      cont.classList.add("oferta-vencida");
+    }
+  });
+
+  // ---------- Ventana promocional ----------
+  var promo = document.querySelector("[data-promo]");
+  if (promo) {
+    var id = "gxd-promo-" + promo.dataset.promo;
+    var desde = promo.dataset.desde ? new Date(promo.dataset.desde + "T00:00:00") : null;
+    var hasta = promo.dataset.hasta ? new Date(promo.dataset.hasta + "T23:59:59") : null;
+    var ahora = new Date();
+    var vigente = (!desde || ahora >= desde) && (!hasta || ahora <= hasta);
+    var visto = null;
+    try { visto = promo.dataset.frecuencia === "Una vez por día" ? sessionStorage.getItem(id + "-" + ahora.toDateString()) : localStorage.getItem(id); } catch (e) { visto = null; }
+    if (promo.dataset.frecuencia === "Cada visita") visto = null;
+    if (vigente && !visto) {
+      var anterior = null;
+      var abrir = function () {
+        anterior = document.activeElement;
+        promo.hidden = false;
+        document.documentElement.classList.add("promo-abierta");
+        var b = promo.querySelector(".promo-x"); if (b) b.focus();
+      };
+      var cerrar = function () {
+        promo.hidden = true;
+        document.documentElement.classList.remove("promo-abierta");
+        try {
+          if (promo.dataset.frecuencia === "Una vez por día") sessionStorage.setItem(id + "-" + new Date().toDateString(), "1");
+          else localStorage.setItem(id, "1");
+        } catch (e) { /* sin almacenamiento: se volverá a mostrar */ }
+        if (anterior && anterior.focus) anterior.focus();
+      };
+      promo.querySelectorAll("[data-promo-cerrar]").forEach(function (b) { b.addEventListener("click", cerrar); });
+      var cta = promo.querySelector("[data-promo-cta]"); if (cta) cta.addEventListener("click", function () { setTimeout(cerrar, 50); });
+      document.addEventListener("keydown", function (e) {
+        if (promo.hidden) return;
+        if (e.key === "Escape") cerrar();
+        if (e.key === "Tab") {
+          var f = promo.querySelectorAll("a, button"); if (!f.length) return;
+          var first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+      setTimeout(abrir, (Number(promo.dataset.retraso) || 0) * 1000);
+    }
+  }
+
   // ---------- Formulario de contacto del inicio → WhatsApp ----------
   var f = document.getElementById("contacto-form");
   if (f) {
