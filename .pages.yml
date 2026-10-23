@@ -1,0 +1,223 @@
+# Configuración del panel de edición (Pages CMS: https://app.pagescms.org)
+# Define qué puedes editar desde el panel y qué campos tiene cada cosa.
+
+media:
+  input: public/media
+  output: /media
+
+content:
+  - name: productos
+    label: Catálogo
+    type: collection
+    path: contenido/productos
+    filename: "{primary}.md"
+    view:
+      fields: [titulo, categoria, destacado, publicado]
+      primary: titulo
+      sort: [orden, titulo]
+      default:
+        sort: orden
+        order: asc
+    fields:
+      - name: titulo
+        label: Nombre del producto
+        type: string
+        required: true
+      - name: categoria
+        label: Categoría
+        type: select
+        required: true
+        options:
+          values: ["Impresión 3D", "Diseño gráfico", "Impresión digital"]
+        description: Define en qué pestaña del catálogo aparece.
+      - name: etiqueta
+        label: Etiqueta (opcional)
+        type: string
+        description: Un tipo más específico que se muestra junto a la categoría, por ejemplo Lámparas, Repuestos o Stickers.
+      - name: resumen
+        label: Resumen
+        type: text
+        description: Una o dos frases. Aparece bajo el nombre y es lo que Google muestra en los resultados.
+        options:
+          maxlength: 180
+      - name: precio
+        label: Valor de referencia (CLP, opcional)
+        type: number
+        description: Solo el número, sin puntos ni signo peso. Se muestra únicamente si activas "Mostrar valores de referencia" en Datos del negocio. Si no, el producto aparece como "A cotizar".
+      - name: precio_desde
+        label: Mostrar como "Desde"
+        type: boolean
+        description: Actívalo cuando el precio es el mínimo y depende del tamaño o la cantidad.
+      - name: imagenes
+        label: Fotos
+        type: image
+        description: La primera foto es la portada. Usa fotos verticales u horizontales de buena calidad.
+        options:
+          multiple:
+            max: 6
+          extensions: [jpg, jpeg, png, webp]
+      - name: detalles
+        label: Detalles
+        type: string
+        list: true
+        description: Puntos breves, por ejemplo materiales, medidas o tiempos de entrega.
+      - name: destacado
+        label: Destacado en la portada
+        type: boolean
+      - name: orden
+        label: Orden
+        type: number
+        description: Los números más bajos aparecen primero.
+      - name: publicado
+        label: Publicado
+        type: boolean
+        description: Desactívalo para ocultar el producto sin borrarlo.
+      - name: body
+        label: Descripción completa
+        type: rich-text
+        options:
+          format: markdown
+
+  - name: portafolio
+    label: Portafolio
+    type: collection
+    path: contenido/portafolio
+    filename: "{primary}.md"
+    view:
+      fields: [titulo, categoria, publicado]
+      primary: titulo
+      sort: [orden, titulo]
+      default:
+        sort: orden
+        order: asc
+    fields:
+      - name: titulo
+        label: Nombre del trabajo
+        type: string
+        required: true
+      - name: categoria
+        label: Categoría
+        type: select
+        required: true
+        options:
+          values: ["Impresión 3D", "Diseño gráfico", "Impresión digital"]
+      - name: imagen
+        label: Foto
+        type: image
+        required: true
+        description: Una foto real del trabajo terminado. Formato horizontal 4:3 idealmente.
+        options:
+          extensions: [jpg, jpeg, png, webp]
+      - name: orden
+        label: Orden
+        type: number
+        description: Los números más bajos aparecen primero.
+      - name: publicado
+        label: Publicado
+        type: boolean
+
+  - name: blog
+    label: Blog
+    type: collection
+    path: contenido/blog
+    filename: "{primary}.md"
+    view:
+      fields: [titulo, categoria, fecha, borrador]
+      primary: titulo
+      sort: [fecha, titulo]
+      default:
+        sort: fecha
+        order: desc
+    fields:
+      - name: titulo
+        label: Título
+        type: string
+        required: true
+        description: Escríbelo como lo buscaría la gente en Google.
+      - name: descripcion
+        label: Descripción para Google
+        type: text
+        required: true
+        description: Entre 120 y 160 caracteres. Aparece en los resultados de búsqueda y al compartir el enlace.
+        options:
+          maxlength: 170
+      - name: categoria
+        label: Categoría
+        type: select
+        required: true
+        description: Guías responde preguntas, Proyectos muestra trabajos reales y Novedades es para anuncios y promociones.
+        options:
+          values: ["Guías", "Proyectos", "Novedades"]
+      - name: fecha
+        label: Fecha de publicación
+        type: date
+        required: true
+      - name: portada
+        label: Imagen de portada
+        type: image
+        description: Opcional. Formato horizontal.
+        options:
+          extensions: [jpg, jpeg, png, webp]
+      - name: borrador
+        label: Borrador
+        type: boolean
+        description: Actívalo para guardar el artículo sin publicarlo.
+      - name: body
+        label: Contenido
+        type: rich-text
+        options:
+          format: markdown
+
+  - name: sitio
+    label: Datos del negocio
+    type: file
+    path: contenido/sitio.json
+    fields:
+      - name: nombre
+        label: Nombre
+        type: string
+      - name: url
+        label: Dirección del sitio
+        type: string
+        description: Con https y sin barra al final, por ejemplo https://gxdgarage.cl
+      - name: slogan
+        label: Slogan
+        type: string
+      - name: descripcion
+        label: Descripción para Google
+        type: text
+        description: Lo que Google muestra bajo el nombre del sitio en la portada.
+      - name: whatsapp
+        label: WhatsApp (solo números)
+        type: string
+        description: Con código de país y sin el signo +, por ejemplo 56983409755
+      - name: whatsapp_visible
+        label: WhatsApp como se muestra
+        type: string
+      - name: mensaje_whatsapp
+        label: Mensaje inicial de WhatsApp
+        type: string
+      - name: mostrar_precios
+        label: Mostrar valores de referencia
+        type: boolean
+        description: Apagado, todo el catálogo aparece como "A cotizar". Encendido, se muestran los valores de referencia de los productos que lo tengan.
+      - name: instagram
+        label: Usuario de Instagram
+        type: string
+        description: Sin @
+      - name: direccion
+        label: Dirección
+        type: string
+      - name: comuna
+        label: Comuna
+        type: string
+      - name: region
+        label: Región
+        type: string
+      - name: codigo_postal
+        label: Código postal
+        type: string
+      - name: horario
+        label: Horario de atención
+        type: string
+        description: Opcional, por ejemplo "Lunes a viernes de 10:00 a 19:00"

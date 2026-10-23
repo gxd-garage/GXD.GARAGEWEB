@@ -1,0 +1,173 @@
+// Generador del sitio GXD Garage.
+// Lee el contenido de /contenido, aplica las plantillas de /src y escribe el sitio listo en /dist.
+// Uso:  node build.mjs            → sitio para publicar
+//       node build.mjs --preview  → copia con enlaces relativos para revisar sin servidor
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+import * as T from "./src/plantillas.mjs";
+
+const require = createRequire(import.meta.url);
+const { marked } = require("./vendor/marked.cjs");
+const yaml = require("./vendor/js-yaml.cjs");
+
+const RAIZ = path.dirname(fileURLToPath(import.meta.url));
+const PREVIEW = process.argv.includes("--preview");
+const SALIDA = path.join(RAIZ, PREVIEW ? "dist-preview" : "dist");
+const avisos = [];
+
+// ---------- lectura de contenido ----------
+const sitio = JSON.parse(fs.readFileSync(path.join(RAIZ, "contenido/sitio.json"), "utf8"));
+
+function leerColeccion(carpeta) {
+  const dir = path.join(RAIZ, carpeta);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir)
+    .filter((f) => f.endsWith(".md") && !f.startsWith("_"))
+    .map((f) => {
+      const texto = fs.readFileSync(path.join(dir, f), "utf8").replace(/^﻿/, "");
+      const m = texto.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+      let datos = {};
+      let cuerpo = texto;
+      if (m) {
+        try { datos = yaml.load(m[1]) || {}; }
+        catch (e) { avisos.push(`${carpeta}/${f}: el encabezado tiene un error y se ignoró (${e.message.split("\n")[0]})`); }
+        cuerpo = m[2];
+      }
+      return { archivo: `${carpeta}/${f}`, slug: T.slug(f.replace(/\.md$/, "")), datos, cuerpo, mtime: fs.statSync(path.join(dir, f)).mtime };
+    });
+}
+
+const md = (s) =>
+  marked.parse(s || "", { gfm: true })
+    .replace(/<table>/g, '<div class="table"><table>').replace(/<\/table>/g, "</table></div>");
+
+const ruta = (u) => {
+  if (!u || typeof u !== "string") return null;
+  u = u.trim();
+  if (/^https?:\/\//.test(u)) return u;
+  u = u.replace(/^(\.\/)?public\//, "");
+  return u.startsWith("/") ? u : "/" + u;
+};
+const lista = (v) => (Array.isArray(v) ? v : v == null || v === "" ? [] : [v]);
+const numero = (v) => {
+  if (typeof v === "number") return v;
+  if (typeof v === "string" && v.trim()) { const n = Number(v.replace(/[^\d]/g, "")); return n > 0 ? n : null; }
+  return null;
+};
+const fecha = (v, respaldo) => {
+  const d = v instanceof Date ? v : v ? new Date(v) : null;
+  return d && !isNaN(d) ? d : respaldo;
+};
+
+const productos = leerColeccion("contenido/productos")
+  .map(({ archivo, slug, datos: d, cuerpo }) => {
+    if (!d.titulo) { avisos.push(`${archivo}: falta el nombre del producto, no se publicó`); return null; }
+    let categoria = d.categoria ? String(d.categoria).trim() : T.CATEGORIAS[0];
+    if (!T.CATEGORIAS.includes(categoria)) { avisos.push(`${archivo}: la categoría "${categoria}" no existe, se usó "${T.CATEGORIAS[0]}"`); categoria = T.CATEGORIAS[0]; }
+    return {
+      slug, titulo: String(d.titulo), categoria, etiqueta: d.etiqueta ? String(d.etiqueta).trim() : "", resumen: d.resumen ? String(d.resumen).trim() : "",
+      precio: numero(d.precio), precio_desde: d.precio_desde === true,
+      imagenes: lista(d.imagenes).map(ruta).filter(Boolean),
+      detalles: lista(d.detalles).map(String).filter((s) => s.trim()),
+      destacado: d.destacado === true, orden: numero(d.orden) ?? 100,
+      publicado: d.publicado !== false, html: md(cuerpo),
+    };
+  })
+  .filter((p) => p && p.publicado)
+  .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
+
+const portafolio = leerColeccion("contenido/portafolio")
+  .map(({ archivo, datos: d }) => {
+    if (!d.titulo) { avisos.push(`${archivo}: falta el nombre del trabajo, no se publicó`); return null; }
+    let categoria = d.categoria ? String(d.categoria).trim() : T.CATEGORIAS[0];
+    if (!T.CATEGORIAS.includes(categoria)) categoria = T.CATEGORIAS[0];
+    return { titulo: String(d.titulo), categoria, imagen: ruta(d.imagen), orden: numero(d.orden) ?? 100, publicado: d.publicado !== false };
+  })
+  .filter((w) => w && w.publicado)
+  .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
+
+const posts = leerColeccion("contenido/blog")
+  .map(({ archivo, slug, datos: d, cuerpo, mtime }) => {
+    if (!d.titulo) { avisos.push(`${archivo}: falta el título del artículo, no se publicó`); return null; }
+    const palabras = cuerpo.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
+    let categoria = d.categoria ? String(d.categoria).trim() : "Novedades";
+    if (!T.CATEGORIAS_BLOG.includes(categoria)) { avisos.push(`${archivo}: categoría "${categoria}" no existe, se usó "Novedades"`); categoria = "Novedades"; }
+    return {
+      slug, titulo: String(d.titulo), descripcion: d.descripcion ? String(d.descripcion).trim() : "", categoria,
+      fecha: fecha(d.fecha, mtime), actualizado: fecha(d.actualizado, null), portada: ruta(d.portada),
+      borrador: d.borrador === true, minutos: Math.max(1, Math.round(palabras / 200)), html: md(cuerpo),
+    };
+  })
+  .filter((a) => a && !a.borrador)
+  .sort((a, b) => b.fecha - a.fecha);
+
+// ---------- escritura ----------
+fs.rmSync(SALIDA, { recursive: true, force: true });
+fs.mkdirSync(SALIDA, { recursive: true });
+
+function copiar(origen, destino) {
+  if (!fs.existsSync(origen)) return;
+  for (const e of fs.readdirSync(origen, { withFileTypes: true })) {
+    if (e.name.startsWith(".")) continue;
+    const o = path.join(origen, e.name), d = path.join(destino, e.name);
+    if (e.isDirectory()) { fs.mkdirSync(d, { recursive: true }); copiar(o, d); }
+    else fs.copyFileSync(o, d);
+  }
+}
+copiar(path.join(RAIZ, "public"), SALIDA);
+fs.copyFileSync(path.join(RAIZ, "src/estilos.css"), path.join(SALIDA, "estilos.css"));
+fs.copyFileSync(path.join(RAIZ, "src/cotizacion.js"), path.join(SALIDA, "cotizacion.js"));
+fs.copyFileSync(path.join(RAIZ, "src/sitio.js"), path.join(SALIDA, "sitio.js"));
+T.fijarVersion(Date.now().toString(36));
+T.fijarOpciones({ mostrarPrecios: sitio.mostrar_precios === true });
+
+function relativizar(html, archivo) {
+  const prof = archivo.split("/").length - 1;
+  const pre = "../".repeat(prof);
+  return html.replace(/\b(href|src|data-src|data-root)="\/(?!\/)([^"]*)"/g, (_, attr, resto) => {
+    let [p, hash] = resto.split("#");
+    if (attr === "href" && (p === "" || p.endsWith("/"))) p += "index.html";
+    return `${attr}="${pre}${p}${hash !== undefined ? "#" + hash : ""}"`;
+  });
+}
+
+const paginas = [];
+function escribir(archivo, html, enMapa = true, lastmod) {
+  const destino = path.join(SALIDA, archivo);
+  fs.mkdirSync(path.dirname(destino), { recursive: true });
+  fs.writeFileSync(destino, PREVIEW ? relativizar(html, archivo) : html);
+  if (enMapa) paginas.push({ loc: "/" + archivo.replace(/index\.html$/, ""), lastmod });
+}
+
+const hoy = new Date();
+escribir("index.html", T.paginaInicio({ sitio, productos, posts, portafolio }), true, hoy);
+escribir("catalogo/index.html", T.paginaCatalogo({ sitio, productos }), true, hoy);
+for (const p of productos) {
+  const relacionados = productos.filter((r) => r.categoria === p.categoria && r.slug !== p.slug).slice(0, 3);
+  escribir(`catalogo/${p.slug}/index.html`, T.paginaProducto({ sitio, p, relacionados }), true, hoy);
+}
+escribir("cotizar/index.html", T.paginaCotizar({ sitio }), true, hoy);
+const categorias = T.CATEGORIAS_BLOG;
+escribir("blog/index.html", T.paginaBlog({ sitio, posts, categorias }), true, posts[0]?.fecha || hoy);
+for (const c of categorias) {
+  const deCat = posts.filter((a) => a.categoria === c);
+  // las categorías vacías existen para el menú, pero no se envían a Google hasta tener artículos
+  escribir(`blog/categoria/${T.slug(c)}/index.html`, T.paginaBlog({ sitio, posts, categorias, cat: c }), deCat.length > 0, deCat[0]?.fecha || hoy);
+}
+fs.writeFileSync(path.join(SALIDA, "blog/rss.xml"), T.rss({ sitio, posts }));
+for (const a of posts) {
+  escribir(`blog/${a.slug}/index.html`, T.paginaPost({ sitio, a, otros: posts.filter((o) => o.slug !== a.slug).slice(0, 3) }), true, a.actualizado || a.fecha);
+}
+escribir("404.html", T.pagina404({ sitio }), false);
+
+const base = sitio.url.replace(/\/$/, "");
+fs.writeFileSync(path.join(SALIDA, "sitemap.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+  paginas.map((p) => `  <url><loc>${base}${p.loc}</loc>${p.lastmod ? `<lastmod>${T.fechaISO(p.lastmod)}</lastmod>` : ""}</url>`).join("\n") +
+  `\n</urlset>\n`);
+fs.writeFileSync(path.join(SALIDA, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`);
+
+console.log(`Sitio generado en ${path.relative(RAIZ, SALIDA)}/: ${productos.length} productos, ${posts.length} artículos, ${paginas.length} páginas en el mapa del sitio.`);
+if (avisos.length) { console.log("\nRevisa esto:"); avisos.forEach((a) => console.log("  - " + a)); }
