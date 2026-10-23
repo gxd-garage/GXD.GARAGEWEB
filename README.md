@@ -94,6 +94,23 @@ Cada artículo lleva una categoría, y cada categoría tiene su propia página:
 
 El sitio genera también un feed RSS en `/blog/rss.xml` y agrega cada artículo al mapa del sitio para Google.
 
+### Tamaños de imagen
+
+El sitio nunca deforma las fotos: las recorta para llenar su espacio. Por eso conviene subirlas en la proporción indicada y con lo importante al centro.
+
+| Dónde | Proporción | Tamaño ideal | Mínimo | Peso máximo |
+|---|---|---|---|---|
+| Fotos de producto (Catálogo) | 4:3 horizontal | 1600 × 1200 px | 1200 × 900 px | 500 KB |
+| Portafolio | 4:3 horizontal | 1600 × 1200 px | 1200 × 900 px | 500 KB |
+| Portada de artículo (Blog) | 16:9 horizontal | 1600 × 900 px | 1200 × 675 px | 500 KB |
+| Ventana promocional | 1:1 cuadrada | 1200 × 1200 px | 800 × 800 px | 400 KB |
+
+- **Si se ve pixelada**, la foto es más chica que el mínimo. Usa el original del celular, no una descargada de Instagram o WhatsApp, que vienen comprimidas.
+- **Si se corta algo importante**, la foto no tiene la proporción indicada. Recórtala antes de subirla o deja más espacio alrededor del objeto.
+- **Si el sitio carga lento**, la foto pesa demasiado. Las del celular suelen pesar entre 3 y 6 MB.
+
+Cómo prepararlas gratis en [squoosh.app](https://squoosh.app): arrastra la foto, en "Resize" pon el ancho (1600 o 1200), en el formato elige WebP o MozJPEG con calidad 75 a 80, revisa que el peso quede bajo el máximo y descárgala. Para recortar a la proporción exacta puedes usar el editor de fotos del celular, eligiendo 4:3, 16:9 o cuadrado.
+
 ### Recomendaciones para las fotos
 
 - Usa fotos propias, con buena luz y fondo limpio, como las de tu Instagram.

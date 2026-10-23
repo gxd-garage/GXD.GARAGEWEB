@@ -71,7 +71,7 @@ content:
       - name: imagenes
         label: Fotos
         type: image
-        description: La primera foto es la portada. Usa fotos verticales u horizontales de buena calidad.
+        description: "Tamaño ideal 1600 × 1200 px, horizontal 4:3 (mínimo 1200 × 900). JPG o WebP de menos de 500 KB. El sitio recorta cada foto a 4:3 sin deformarla: deja el producto al centro y con aire alrededor. La primera foto es la portada del producto."
         options:
           multiple:
             max: 6
@@ -125,7 +125,7 @@ content:
         label: Foto
         type: image
         required: true
-        description: Una foto real del trabajo terminado. Formato horizontal 4:3 idealmente.
+        description: "Foto real del trabajo terminado. Tamaño ideal 1600 × 1200 px, horizontal 4:3 (mínimo 1200 × 900). JPG o WebP de menos de 500 KB. Deja el trabajo al centro: los bordes pueden recortarse un poco."
         options:
           extensions: [jpg, jpeg, png, webp]
       - name: orden
@@ -175,7 +175,7 @@ content:
       - name: portada
         label: Imagen de portada
         type: image
-        description: Opcional. Formato horizontal.
+        description: "Opcional. Tamaño ideal 1600 × 900 px, horizontal 16:9 (mínimo 1200 × 675). JPG o WebP de menos de 500 KB. Dentro del artículo se recorta un poco arriba y abajo: deja lo importante al centro."
         options:
           extensions: [jpg, jpeg, png, webp]
       - name: borrador
@@ -217,7 +217,7 @@ content:
       - name: imagen
         label: Imagen
         type: image
-        description: Opcional. Se muestra al lado del texto en computador y arriba en celular.
+        description: "Opcional. Tamaño ideal 1200 × 1200 px, cuadrada (mínimo 800 × 800). JPG o WebP de menos de 400 KB. En computador va al lado del texto y en celular arriba, como franja horizontal: deja lo importante al centro."
         options:
           extensions: [jpg, jpeg, png, webp]
       - name: boton_texto
