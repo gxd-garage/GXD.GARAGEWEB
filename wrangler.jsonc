@@ -1,0 +1,11 @@
+// Configuración de Cloudflare para publicar el sitio.
+// Cloudflare ejecuta "node build.mjs", que genera el sitio en la carpeta dist,
+// y luego publica esa carpeta tal cual (sitio estático, sin servidor).
+{
+  "name": "gxd-garageweb",
+  "compatibility_date": "2026-06-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
