@@ -148,7 +148,7 @@ ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).repl
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
 <nav aria-label="Principal">
-  <a class="nav-logo" href="/" aria-label="${esc(sitio.nombre)}, inicio">${logo()}<span class="nav-brand">GXD GARAGE</span></a>
+  <a class="nav-logo" href="/" aria-label="${esc(sitio.nombre)}, inicio"><span class="nav-brand">GXD GARAGE</span></a>
   <ul class="nav-links" id="menu">
     ${GRUPOS.map((g) => nav(g.ruta, g.nombre, g.clave)).join("\n    ")}
     ${nav("/#portafolio", "Portafolio", "portafolio")}
