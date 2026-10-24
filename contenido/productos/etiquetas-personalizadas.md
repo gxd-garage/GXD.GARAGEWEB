@@ -3,7 +3,8 @@ titulo: Etiquetas personalizadas
 categoria: Impresión digital
 etiqueta: Etiquetas
 resumen: Etiquetas para tu vino, tu cerveza o tu emprendimiento, en papel adhesivo, cortadas a la forma y con laminado mate o brillante. Sin cantidad mínima.
-imagenes: []
+imagenes:
+  - /media/etiquetas-personalizadas.jpg
 detalles:
   - Papel adhesivo
   - Corte a la forma de tu etiqueta
