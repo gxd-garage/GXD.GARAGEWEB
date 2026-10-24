@@ -917,3 +917,8 @@ html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(12
 .subnav a.activo span { opacity: 1; }
 :focus-visible.subnav a, .subnav a:focus-visible { outline-color: var(--black); }
 .subnav a { font-size: 0.8rem; color: rgba(10,10,10,0.62); }
+/* Nombre de la marca: Coolvetica según el brandbook; mientras tanto, Helvetica */
+.nav-brand { font-family: 'Coolvetica', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: 0.02em; }
+.footer-brand .nav-brand { font-size: 1.8rem; }
+@media (min-width: 901px) and (max-width: 1120px) { .nav-brand { font-size: 1.05rem; } }
+@media (max-width: 420px) { .nav-brand { font-size: 1.15rem; } }
