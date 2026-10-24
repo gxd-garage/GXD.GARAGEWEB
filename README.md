@@ -121,6 +121,10 @@ Cada artículo lleva una categoría, y cada categoría tiene su propia página:
 
 El sitio genera también un feed RSS en `/blog/rss.xml` y agrega cada artículo al mapa del sitio para Google.
 
+### Imágenes de los encabezados de servicio
+
+Las páginas Impresión 3D, Diseño gráfico e Impresión digital llevan una imagen de fondo en el encabezado. Se cambian en el panel, en **Imágenes de las páginas de servicio**. Conviene que tengan fondo oscuro y el motivo al centro o a la derecha, porque el lado izquierdo queda bajo el texto. Si dejas una vacía, ese encabezado queda sin imagen.
+
 ### Tamaños de imagen
 
 El sitio nunca deforma las fotos: las recorta para llenar su espacio. Por eso conviene subirlas en la proporción indicada y con lo importante al centro.
@@ -131,6 +135,7 @@ El sitio nunca deforma las fotos: las recorta para llenar su espacio. Por eso co
 | Portafolio | 4:3 horizontal | 1600 × 1200 px | 1200 × 900 px | 500 KB |
 | Portada de artículo (Blog) | 16:9 horizontal | 1600 × 900 px | 1200 × 675 px | 500 KB |
 | Ventana promocional | 1:1 cuadrada | 1200 × 1200 px | 800 × 800 px | 400 KB |
+| Encabezado de servicio | 4:3 o más ancha, fondo oscuro | 1600 × 1200 px | 1200 × 900 px | 400 KB |
 
 - **Si se ve pixelada**, la foto es más chica que el mínimo. Usa el original del celular, no una descargada de Instagram o WhatsApp, que vienen comprimidas.
 - **Si se corta algo importante**, la foto no tiene la proporción indicada. Recórtala antes de subirla o deja más espacio alrededor del objeto.

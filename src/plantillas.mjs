@@ -53,7 +53,7 @@ export const waLink = (sitio, texto) =>
 const mapa = (sitio) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`${sitio.direccion}, ${sitio.comuna}, Chile`);
 const ext = 'target="_blank" rel="noopener"';
 
-let OPC = { mostrarPrecios: false, promo: null, hoy: new Date() };
+let OPC = { mostrarPrecios: false, promo: null, hoy: new Date(), banners: {} };
 export const fijarOpciones = (o) => { OPC = { ...OPC, ...o }; };
 let VERSION = "1";
 export const fijarVersion = (v) => { VERSION = v; };
@@ -256,7 +256,8 @@ const cabecera = (label, t1, t2, desc) => `<div class="section-header fade-up">
     </div>
     ${desc ? `<p class="section-desc">${desc}</p>` : ""}
   </div>`;
-const heroInterior = (items, label, t1, t2, desc, extra = "") => `<header class="page-hero">
+const heroInterior = (items, label, t1, t2, desc, extra = "", banner = "") => `<header class="page-hero${banner ? " con-banner" : ""}">
+  ${banner ? `<div class="hero-banner" aria-hidden="true"><img src="${esc(banner)}" alt="" fetchpriority="high"></div>` : ""}
   <div class="hero-grid-lines" aria-hidden="true"></div>
   ${migas(items)}
   <p class="section-label">${label}</p>
@@ -630,7 +631,7 @@ export function paginaImpresion3D({ sitio, productos, portafolio, posts = [] }) 
   const cuerpo = `
 ${heroInterior(items, "// impresión 3d", "Impresión", "3D",
     `Repuestos para autos a medida, productos en el color que elijas y piezas hechas a medida en ${esc(sitio.comuna)}. Todo impreso capa por capa y cotizado por WhatsApp.`,
-    `<div class="hero-actions" style="margin-top:2.5rem"><a class="btn-primary" href="#auto-a-medida">Repuesto para mi auto</a><a class="btn-line" href="#${prods.length ? "productos" : "a-medida"}">Ver productos</a></div>`)}
+    `<div class="hero-actions" style="margin-top:2.5rem"><a class="btn-primary" href="#auto-a-medida">Repuesto para mi auto</a><a class="btn-line" href="#${prods.length ? "productos" : "a-medida"}">Ver productos</a></div>`, OPC.banners["3d"])}
 <div class="subnav" role="navigation" aria-label="Secciones de Impresión 3D">
   <div class="subnav-in">${secciones.map(([t, id, n]) => `<a href="#${id}" data-subnav="${id}">${n ? `<span>${n}</span>` : ""}${esc(t)}</a>`).join("")}</div>
 </div>
@@ -718,7 +719,7 @@ export function paginaGrupo({ sitio, g, productos, portafolio }) {
   const lista = productos.filter((p) => p.categoria === g.nombre);
   const cuerpo = `
 ${heroInterior(items, `// ${g.nombre.toLowerCase()}`, info.t1, info.t2, esc(info.desc),
-    `<div class="hero-actions" style="margin-top:2.5rem">${info.bloque ? `<a class="btn-primary" href="#etiquetas">Cotizar etiquetas</a><a class="btn-line" href="#productos">Ver servicios</a>` : `<a class="btn-primary" href="#contacto">Cotizar mi proyecto</a><a class="btn-wa" href="${waLink(sitio, `Hola GXD Garage, quiero cotizar ${g.nombre.toLowerCase()}.`)}" ${ext}>${WA}WhatsApp</a>`}</div>`)}
+    `<div class="hero-actions" style="margin-top:2.5rem">${info.bloque ? `<a class="btn-primary" href="#etiquetas">Cotizar etiquetas</a><a class="btn-line" href="#productos">Ver servicios</a>` : `<a class="btn-primary" href="#contacto">Cotizar mi proyecto</a><a class="btn-wa" href="${waLink(sitio, `Hola GXD Garage, quiero cotizar ${g.nombre.toLowerCase()}.`)}" ${ext}>${WA}WhatsApp</a>`}</div>`, OPC.banners[g.clave])}
 ${info.bloque ? info.bloque(sitio) : ""}
 ${lista.length ? `<section id="productos" class="section-alt">
   ${cabecera("// servicios", info.productos[0], info.productos[1], "Todo se hace a pedido. Elige lo que necesitas y te respondemos con una propuesta.")}

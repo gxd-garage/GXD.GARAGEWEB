@@ -160,7 +160,15 @@ if (fs.existsSync(archivoPromo)) {
 for (const p of productos) {
   if (p.oferta_activa && !(p.precio_oferta > 0)) avisos.push(`${p.slug}: la oferta está activa pero no tiene precio de oferta, no se muestra`);
 }
-T.fijarOpciones({ mostrarPrecios: sitio.mostrar_precios === true, promo, hoy: new Date() });
+let banners = {};
+const archivoServicios = path.join(RAIZ, "contenido/servicios.json");
+if (fs.existsSync(archivoServicios)) {
+  try {
+    const d = JSON.parse(fs.readFileSync(archivoServicios, "utf8"));
+    banners = { "3d": ruta(d.banner_3d), diseno: ruta(d.banner_diseno), digital: ruta(d.banner_digital) };
+  } catch (e) { avisos.push(`contenido/servicios.json tiene un error y se ignoró (${e.message})`); }
+}
+T.fijarOpciones({ mostrarPrecios: sitio.mostrar_precios === true, promo, hoy: new Date(), banners });
 
 function relativizar(html, archivo) {
   const prof = archivo.split("/").length - 1;

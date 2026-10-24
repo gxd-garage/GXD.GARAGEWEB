@@ -296,6 +296,30 @@ content:
         type: number
         description: Recomendado entre 3 y 8 para no interrumpir apenas entra la persona.
 
+  - name: servicios
+    label: Imágenes de las páginas de servicio
+    type: file
+    path: contenido/servicios.json
+    fields:
+      - name: banner_3d
+        label: Banner de Impresión 3D
+        type: image
+        description: "Imagen de fondo del encabezado de /impresion-3d/. Ideal 1600 × 1200 px o más, con fondo oscuro y el motivo al centro o a la derecha: la parte izquierda queda tapada por el texto. JPG o WebP de menos de 400 KB. Si la dejas vacía, el encabezado va sin imagen."
+        options:
+          extensions: [jpg, jpeg, png, webp]
+      - name: banner_diseno
+        label: Banner de Diseño gráfico
+        type: image
+        description: "Imagen de fondo del encabezado de /diseno-grafico/. Mismas medidas: 1600 × 1200 px o más, fondo oscuro, motivo al centro o a la derecha."
+        options:
+          extensions: [jpg, jpeg, png, webp]
+      - name: banner_digital
+        label: Banner de Impresión digital
+        type: image
+        description: "Imagen de fondo del encabezado de /impresion-digital/. Mismas medidas: 1600 × 1200 px o más, fondo oscuro, motivo al centro o a la derecha."
+        options:
+          extensions: [jpg, jpeg, png, webp]
+
   - name: sitio
     label: Datos del negocio
     type: file
