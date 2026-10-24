@@ -905,3 +905,4 @@ html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(12
 @keyframes hpImprimir { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes hpBoquilla { 0% { bottom: 0; opacity: 1; } 97% { opacity: 1; } 100% { bottom: 100%; opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .hero-print .hp-logo, .hero-print .hp-boquilla { animation: none !important; } }
+.service-icon { width: 56px; height: 56px; opacity: 0.85; }
