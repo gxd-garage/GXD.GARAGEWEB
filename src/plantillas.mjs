@@ -864,7 +864,7 @@ ${heroInterior(items, "// cotizar", "Cotiza tu", "idea", "Cuéntanos qué necesi
       </ol>
       <p class="cz-error" id="cz-error" role="alert" hidden></p>
       <button class="btn-submit" type="submit">${WA}Enviar por WhatsApp →</button>
-      <p class="fine">Se abrirá WhatsApp con tu mensaje listo. Después puedes adjuntar fotos en el mismo chat.</p>
+      <p class="fine">WhatsApp se abre en otra pestaña con tu mensaje listo, y esta página queda abierta. Después puedes adjuntar fotos en el mismo chat.</p>
       <details class="cz-copy">
         <summary>¿No se abrió WhatsApp?</summary>
         <p>Copia el mensaje y envíalo al ${esc(sitio.whatsapp_visible)}.</p>

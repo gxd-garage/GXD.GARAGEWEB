@@ -3,6 +3,22 @@
 (function () {
   "use strict";
 
+  // ---------- WhatsApp en otra pestaña, para que el sitio siga abierto ----------
+  window.GXD_abrirWA = function (txt) {
+    var url = "https://wa.me/" + (window.GXD_WA || "") + "?text=" + encodeURIComponent(txt);
+    var w = null;
+    try { w = window.open(url, "_blank"); } catch (e) { w = null; }
+    if (!w) { window.location.href = url; return; }   // si el navegador bloquea la pestaña nueva
+    try { w.opener = null; } catch (e) { /* nada */ }
+    var t = document.querySelector("[data-toast]");
+    if (t) {
+      t.innerHTML = 'Abrimos WhatsApp en otra pestaña con tu mensaje listo. ¿No se abrió? <a href="' + url + '" target="_blank" rel="noopener">Ábrelo aquí</a>';
+      t.hidden = false;
+      clearTimeout(window.GXD_abrirWA._t);
+      window.GXD_abrirWA._t = setTimeout(function () { t.hidden = true; }, 7000);
+    }
+  };
+
   // ---------- Cursor (solo con mouse) ----------
   var fino = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var cur = document.getElementById("cursor"), ring = document.getElementById("cursorRing");
@@ -253,7 +269,7 @@
       var tengo = fa.querySelector('input[name="tengo"]:checked');
       var txt = "Hola GXD Garage, necesito un repuesto para mi auto:\n\n• Auto: " + auto + "\n• Pieza: " + v("pieza") +
         "\n• " + (tengo ? tengo.value : "") + "\n\nMi nombre es " + v("nombre") + ".";
-      window.location.href = "https://wa.me/" + (window.GXD_WA || "") + "?text=" + encodeURIComponent(txt);
+      window.GXD_abrirWA(txt);
     });
   }
 
@@ -270,7 +286,7 @@
       err.hidden = true;
       var txt = "Hola GXD Garage, quiero cotizar:\n\n• Servicio: " + (f.servicio.value || "Por definir") +
         "\n• " + f.tengo.value + "\n• Detalle: " + m + "\n\nMi nombre es " + n + ".";
-      window.location.href = "https://wa.me/" + (window.GXD_WA || "") + "?text=" + encodeURIComponent(txt);
+      window.GXD_abrirWA(txt);
     });
   }
 })();

@@ -139,8 +139,9 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!validar()) return;
-      var url = "https://wa.me/" + (window.GXD_WA || "") + "?text=" + encodeURIComponent(mensaje());
-      window.location.href = url;
+      var txt = mensaje();
+      if (window.GXD_abrirWA) window.GXD_abrirWA(txt);
+      else window.open("https://wa.me/" + (window.GXD_WA || "") + "?text=" + encodeURIComponent(txt), "_blank");
     });
 
     var copiar = document.getElementById("cz-copiar");
