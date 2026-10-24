@@ -100,7 +100,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <link rel="alternate" type="application/rss+xml" title="Blog de ${esc(sitio.nombre)}" href="/blog/rss.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Montserrat:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/estilos.css?v=${VERSION}">
 <script>document.documentElement.classList.add("js");window.GXD_WA=${JSON.stringify(sitio.whatsapp)};</script>
 <script src="/sitio.js?v=${VERSION}" defer></script>

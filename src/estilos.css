@@ -642,3 +642,85 @@ html.promo-abierta { overflow: hidden; }
   .promo-img { max-height: 200px; }
   .promo-cuerpo { padding: 2rem 1.5rem; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   LEGIBILIDAD
+   Los títulos (Bebas Neue), la palabra en cursiva (Instrument Serif),
+   las etiquetas y los botones (DM Mono) se mantienen. Los párrafos pasan
+   a Montserrat, la tipografía de tu Instagram, con tamaño y contraste
+   cómodos para leer.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --dim: #a8a8a1;                       /* gris secundario con más contraste (antes #888) */
+  --text: rgba(245, 245, 240, 0.86);    /* texto de párrafo */
+  --f-text: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --f-mono: 'DM Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+body { font-family: var(--f-text); font-size: 1rem; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+/* Etiquetas y detalles técnicos siguen en DM Mono, un poco más grandes y menos espaciadas */
+.hero-tag, .section-label, .stat-label, .product-cat, .p-card-category, .post-meta, .crumbs,
+.form-group label, .footer-col h4, .footer-copy, .footer-social a, .service-arrow,
+.cz-block legend span, .form-hint, .cot-count, .toast, .marquee-item::after {
+  font-family: var(--f-mono);
+}
+.hero-tag { font-size: 0.75rem; letter-spacing: 0.2em; }
+.section-label { font-size: 0.74rem; letter-spacing: 0.2em; }
+.stat-label, .product-cat, .p-card-category, .post-meta, .crumbs { font-size: 0.7rem; letter-spacing: 0.16em; }
+.form-group label { font-size: 0.72rem; letter-spacing: 0.14em; }
+.footer-col h4 { font-size: 0.72rem; letter-spacing: 0.2em; }
+.footer-copy, .footer-social a { font-size: 0.72rem; letter-spacing: 0.1em; }
+.service-arrow { font-size: 0.74rem; letter-spacing: 0.14em; }
+.nav-links a { font-size: 0.78rem; letter-spacing: 0.12em; }
+.btn-primary, .btn-wa, .btn-submit, .nav-cta { font-size: 0.78rem; }
+.btn-wa-product { font-size: 0.7rem; }
+.catalog-tab, .filter-btn { font-size: 0.76rem; letter-spacing: 0.14em; }
+.mini { font-size: 0.68rem; }
+
+/* Párrafos */
+.hero-subtitle { font-size: 1.08rem; line-height: 1.75; color: var(--text); max-width: 44ch; }
+.section-desc { font-size: 0.98rem; line-height: 1.75; color: var(--dim); max-width: 40ch; }
+.page-hero .section-desc { color: var(--text); max-width: 56ch; }
+.service-desc, .post-excerpt, .aside-card p, .contact-info p, .cz-steps li, .promo-texto, .cz-vacio {
+  font-size: 0.95rem; line-height: 1.75; color: var(--dim);
+}
+.product-desc { font-size: 0.9rem; line-height: 1.65; color: var(--dim); }
+.prod-info .lead { font-size: 1.05rem; line-height: 1.75; color: var(--text); }
+.fine, .added { font-size: 0.85rem; line-height: 1.7; }
+.spec-list li { font-size: 0.92rem; letter-spacing: 0; }
+.contact-link { font-size: 0.92rem; letter-spacing: 0.02em; }
+.footer-slogan { font-size: 0.9rem; letter-spacing: 0.02em; line-height: 1.8; }
+.footer-col ul a { font-size: 0.9rem; letter-spacing: 0.01em; color: rgba(245, 245, 240, 0.65); }
+.choice { font-size: 0.92rem; letter-spacing: 0; }
+.cz-error { font-size: 0.88rem; }
+.portfolio-sidebar p { font-size: 0.95rem !important; line-height: 1.75 !important; }
+
+/* Artículos y descripciones largas */
+.prose { font-family: var(--f-text); font-size: 1.06rem; line-height: 1.8; color: var(--text); max-width: 68ch; }
+.prose strong { font-weight: 600; }
+.prose table { font-size: 0.9rem; }
+.prose th { font-family: var(--f-mono); font-size: 0.68rem; }
+
+/* Títulos en Bebas Neue un poco más grandes donde eran chicos */
+.product-name { font-size: 1.45rem; letter-spacing: 0.04em; line-height: 1.05; }
+.service-name { font-size: 1.85rem; letter-spacing: 0.05em; }
+.p-card-title { font-size: 1.5rem; }
+.post-title { font-size: 1.65rem; letter-spacing: 0.03em; }
+.product-price { font-size: 1.25rem; }
+
+/* Formularios: 16 px evita que el celular haga zoom al escribir */
+.form-group input, .form-group textarea, .form-group select, .cz-item input {
+  font-family: var(--f-text); font-size: 1rem; letter-spacing: 0;
+}
+.form-group input::placeholder, .form-group textarea::placeholder { color: #7d7d78; }
+
+@media (max-width: 600px) {
+  .hero-subtitle { font-size: 1rem; }
+  .section-desc { font-size: 0.95rem; }
+  .prose { font-size: 1rem; }
+  .product-desc { font-size: 0.92rem; }
+}
+
+/* Las tablas largas se desplazan dentro de su recuadro en vez de ensanchar la página */
+.article-layout > *, .prod-detail > *, .cotizador > * { min-width: 0; }
+@media (max-width: 900px) { .article-layout { grid-template-columns: minmax(0, 1fr); } }
