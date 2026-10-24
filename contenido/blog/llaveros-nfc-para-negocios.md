@@ -37,4 +37,4 @@ Sí. Mientras el chip no se bloquee, se puede volver a programar con otro enlace
 
 En GXD Garage diseñamos e imprimimos en 3D el llavero con tu logo y los colores de tu marca, y lo entregamos programado con el enlace que elijas. Si lo necesitas para tu equipo, tus clientes o un evento, también hacemos pedidos por mayor.
 
-Revisa el [llavero NFC en nuestro catálogo](/catalogo/llavero-nfc/) o escríbenos por WhatsApp para cotizar.
+Revisa el [llavero NFC en nuestro catálogo](/impresion-3d/llavero-nfc/) o escríbenos por WhatsApp para cotizar.

@@ -57,7 +57,7 @@ Si usas otro dominio, cámbialo en el panel de edición, en **Datos del negocio 
 1. Entra a [app.pagescms.org](https://app.pagescms.org) y toca **Sign in with GitHub**.
 2. Instala la aplicación de Pages CMS en tu cuenta de GitHub cuando te lo pida y dale acceso al repositorio `gxd-garage-web`.
 3. Abre el repositorio. En el menú verás tres secciones:
-   - **Catálogo:** agregar, editar, ordenar u ocultar productos. Cada producto va en una de las tres líneas de servicio (Impresión 3D, Diseño gráfico o Impresión digital), que son las pestañas del catálogo.
+   - **Productos:** agregar, editar, ordenar u ocultar productos. Cada producto va en una de las tres líneas de servicio, y cada línea tiene su propia página: `/impresion-3d/`, `/diseno-grafico/` y `/impresion-digital/`. En `/catalogo/` están todos juntos.
    - **Portafolio:** las fotos de trabajos reales que aparecen en el inicio.
    - **Blog:** escribir y publicar artículos.
    - **Datos del negocio:** WhatsApp, Instagram, dirección, horario y textos para Google.
@@ -65,7 +65,7 @@ Si usas otro dominio, cámbialo en el panel de edición, en **Datos del negocio 
 
 ### Agregar un producto
 
-1. En **Catálogo**, toca **Add an entry**.
+1. En **Productos**, toca **Add an entry**.
 2. Completa el nombre, la categoría y un resumen corto.
 3. **Valor de referencia** es opcional. Por defecto el catálogo no muestra precios y cada producto aparece como "A cotizar". Si algún día quieres mostrar valores de referencia, actívalo en **Datos del negocio → Mostrar valores de referencia**.
 4. Sube las fotos. La primera es la portada del producto.
@@ -74,11 +74,28 @@ Si usas otro dominio, cámbialo en el panel de edición, en **Datos del negocio 
 
 Para ocultar un producto sin borrarlo, desactiva **Publicado**.
 
+### Impresión 3D: colores, stock y repuestos para autos
+
+La página **Impresión 3D** tiene arriba, siempre visible, el bloque **Repuestos para autos a medida** con un formulario (marca, modelo, año y pieza) que arma el mensaje de WhatsApp. Debajo están los productos 3D con filtros por tipo y un buscador. Cada ficha de un producto 3D termina con un recordatorio del servicio de repuestos.
+
+Campos que solo usa Impresión 3D:
+
+- **Tipo de producto 3D:** el filtro donde aparece (Repuestos para autos, Fidgets y juguetes, Lámparas y decoración, etc.). Los filtros sin productos no se muestran.
+- **Colores disponibles:** elige uno o varios. En la tarjeta se ven como muestras de color y en la ficha el cliente elige el suyo, que se incluye en el mensaje de WhatsApp y en su cotización.
+- **Disponibilidad:**
+  - *Hecho a pedido* (por defecto): se cotiza y dice "Hecho a pedido".
+  - *En stock*: completa **Unidades en stock**. Con más de 5 dice "Disponible", con 5 o menos "Quedan 3", y con 0 "Agotado": el botón de agregar se reemplaza por "Avísame cuando vuelva". Si tiene precio, se muestra siempre y el botón dice "Pedir". Cuando vendas, baja el número y guarda.
+- **Compatible con (autos):** un auto por línea, por ejemplo "Toyota Yaris 2006-2013". Aparece en la ficha y el buscador lo encuentra.
+
+Hay un producto oculto llamado **EJEMPLO · Pieza en stock (duplícame)** con todo esto completo. Para crear una pieza en stock, ábrelo, usa la opción de duplicar (o copia sus valores en uno nuevo), cámbiale el nombre, las fotos, los colores y el stock, y activa **Publicado**.
+
+Las direcciones antiguas del tipo `/catalogo/lampara-3d/` redirigen solas a la nueva, `/impresion-3d/lampara-3d/`, así que los enlaces que ya compartiste siguen funcionando.
+
 ### Cómo funciona la cotización
 
 El sitio no vende en línea: todo se cotiza.
 
-- En cada producto, el cliente elige la cantidad y toca **Agregar a mi cotización**. Puede juntar varios productos.
+- En cada producto, el cliente elige la cantidad (y el color, si tiene) y toca **Agregar a mi cotización**. Puede juntar varios productos; el mismo producto en otro color va en otra línea.
 - En la página **Cotizar** ve su lista, cuenta su idea, indica si tiene la pieza, fotos, un archivo o solo la idea, y elige un plazo.
 - Al tocar **Enviar por WhatsApp**, se abre WhatsApp con un mensaje ordenado con todo eso, listo para enviarte. Después puede adjuntar fotos en el mismo chat.
 
@@ -100,7 +117,7 @@ El sitio nunca deforma las fotos: las recorta para llenar su espacio. Por eso co
 
 | Dónde | Proporción | Tamaño ideal | Mínimo | Peso máximo |
 |---|---|---|---|---|
-| Fotos de producto (Catálogo) | 4:3 horizontal | 1600 × 1200 px | 1200 × 900 px | 500 KB |
+| Fotos de producto | 4:3 horizontal | 1600 × 1200 px | 1200 × 900 px | 500 KB |
 | Portafolio | 4:3 horizontal | 1600 × 1200 px | 1200 × 900 px | 500 KB |
 | Portada de artículo (Blog) | 16:9 horizontal | 1600 × 900 px | 1200 × 675 px | 500 KB |
 | Ventana promocional | 1:1 cuadrada | 1200 × 1200 px | 800 × 800 px | 400 KB |

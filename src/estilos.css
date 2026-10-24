@@ -724,3 +724,131 @@ body { font-family: var(--f-text); font-size: 1rem; line-height: 1.7; -webkit-fo
 /* Las tablas largas se desplazan dentro de su recuadro en vez de ensanchar la página */
 .article-layout > *, .prod-detail > *, .cotizador > * { min-width: 0; }
 @media (max-width: 900px) { .article-layout { grid-template-columns: minmax(0, 1fr); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   IMPRESIÓN 3D CON STOCK Y COLORES · PÁGINAS DE SERVICIO
+   ═══════════════════════════════════════════════════════════════ */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Menú con las tres líneas de servicio: más compacto en pantallas medianas */
+@media (min-width: 901px) and (max-width: 1380px) {
+  nav { padding: 1.1rem 2rem; }
+  .nav-links { gap: 1.4rem; }
+  .nav-links a { font-size: 0.7rem; letter-spacing: 0.08em; }
+}
+@media (min-width: 901px) and (max-width: 1120px) {
+  .nav-brand { display: none; }
+  .nav-links { gap: 1.1rem; }
+}
+
+/* Botones de servicio en el inicio */
+.catalog-more { flex-wrap: wrap; gap: 1rem; }
+
+/* Tarjetas: disponibilidad, colores y compatibilidad */
+.badge-stock {
+  position: absolute; top: 1rem; right: 1rem; z-index: 2;
+  font-family: var(--f-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.35rem 0.6rem; line-height: 1.2; background: var(--black); color: var(--white); border: 1px solid var(--border);
+}
+.badge-stock.ok { background: var(--wa); border-color: var(--wa); color: #fff; }
+.badge-stock.agotado { background: rgba(10,10,10,0.85); color: var(--dim); }
+.product-card.is-agotado .product-img img { opacity: 0.45; filter: grayscale(1); }
+.swatches { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 0.25rem; }
+.sw { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); display: inline-block; }
+.sw-mas { font-family: var(--f-mono); font-size: 0.68rem; color: var(--dim); }
+.compat { font-family: var(--f-mono); font-size: 0.74rem; letter-spacing: 0.04em; color: var(--white); }
+
+/* Ficha: estado, compatibilidad y selector de color */
+.estado { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); }
+.estado .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--dim); flex-shrink: 0; }
+.estado.ok .dot { background: var(--wa); box-shadow: 0 0 0 4px rgba(37,211,102,0.18); }
+.estado.agotado { color: var(--dim); }
+.estado.agotado .dot { background: transparent; border: 1px solid var(--dim); }
+.estado.pedido { color: var(--dim); }
+.compat-box { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1rem 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.compat-box ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.compat-box li { font-family: var(--f-mono); font-size: 0.8rem; padding: 0.4rem 0.75rem; border: 1px solid var(--border); background: var(--gray); }
+.color-pick { border: 0; display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; }
+.color-pick legend { font-family: var(--f-mono); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); margin-bottom: 0.9rem; }
+.color-pick legend b { color: var(--white); font-weight: 500; }
+.color-pick legend span { letter-spacing: 0.06em; text-transform: none; }
+.sw-pick { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.swp { position: relative; display: inline-flex; }
+.swp input { position: absolute; inset: 0; opacity: 0; margin: 0; }
+.swp-c { width: 38px; height: 38px; border-radius: 50%; border: 3px solid var(--black); outline: 1px solid rgba(255,255,255,0.3); transition: outline-color 0.2s, transform 0.2s; }
+.swp:hover .swp-c { outline-color: rgba(255,255,255,0.7); }
+.swp input:checked + .swp-c { outline: 2px solid var(--white); transform: scale(1.06); }
+.swp input:focus-visible + .swp-c { outline: 2px dashed var(--white); outline-offset: 3px; }
+.agotado-txt { font-size: 0.95rem; line-height: 1.7; color: var(--dim); }
+
+/* Bloque de repuestos para autos (eje principal de Impresión 3D) */
+.auto-block { position: relative; border-top: 1px solid rgba(255,255,255,0.18); }
+.auto-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 5rem; align-items: start; }
+.auto-info { display: flex; flex-direction: column; gap: 2rem; }
+.auto-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.auto-chips li { font-family: var(--f-mono); font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.55rem 0.9rem; border: 1px solid var(--border); color: var(--white); }
+.auto-form { padding: 2rem; border: 1px solid var(--border); background: var(--gray); }
+.auto-form .form-group textarea { min-height: 110px; }
+.auto-form .choice { background: var(--black); }
+.form-row.tres { grid-template-columns: 1fr 1fr 110px; }
+.strip-sec { padding-top: 5rem; padding-bottom: 5rem; }
+.auto-strip { display: flex; align-items: center; justify-content: space-between; gap: 2rem 4rem; flex-wrap: wrap; padding: 3rem; border: 1px solid rgba(255,255,255,0.18); background: var(--gray); }
+.section-alt .auto-strip { background: var(--black); }
+.auto-strip-txt { max-width: 60ch; display: flex; flex-direction: column; gap: 1rem; }
+.auto-strip-txt .section-label { margin: 0; }
+.auto-strip-txt .section-title { font-size: clamp(2.2rem, 4.5vw, 3.4rem); }
+.auto-strip-txt p:not(.section-label) { font-size: 0.98rem; line-height: 1.75; color: var(--text); }
+
+/* Lista de productos 3D: filtros y búsqueda */
+.tienda-bar { margin-bottom: 2rem; }
+.tienda-bar .filter-row { margin-bottom: 1.5rem; }
+.filter-btn .n { font-size: 0.85em; opacity: 0.5; margin-left: 0.15rem; }
+.tienda-tools { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; }
+.tienda-search { width: min(100%, 380px); }
+.solo-stock { border: 1px solid var(--border); padding: 0.85rem 1rem; }
+.tienda-vacio { margin-top: 2rem; }
+.grupo-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.grupo-head .section-label { margin: 0; }
+.portfolio-grid.tres { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 900px) {
+  .auto-layout { grid-template-columns: minmax(0, 1fr); gap: 3rem; }
+  .form-row.tres { grid-template-columns: 1fr 1fr; }
+  .auto-strip { padding: 2rem 1.5rem; }
+  .strip-sec { padding-top: 3rem; padding-bottom: 3rem; }
+  .portfolio-grid.tres { grid-template-columns: repeat(2, 1fr); }
+  /* los filtros se deslizan de lado en vez de ocupar varias líneas */
+  .filter-row.chips { flex-wrap: nowrap; overflow-x: auto; gap: 0.5rem; scrollbar-width: none; margin-left: -1.5rem; margin-right: -1.5rem; padding: 0 1.5rem; }
+  .filter-row.chips::-webkit-scrollbar { display: none; }
+  .filter-row.chips .filter-btn { white-space: nowrap; flex-shrink: 0; }
+}
+@media (max-width: 560px) {
+  .auto-form { padding: 1.5rem 1.25rem; }
+  .portfolio-grid.tres { grid-template-columns: 1fr; }
+  .tienda-search { width: 100%; }
+  .solo-stock { width: 100%; }
+}
+.form-row > *, .auto-layout > * { min-width: 0; }
+.form-group input:not([type="radio"]):not([type="checkbox"]), .form-group select, .form-group textarea { width: 100%; min-width: 0; }
+.portfolio-grid.tres .portfolio-card { margin-top: 0; }
+
+/* Botón con borde para enlaces internos que no abren WhatsApp */
+.btn-line {
+  font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.35); color: var(--white); background: transparent;
+  padding: 1rem 2rem; text-decoration: none; transition: border-color 0.2s, background 0.2s; display: inline-block;
+}
+.btn-line:hover { border-color: var(--white); background: rgba(255,255,255,0.06); }
+
+/* Filtros de Impresión 3D como botones con borde */
+.filter-row.chips { border-bottom: 0; gap: 0.5rem; }
+.filter-row.chips .filter-btn { border: 1px solid var(--border); padding: 0.6rem 0.95rem; color: var(--dim); background: transparent; }
+.filter-row.chips .filter-btn::before { display: none; }
+.filter-row.chips .filter-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+.filter-row.chips .filter-btn.active { background: var(--white); color: var(--black); border-color: var(--white); }
+.filter-row.chips .filter-btn.active .n { opacity: 0.6; }
+/* Botones de opción y casillas: se ven como tales aunque estén dentro de un formulario */
+.form-group .choice input, .choice input {
+  -webkit-appearance: auto; appearance: auto; width: 18px; height: 18px; min-width: 18px;
+  padding: 0; margin: 0; border: 0; background: none; accent-color: var(--wa); flex-shrink: 0;
+}

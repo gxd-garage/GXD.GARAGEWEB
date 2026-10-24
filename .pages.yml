@@ -7,12 +7,12 @@ media:
 
 content:
   - name: productos
-    label: Catálogo
+    label: Productos
     type: collection
     path: contenido/productos
     filename: "{primary}.md"
     view:
-      fields: [titulo, categoria, destacado, publicado]
+      fields: [titulo, categoria, subcategoria, tipo_venta, stock, publicado]
       primary: titulo
       sort: [orden, titulo]
       default:
@@ -29,7 +29,13 @@ content:
         required: true
         options:
           values: ["Impresión 3D", "Diseño gráfico", "Impresión digital"]
-        description: Define en qué pestaña del catálogo aparece.
+        description: Define en qué página aparece (Impresión 3D, Diseño gráfico o Impresión digital).
+      - name: subcategoria
+        label: Tipo de producto 3D
+        type: select
+        description: Solo para Impresión 3D. Es el filtro donde aparece en la página Impresión 3D.
+        options:
+          values: ["Repuestos para autos", "Accesorios para autos", "Fidgets y juguetes", "Lámparas y decoración", "Hogar y repuestos varios", "Llaveros NFC", "Letreros y emblemas", "Figuras y miniaturas", "Prototipos y modelado"]
       - name: etiqueta
         label: Etiqueta (opcional)
         type: string
@@ -40,10 +46,36 @@ content:
         description: Una o dos frases. Aparece bajo el nombre y es lo que Google muestra en los resultados.
         options:
           maxlength: 180
-      - name: precio
-        label: Valor de referencia (CLP, opcional)
+      - name: colores
+        label: Colores disponibles
+        type: select
+        description: Elige uno o varios. El cliente escoge el color en la ficha y se incluye en su mensaje de WhatsApp. El primero es el que aparece marcado.
+        options:
+          multiple: true
+          values: ["Negro", "Blanco", "Gris", "Plateado", "Rojo", "Naranjo", "Amarillo", "Verde", "Azul", "Celeste", "Morado", "Rosado", "Café", "Dorado", "Madera", "Transparente", "Multicolor"]
+      - name: tipo_venta
+        label: Disponibilidad
+        type: select
+        description: Solo para Impresión 3D. "En stock" muestra cuántas quedan y el precio; "Hecho a pedido" se cotiza.
+        options:
+          values: ["Hecho a pedido", "En stock"]
+      - name: stock
+        label: Unidades en stock
         type: number
-        description: Solo el número, sin puntos ni signo peso. Se muestra únicamente si activas "Mostrar valores de referencia" en Datos del negocio. Si no, el producto aparece como "A cotizar".
+        description: Solo si Disponibilidad es "En stock". Con 5 o menos dice "Quedan 3"; con 0 dice "Agotado" y el cliente puede pedir que le avisen. Actualízalo cuando vendas.
+      - name: compatibilidad
+        label: Compatible con (autos)
+        type: string
+        list: true
+        description: Opcional. Un auto por línea, por ejemplo "Toyota Yaris 2006-2013". Aparece en la ficha y sirve para el buscador.
+      - name: precio
+        label: Precio o valor de referencia (CLP, opcional)
+        type: number
+        description: Solo el número, sin puntos ni signo peso. En las piezas "En stock" se muestra siempre. En el resto, solo si activas "Mostrar este precio" o "Mostrar valores de referencia" en Datos del negocio; si no, aparece como "A cotizar".
+      - name: precio_visible
+        label: Mostrar este precio
+        type: boolean
+        description: Muestra el precio de este producto aunque el resto del sitio esté "A cotizar".
       - name: precio_desde
         label: Mostrar como "Desde"
         type: boolean
@@ -226,7 +258,7 @@ content:
       - name: boton_enlace
         label: Enlace del botón
         type: string
-        description: Escribe "whatsapp" para abrir WhatsApp, o una página del sitio como /catalogo/llavero-nfc/ o /cotizar/.
+        description: Escribe "whatsapp" para abrir WhatsApp, o una página del sitio como /impresion-3d/llavero-nfc/, /impresion-3d/ o /cotizar/.
       - name: mensaje_whatsapp
         label: Mensaje de WhatsApp
         type: string

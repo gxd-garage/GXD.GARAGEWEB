@@ -66,6 +66,8 @@ const productos = leerColeccion("contenido/productos")
     if (!d.titulo) { avisos.push(`${archivo}: falta el nombre del producto, no se publicó`); return null; }
     let categoria = d.categoria ? String(d.categoria).trim() : T.CATEGORIAS[0];
     if (!T.CATEGORIAS.includes(categoria)) { avisos.push(`${archivo}: la categoría "${categoria}" no existe, se usó "${T.CATEGORIAS[0]}"`); categoria = T.CATEGORIAS[0]; }
+    if (d.subcategoria && categoria === "Impresión 3D" && !T.SUBCATEGORIAS_3D.includes(String(d.subcategoria).trim())) avisos.push(`${archivo}: la subcategoría "${d.subcategoria}" no existe y se ignoró`);
+    if (d.tipo_venta === "En stock" && categoria !== "Impresión 3D") avisos.push(`${archivo}: el stock solo se usa en Impresión 3D`);
     return {
       slug, titulo: String(d.titulo), categoria, etiqueta: d.etiqueta ? String(d.etiqueta).trim() : "", resumen: d.resumen ? String(d.resumen).trim() : "",
       precio: numero(d.precio), precio_desde: d.precio_desde === true,
@@ -74,6 +76,15 @@ const productos = leerColeccion("contenido/productos")
       oferta_hasta: fecha(d.oferta_hasta, null),
       imagenes: lista(d.imagenes).map(ruta).filter(Boolean),
       detalles: lista(d.detalles).map(String).filter((s) => s.trim()),
+      subcategoria: categoria === "Impresión 3D" && T.SUBCATEGORIAS_3D.includes(String(d.subcategoria || "").trim()) ? String(d.subcategoria).trim() : "",
+      colores: lista(d.colores).flatMap((c) => String(c).split(",")).map((c) => c.trim()).filter((c) => {
+        if (c && T.COLORES[c] === undefined) avisos.push(`${archivo}: el color "${c}" no está en la lista de colores y se ignoró`);
+        return c && T.COLORES[c] !== undefined;
+      }),
+      tipo_venta: categoria === "Impresión 3D" && d.tipo_venta === "En stock" ? "En stock" : "Hecho a pedido",
+      stock: typeof d.stock === "number" ? Math.max(0, Math.floor(d.stock)) : numero(d.stock) ?? 0,
+      precio_visible: d.precio_visible === true,
+      compatibilidad: lista(d.compatibilidad).map(String).map((s) => s.trim()).filter(Boolean),
       destacado: d.destacado === true, orden: numero(d.orden) ?? 100,
       publicado: d.publicado !== false, html: md(cuerpo),
     };
@@ -158,10 +169,21 @@ function escribir(archivo, html, enMapa = true, lastmod) {
 const hoy = new Date();
 escribir("index.html", T.paginaInicio({ sitio, productos, posts, portafolio }), true, hoy);
 escribir("catalogo/index.html", T.paginaCatalogo({ sitio, productos }), true, hoy);
-for (const p of productos) {
-  const relacionados = productos.filter((r) => r.categoria === p.categoria && r.slug !== p.slug).slice(0, 3);
-  escribir(`catalogo/${p.slug}/index.html`, T.paginaProducto({ sitio, p, relacionados }), true, hoy);
+for (const g of T.GRUPOS) {
+  const html = g.clave === "3d" ? T.paginaImpresion3D({ sitio, productos, portafolio, posts }) : T.paginaGrupo({ sitio, g, productos, portafolio });
+  escribir(`${g.ruta.slice(1)}index.html`, html, true, hoy);
 }
+const redirecciones = [];
+for (const p of productos) {
+  // primero los de la misma subcategoría, después el resto de la misma línea
+  const mismaLinea = productos.filter((r) => r.categoria === p.categoria && r.slug !== p.slug);
+  const relacionados = [...mismaLinea.filter((r) => p.subcategoria && r.subcategoria === p.subcategoria), ...mismaLinea.filter((r) => !p.subcategoria || r.subcategoria !== p.subcategoria)].slice(0, 3);
+  const destino = T.urlProducto(p);
+  escribir(`${destino.slice(1)}index.html`, T.paginaProducto({ sitio, p, relacionados }), true, hoy);
+  // las direcciones antiguas /catalogo/<producto>/ siguen funcionando
+  redirecciones.push(`/catalogo/${p.slug}/ ${destino} 301`, `/catalogo/${p.slug} ${destino} 301`);
+}
+if (!PREVIEW) fs.writeFileSync(path.join(SALIDA, "_redirects"), redirecciones.join("\n") + "\n");
 escribir("cotizar/index.html", T.paginaCotizar({ sitio }), true, hoy);
 const categorias = T.CATEGORIAS_BLOG;
 escribir("blog/index.html", T.paginaBlog({ sitio, posts, categorias }), true, posts[0]?.fecha || hoy);

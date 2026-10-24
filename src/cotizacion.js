@@ -43,11 +43,15 @@
     document.querySelectorAll("[data-add]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var input = document.getElementById("cant");
-        var cant = cantidad(input && input.value);
+        var tope = input && Number(input.max) > 0 ? Number(input.max) : 9999;
+        var cant = Math.min(cantidad(input && input.value), tope);
+        var sel = document.querySelector('input[name="color"]:checked');
+        var color = sel ? sel.value : "";
         var lista = leer();
-        var item = lista.find(function (x) { return x.slug === btn.dataset.slug; });
-        if (item) item.cant = cantidad(item.cant + cant);
-        else lista.push({ slug: btn.dataset.slug, titulo: btn.dataset.titulo, cant: cant });
+        // un mismo producto en otro color es otra línea de la cotización
+        var item = lista.find(function (x) { return x.slug === btn.dataset.slug && (x.color || "") === color; });
+        if (item) item.cant = Math.min(cantidad(item.cant + cant), tope);
+        else lista.push({ slug: btn.dataset.slug, titulo: btn.dataset.titulo, cant: cant, color: color, url: btn.dataset.url || "" });
         guardar(lista);
         var ok = document.querySelector("[data-added]");
         if (ok) ok.hidden = false;
@@ -74,8 +78,8 @@
         var li = document.createElement("li");
         li.className = "cz-item";
         var a = document.createElement("a");
-        a.href = ruta("catalogo/" + encodeURIComponent(x.slug) + "/");
-        a.textContent = x.titulo;
+        a.href = ruta(x.url || "catalogo/" + encodeURIComponent(x.slug) + "/");
+        a.textContent = x.titulo + (x.color ? " — " + x.color : "");
         var qty = document.createElement("input");
         qty.type = "number"; qty.min = "1"; qty.max = "9999"; qty.value = cantidad(x.cant);
         qty.id = "cz-cant-" + i;
@@ -103,7 +107,7 @@
       lineas.push("• Tipo de trabajo: " + d.get("servicio"));
       if (lista.length) {
         lineas.push("• Productos del catálogo:");
-        lista.forEach(function (x) { lineas.push("   - " + x.titulo + " (x" + cantidad(x.cant) + ")"); });
+        lista.forEach(function (x) { lineas.push("   - " + x.titulo + " (" + (x.color ? x.color + ", " : "") + "x" + cantidad(x.cant) + ")"); });
       }
       var det = String(d.get("detalle") || "").trim();
       if (det) lineas.push("• Detalle: " + det);

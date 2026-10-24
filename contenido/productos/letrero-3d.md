@@ -1,6 +1,7 @@
 ---
 titulo: Letrero 3D para tu marca
 categoria: Impresión 3D
+subcategoria: Letreros y emblemas
 etiqueta: Letreros
 resumen: Tu logo en volumen para el mesón, la vitrina o la oficina. Diseñado e impreso en 3D a la medida.
 imagenes:

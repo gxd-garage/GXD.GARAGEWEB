@@ -134,6 +134,99 @@
     }
   }
 
+  // ---------- Impresión 3D: filtros por tipo, búsqueda y "solo en stock" ----------
+  var tienda = document.querySelector("[data-tienda]");
+  if (tienda) {
+    var chips = document.querySelectorAll(".tienda-bar [data-sub]");
+    var buscar = document.querySelector("[data-buscar]");
+    var soloStock = document.querySelector("[data-solo-stock]");
+    var vacioT = document.querySelector("[data-tienda-vacio]");
+    var sub = "";
+    var norm = function (t) { return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); };
+    var tarjetas = Array.prototype.slice.call(tienda.querySelectorAll(".product-card"));
+    tarjetas.forEach(function (c) { c._q = norm(c.dataset.q); });
+    var aplicar = function () {
+      var palabras = norm(buscar && buscar.value).split(/\s+/).filter(Boolean), n = 0;
+      tarjetas.forEach(function (c) {
+        var ok = (!sub || c.dataset.sub === sub) &&
+          (!soloStock || !soloStock.checked || c.dataset.stock === "1") &&
+          palabras.every(function (w) { return c._q.indexOf(w) !== -1; });
+        c.hidden = !ok; if (ok) n++;
+      });
+      if (vacioT) vacioT.hidden = n > 0;
+    };
+    var elegir = function (valor) {
+      sub = valor;
+      chips.forEach(function (b) { var on = b.dataset.sub === valor; b.classList.toggle("active", on); b.setAttribute("aria-pressed", String(on)); });
+      aplicar();
+    };
+    chips.forEach(function (b) { b.addEventListener("click", function () { elegir(b.dataset.sub); }); });
+    if (buscar) buscar.addEventListener("input", aplicar);
+    if (soloStock) soloStock.addEventListener("change", aplicar);
+    // /impresion-3d/#f-repuestos-para-autos abre la lista ya filtrada
+    var desdeHash = function () {
+      var m = (location.hash || "").match(/^#f-(.+)$/);
+      if (!m) return;
+      var existe = Array.prototype.some.call(chips, function (b) { return b.dataset.sub === m[1]; });
+      if (!existe) return;
+      elegir(m[1]);
+      var sec = document.getElementById("productos"); if (sec) sec.scrollIntoView();
+    };
+    desdeHash();
+    window.addEventListener("hashchange", desdeHash);
+  }
+
+  // ---------- Ficha: color elegido y mensaje de WhatsApp ----------
+  var ficha = document.querySelector("[data-producto]");
+  if (ficha) {
+    var waBtn = ficha.querySelector("[data-wa-producto]");
+    var nombreColor = ficha.querySelector("[data-color-nombre]");
+    var cantInput = document.getElementById("cant");
+    var colorActual = function () { var r = ficha.querySelector('input[name="color"]:checked'); return r ? r.value : ""; };
+    var armar = function () {
+      var d = ficha.dataset, color = colorActual();
+      var oferta = ficha.classList.contains("oferta-vencida") ? "" : d.oferta;
+      var l;
+      if (d.modo === "avisar") {
+        l = ["Hola GXD Garage, quiero que me avisen cuando vuelva a haber stock de: *" + d.titulo + "*"];
+        if (color) l.push("• Color: " + color);
+        l.push(d.url);
+      } else {
+        l = [oferta ? "Hola GXD Garage, quiero la oferta: *" + d.titulo + "* (" + oferta + ")" : "Hola GXD Garage, quiero " + (d.modo === "pedir" ? "pedir" : "cotizar") + ": *" + d.titulo + "*"];
+        if (color) l.push("• Color: " + color);
+        var n = parseInt(cantInput && cantInput.value, 10);
+        l.push("• Cantidad: " + (isNaN(n) || n < 1 ? 1 : n));
+        l.push(d.url, "", "Detalles:");
+      }
+      if (waBtn) waBtn.href = "https://wa.me/" + (window.GXD_WA || "") + "?text=" + encodeURIComponent(l.join("\n"));
+      if (nombreColor && color) nombreColor.textContent = color;
+    };
+    ficha.querySelectorAll('input[name="color"]').forEach(function (r) { r.addEventListener("change", armar); });
+    if (cantInput) cantInput.addEventListener("input", armar);
+    armar();
+  }
+
+  // ---------- Repuestos para autos → WhatsApp ----------
+  var fa = document.getElementById("auto-form");
+  if (fa) {
+    var errA = document.getElementById("auto-error");
+    fa.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = function (n) { return fa[n].value.trim(); };
+      var faltan = [], primero = null;
+      if (!v("marca")) { faltan.push("la marca del auto"); primero = primero || fa.marca; }
+      if (!v("pieza")) { faltan.push("qué pieza necesitas"); primero = primero || fa.pieza; }
+      if (!v("nombre")) { faltan.push("tu nombre"); primero = primero || fa.nombre; }
+      if (faltan.length) { errA.textContent = "Para enviar, escribe " + faltan.join(", ").replace(/, ([^,]*)$/, " y $1") + "."; errA.hidden = false; primero.focus(); return; }
+      errA.hidden = true;
+      var auto = [v("marca"), v("modelo"), v("anio")].filter(Boolean).join(" ");
+      var tengo = fa.querySelector('input[name="tengo"]:checked');
+      var txt = "Hola GXD Garage, necesito un repuesto para mi auto:\n\n• Auto: " + auto + "\n• Pieza: " + v("pieza") +
+        "\n• " + (tengo ? tengo.value : "") + "\n\nMi nombre es " + v("nombre") + ".";
+      window.location.href = "https://wa.me/" + (window.GXD_WA || "") + "?text=" + encodeURIComponent(txt);
+    });
+  }
+
   // ---------- Formulario de contacto del inicio → WhatsApp ----------
   var f = document.getElementById("contacto-form");
   if (f) {

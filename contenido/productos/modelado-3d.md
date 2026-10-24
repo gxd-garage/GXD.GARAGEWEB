@@ -1,6 +1,7 @@
 ---
 titulo: Modelado 3D de piezas
 categoria: Impresión 3D
+subcategoria: Prototipos y modelado
 etiqueta: Modelado
 resumen: Transformamos tu idea, un boceto o una pieza existente en un modelo 3D listo para imprimir o fabricar.
 imagenes:

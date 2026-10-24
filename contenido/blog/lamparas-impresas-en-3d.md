@@ -40,4 +40,4 @@ Una de las ventajas de diseñar la lámpara a pedido es que puedes decidir:
 2. **Diseñamos la propuesta** y te la mostramos antes de imprimir.
 3. **Con el diseño aprobado,** te damos el valor de la impresión y la fabricamos capa por capa.
 
-Revisa la [lámpara impresa en 3D en nuestro catálogo](/catalogo/lampara-3d/) o arma tu solicitud en la página de [cotización](/cotizar/).
+Revisa la [lámpara impresa en 3D en nuestro catálogo](/impresion-3d/lampara-3d/) o arma tu solicitud en la página de [cotización](/cotizar/).

@@ -1,6 +1,7 @@
 ---
 titulo: Prototipos y maquetas
 categoria: Impresión 3D
+subcategoria: Prototipos y modelado
 etiqueta: Prototipos
 resumen: Prueba tu idea antes de fabricar en serie. Prototipos para validar forma, tamaño y uso, y maquetas para presentar tu proyecto.
 imagenes: []
