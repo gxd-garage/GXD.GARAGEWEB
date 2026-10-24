@@ -13,6 +13,21 @@
     document.addEventListener("mouseover", function (e) { ring.classList.toggle("hover", !!e.target.closest("a, button, input, select, textarea, label")); });
   }
 
+  // ---------- Hero: el logo se imprime capa por capa ----------
+  var hp = document.querySelector(".hero-print");
+  var quieto = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (hp && !quieto) {
+    var capa = hp.querySelector("[data-capa]"), TOTAL = 120, DUR = 3000, INICIO = 300;
+    hp.classList.add("imprimiendo");
+    var t0 = performance.now();
+    (function contar(t) {
+      var n = Math.max(0, Math.min(TOTAL, Math.floor(((t - t0 - INICIO) / DUR) * TOTAL)));
+      if (capa) capa.textContent = "capa " + String(n).padStart(3, "0") + " / " + TOTAL;
+      if (n < TOTAL) requestAnimationFrame(contar);
+      else { hp.classList.add("listo"); }
+    })(t0);
+  }
+
   // ---------- Aparición al hacer scroll ----------
   var els = document.querySelectorAll(".fade-up");
   if ("IntersectionObserver" in window) {

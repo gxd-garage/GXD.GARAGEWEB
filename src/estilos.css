@@ -882,3 +882,26 @@ body { font-family: var(--f-text); font-size: 1rem; line-height: 1.7; -webkit-fo
 .product-card { box-shadow: 0 0 0 1px var(--border); }
 .product-footer .service-arrow { margin: 0; padding: 0; line-height: 1; align-self: center; }
 .sub-head h3 { line-height: 1.1; }
+
+/* ═══ Hero: el logo se "imprime" capa por capa ═══ */
+.hero-right::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(closest-side at 50% 50%, rgba(255,255,255,0.07), transparent 70%); }
+.hero-print { position: relative; z-index: 2; width: min(80%, 560px); display: flex; flex-direction: column; gap: 1.5rem; }
+.hp-marco { position: relative; }
+.hp-logo { position: relative; clip-path: inset(0 0 0 0); }
+/* líneas de capa sobre el logo */
+.hp-logo svg { display: block; width: 100%; height: auto;
+  -webkit-mask-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.72) 0 1px, #000 1px 5px);
+  mask-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.72) 0 1px, #000 1px 5px); }
+.hp-boquilla { position: absolute; left: -6%; right: -6%; bottom: 0; height: 2px; opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9) 20%, #fff 50%, rgba(255,255,255,0.9) 80%, transparent);
+  box-shadow: 0 0 18px 3px rgba(255,255,255,0.35); }
+.hp-hud { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim);
+  border-top: 1px solid var(--border); padding-top: 0.9rem; }
+.hp-hud [data-capa] { color: var(--white); font-variant-numeric: tabular-nums; }
+html.js .hero-print.imprimiendo .hp-logo { animation: hpImprimir 3s steps(120, end) 0.3s both; }
+html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(120, end) 0.3s both; }
+.hero-print.listo { animation: float 6s ease-in-out infinite; }
+@keyframes hpImprimir { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes hpBoquilla { 0% { bottom: 0; opacity: 1; } 97% { opacity: 1; } 100% { bottom: 100%; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .hero-print .hp-logo, .hero-print .hp-boquilla { animation: none !important; } }

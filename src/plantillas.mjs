@@ -92,6 +92,8 @@ function finDelDia(d, dias = 0) { const x = new Date(d); x.setUTCDate(x.getUTCDa
 const LOGO_D = "M4839.9,3312.8c-127,110.3-274.9,161.9-440.6,179.4l-1118.1.2-446.1-446-447,445.8-417.8-2.9,652.9-654.9-621-620.3-2.7,259.1-687.3,1.3c-107.3.2-208.1,41.1-286.9,107-85.6,71.6-121.4,177.2-90.5,287.8,46,164.6,191.3,308.1,367.6,322.5,136.9,11.2,266.6.9,401.1,3.8l.7-364.3,295.6-.9-.5,529.6c0,67.8-67.7,134-135.9,132.1-202.1-5.8-393.2,12.3-595.7-5.4-297.9-26.1-545.5-261.2-621-543.2-61.5-229.7,18.7-455.2,199.3-601.1,130.8-105.6,287.4-158.9,458.1-165.5h1084.2c0,.1,446.4,446.2,446.4,446.2l446.2-446,417.8,3.1-652.5,654.7,621,620.3,2.7-259.1,687.4-1.2c107.3-.2,208-41.2,286.8-107.1,85.6-71.6,121.4-177.2,90.5-287.8-46-164.7-191.3-307.9-367.6-322.5-136.8-11.3-266.6-.9-401.1-3.9l-.7,364.5-295.6.9.5-529.7c0-68,67.6-133.9,136-132,202.1,5.8,393.2-12.3,595.8,5.4,300.1,26.3,549.8,264.9,622.6,550.1,55.9,219-15.3,433.2-184.5,580Z";
 const logo = (fondo = "#0a0a0a", trazo = "#fff", extra = "") =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5669.3 5669.3" ${extra} aria-hidden="true"><rect width="5669.3" height="5669.3" fill="${fondo}"/><path fill="${trazo}" d="${LOGO_D}"/></svg>`;
+// Solo el trazo del logo, recortado a su tamaño (para el hero "capa por capa")
+const logoTrazo = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="560 2110 4550 1450" aria-hidden="true"><path fill="#fff" d="${LOGO_D}"/></svg>`;
 const WA = `<svg viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.523 5.837L.057 23.928l6.257-1.439A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.848 0-3.575-.504-5.063-1.383l-.363-.214-3.724.856.883-3.63-.235-.374A9.957 9.957 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>`;
 const ICONO = {
   "Impresión 3D": `<svg class="service-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="8" y="24" width="32" height="20" rx="1" stroke="white" stroke-width="1.5"/><path d="M24 4L38 14H10L24 4Z" stroke="white" stroke-width="1.5"/><line x1="24" y1="14" x2="24" y2="24" stroke="white" stroke-width="1.5"/><line x1="16" y1="30" x2="32" y2="30" stroke="white" stroke-width="1.5"/><line x1="16" y1="36" x2="26" y2="36" stroke="white" stroke-width="1.5"/></svg>`,
@@ -343,8 +345,13 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
   </div>
   <div class="hero-right" aria-hidden="true">
     <div class="hero-grid-lines"></div>
-    <div class="hero-logo-bg">${logo("white", "black", 'width="800" height="800"')}</div>
-    <div class="hero-logo-center">${logo()}</div>
+    <div class="hero-print">
+      <div class="hp-marco">
+        <div class="hp-logo">${logoTrazo()}</div>
+        <div class="hp-boquilla"></div>
+      </div>
+      <div class="hp-hud"><span>// capa por capa</span><span data-capa>capa 120 / 120</span></div>
+    </div>
   </div>
   <div class="hero-stats">
     <div><div class="stat-num">3</div><div class="stat-label">Servicios</div></div>
