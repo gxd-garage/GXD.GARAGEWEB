@@ -273,6 +273,24 @@
     });
   }
 
+  // ---------- Etiquetas personalizadas → WhatsApp ----------
+  var fe = document.getElementById("etiquetas-form");
+  if (fe) {
+    var errE = document.getElementById("et-error");
+    fe.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = function (n) { return fe[n].value.trim(); };
+      var marcado = function (n) { var r = fe.querySelector('input[name="' + n + '"]:checked'); return r ? r.value : ""; };
+      if (!v("nombre")) { errE.textContent = "Para enviar, escribe tu nombre."; errE.hidden = false; fe.nombre.focus(); return; }
+      errE.hidden = true;
+      var l = ["Hola GXD Garage, quiero cotizar etiquetas personalizadas:", "", "• Producto: " + v("producto")];
+      if (v("cantidad")) l.push("• Cantidad: " + v("cantidad"));
+      if (v("medida")) l.push("• Medida: " + v("medida"));
+      l.push("• " + marcado("laminado"), "• " + marcado("diseno"), "", "Mi nombre es " + v("nombre") + ".");
+      window.GXD_abrirWA(l.join("\n"));
+    });
+  }
+
   // ---------- Formulario de contacto del inicio → WhatsApp ----------
   var f = document.getElementById("contacto-form");
   if (f) {

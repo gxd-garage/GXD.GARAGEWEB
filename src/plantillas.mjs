@@ -35,7 +35,7 @@ export const COLORES = {
 export const urlProducto = (p) => GRUPOS.find((g) => g.nombre === p.categoria)?.ruta + p.slug + "/";
 export const CATEGORIAS = GRUPOS.map((g) => g.nombre);
 export const CATEGORIAS_BLOG = ["Guías", "Proyectos", "Novedades"];
-export const SERVICIOS = ["Repuesto para auto", "Repuesto a medida", "Impresión 3D", "Lámparas y decoración", "Diseño gráfico", "Impresión digital", "Llaveros NFC", "Otro"];
+export const SERVICIOS = ["Repuesto para auto", "Repuesto a medida", "Etiquetas personalizadas", "Impresión 3D", "Lámparas y decoración", "Diseño gráfico", "Impresión digital", "Llaveros NFC", "Otro"];
 const grupo = (cat) => GRUPOS.find((g) => g.nombre === cat) || GRUPOS[0];
 
 // ---------- utilidades ----------
@@ -386,7 +386,7 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
       <div class="service-num">03</div>
       ${ICONO["Impresión digital"]}
       <h3 class="service-name">Impresión Digital</h3>
-      <p class="service-desc">Stickers, vinilos adhesivos, banners y material impreso con colores vibrantes y acabados profesionales para tu negocio o tu evento.</p>
+      <p class="service-desc"><b>Etiquetas personalizadas</b> para vinos, cervezas y emprendimientos, además de stickers, vinilos y banners con colores vibrantes y acabados profesionales.</p>
       <a href="/impresion-digital/" class="service-arrow">Ver Impresión digital →</a>
     </article>
   </div>
@@ -505,6 +505,58 @@ export function bloqueAuto(sitio, compacto = false, piezas = []) {
     <div class="sub-head"><h3>Piezas para autos</h3><p>Listas para pedir en el color que elijas.</p></div>
     <div class="catalog-panel active">${piezas.map((p) => tarjetaProducto(sitio, p)).join("")}</div>
   </div>` : ""}
+</section>`;
+}
+
+// ---------- bloque de etiquetas personalizadas (Impresión digital) ----------
+const USOS_ETIQUETAS = ["Vinos", "Cervezas artesanales", "Miel y mermeladas", "Cosmética y velas", "Matrimonios y eventos", "Regalos corporativos"];
+export function bloqueEtiquetas(sitio) {
+  return `<section id="etiquetas" class="auto-block">
+  ${cabecera("// destacado — etiquetas personalizadas", "Etiquetas", "para tu producto", "Para tu vino, tu cerveza o tu emprendimiento. Las diseñamos contigo y las imprimimos en papel adhesivo, cortadas a la forma y sin cantidad mínima.")}
+  <div class="auto-layout">
+    <div class="auto-info fade-up">
+      <ul class="auto-chips" aria-label="Para qué sirven">${USOS_ETIQUETAS.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
+      <ul class="spec-list">
+        <li>Papel adhesivo de buena calidad</li>
+        <li>Corte a la forma de tu etiqueta</li>
+        <li>Laminado mate o brillante, para protegerla</li>
+        <li>Sin mínimo: desde una unidad</li>
+      </ul>
+      <ol class="cz-steps">
+        <li><span><b>Cuéntanos tu producto.</b> Qué es, el tamaño del envase y cuántas etiquetas necesitas.</span></li>
+        <li><span><b>Diseño.</b> Si ya tienes el archivo, lo revisamos. Si no, lo diseñamos: primero cotizamos el diseño.</span></li>
+        <li><span><b>Impresión.</b> Con el diseño aprobado te damos el valor de la impresión según medida, cantidad y terminación.</span></li>
+      </ol>
+    </div>
+    <form class="contact-form auto-form fade-up" id="etiquetas-form" novalidate>
+      <div class="form-row">
+        <div class="form-group"><label for="et-producto">¿Para qué producto?</label>
+          <select id="et-producto" name="producto">${["Vino", "Cerveza artesanal", "Miel o mermelada", "Cosmética o velas", "Matrimonio o evento", "Regalo corporativo", "Otro"].map((o) => `<option>${o}</option>`).join("")}</select></div>
+        <div class="form-group"><label for="et-cantidad">Cantidad aproximada</label><input id="et-cantidad" name="cantidad" type="text" inputmode="numeric" placeholder="Ej.: 50" autocomplete="off"></div>
+      </div>
+      <div class="form-group"><label for="et-medida">Medida aproximada de la etiqueta</label><input id="et-medida" name="medida" type="text" placeholder="Ej.: 9 × 12 cm, o el envase: botella de 750 ml" autocomplete="off"></div>
+      <div class="form-group">
+        <span class="section-label" id="et-lam-l" style="margin-bottom:0.25rem">Laminado</span>
+        <div class="choices" role="radiogroup" aria-labelledby="et-lam-l">
+          <label class="choice"><input type="radio" name="laminado" value="Laminado mate" checked>Mate</label>
+          <label class="choice"><input type="radio" name="laminado" value="Laminado brillante">Brillante</label>
+          <label class="choice"><input type="radio" name="laminado" value="Sin laminado">Sin laminado</label>
+          <label class="choice"><input type="radio" name="laminado" value="Laminado por definir">No sé todavía</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <span class="section-label" id="et-dis-l" style="margin-bottom:0.25rem">¿Tienes el diseño?</span>
+        <div class="choices" role="radiogroup" aria-labelledby="et-dis-l">
+          <label class="choice"><input type="radio" name="diseno" value="Tengo el diseño listo" checked>Sí, lo tengo</label>
+          <label class="choice"><input type="radio" name="diseno" value="Necesito que me diseñen la etiqueta">Necesito diseño</label>
+        </div>
+      </div>
+      <div class="form-group"><label for="et-nombre">Tu nombre</label><input id="et-nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre"></div>
+      <p class="cz-error" id="et-error" role="alert" hidden></p>
+      <button type="submit" class="btn-submit">${WA}Cotizar por WhatsApp</button>
+      <p class="form-hint">Después puedes enviar tu logo o una foto del envase en el mismo chat.</p>
+    </form>
+  </div>
 </section>`;
 }
 
@@ -645,9 +697,10 @@ const INFO_GRUPO = {
   },
   "Impresión digital": {
     t1: "Impresión", t2: "digital",
-    desc: "Stickers, vinilos adhesivos, banners y pendones con colores vibrantes y acabados profesionales para tu negocio o tu evento.",
-    seo: "Impresión digital en Talagante: stickers, vinilos y banners",
-    seoDesc: (s) => `Impresión digital en ${s.comuna}: stickers personalizados, vinilo adhesivo, banners y pendones para tu negocio o evento. Cotiza por WhatsApp.`,
+    desc: "Etiquetas personalizadas para vinos, cervezas y emprendimientos, stickers, vinilos adhesivos, banners y pendones con colores vibrantes y acabados profesionales.",
+    seo: "Impresión digital en Talagante: etiquetas personalizadas, stickers y banners",
+    seoDesc: (s) => `Impresión digital en ${s.comuna}: etiquetas personalizadas para vino, cerveza artesanal y emprendimientos, stickers, vinilo adhesivo, banners y pendones. Sin mínimo. Cotiza por WhatsApp.`,
+    bloque: (s) => bloqueEtiquetas(s),
     productos: ["Lo que", "imprimimos"],
     pasos: [
       ["Envíanos tu diseño o tu idea", "Si ya tienes el archivo, lo revisamos. Si no, lo diseñamos: primero cotizamos el diseño."],
@@ -665,7 +718,8 @@ export function paginaGrupo({ sitio, g, productos, portafolio }) {
   const lista = productos.filter((p) => p.categoria === g.nombre);
   const cuerpo = `
 ${heroInterior(items, `// ${g.nombre.toLowerCase()}`, info.t1, info.t2, esc(info.desc),
-    `<div class="hero-actions" style="margin-top:2.5rem"><a class="btn-primary" href="#contacto">Cotizar mi proyecto</a><a class="btn-wa" href="${waLink(sitio, `Hola GXD Garage, quiero cotizar ${g.nombre.toLowerCase()}.`)}" ${ext}>${WA}WhatsApp</a></div>`)}
+    `<div class="hero-actions" style="margin-top:2.5rem">${info.bloque ? `<a class="btn-primary" href="#etiquetas">Cotizar etiquetas</a><a class="btn-line" href="#productos">Ver servicios</a>` : `<a class="btn-primary" href="#contacto">Cotizar mi proyecto</a><a class="btn-wa" href="${waLink(sitio, `Hola GXD Garage, quiero cotizar ${g.nombre.toLowerCase()}.`)}" ${ext}>${WA}WhatsApp</a>`}</div>`)}
+${info.bloque ? info.bloque(sitio) : ""}
 ${lista.length ? `<section id="productos" class="section-alt">
   ${cabecera("// servicios", info.productos[0], info.productos[1], "Todo se hace a pedido. Elige lo que necesitas y te respondemos con una propuesta.")}
   <div class="catalog-panel active">${lista.map((p) => tarjetaProducto(sitio, p)).join("")}</div>

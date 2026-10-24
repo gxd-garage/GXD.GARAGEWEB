@@ -922,3 +922,8 @@ html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(12
 .footer-brand .nav-brand { font-size: 1.8rem; }
 @media (min-width: 901px) and (max-width: 1120px) { .nav-brand { font-size: 1.05rem; } }
 @media (max-width: 420px) { .nav-brand { font-size: 1.15rem; } }
+#etiquetas { scroll-margin-top: 100px; } .auto-info .spec-list { margin: 0; }
+/* Cinta en movimiento del inicio: invertida (fondo claro, texto negro) para que destaque */
+.marquee-section { background: var(--white); border-color: var(--white); }
+.marquee-item { color: var(--black); }
+.marquee-item::after { color: rgba(10,10,10,0.35); }
