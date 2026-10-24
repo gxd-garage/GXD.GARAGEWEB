@@ -13,6 +13,7 @@ detalles:
   - Entrega del archivo para impresión
 destacado: false
 orden: 8
+ocultar_colores: true
 publicado: true
 ---
 Si tienes la idea pero no el archivo, nosotros lo modelamos. Trabajamos a partir de un boceto, una referencia o una pieza que ya exista, y te mostramos el modelo antes de imprimir.

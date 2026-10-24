@@ -10,6 +10,7 @@ detalles:
   - Combinable con llaveros NFC
 destacado: false
 orden: 2
+ocultar_colores: true
 publicado: true
 ---
 Una tarjeta sigue siendo una forma simple de dejar tus datos. La diseñamos con tu marca y, si quieres, la complementamos con un llavero NFC que abre tu WhatsApp o tu Instagram con un toque.

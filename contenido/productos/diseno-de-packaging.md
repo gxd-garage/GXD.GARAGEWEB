@@ -10,6 +10,7 @@ detalles:
   - Archivos listos para imprenta
 destacado: false
 orden: 3
+ocultar_colores: true
 publicado: true
 ---
 El empaque es lo primero que ve tu cliente. Diseñamos etiquetas, cajas y envoltorios con tu marca, pensados para el formato y la forma de impresión que vas a usar.

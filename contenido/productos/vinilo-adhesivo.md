@@ -10,6 +10,7 @@ detalles:
   - Para vitrinas, vehículos y paredes
 destacado: false
 orden: 3
+ocultar_colores: true
 publicado: true
 ---
 Diseñamos y producimos vinilos para que tu local, tu vehículo de trabajo o tu oficina comuniquen tu marca. Mándanos una foto de la superficie con sus medidas y te proponemos el diseño.

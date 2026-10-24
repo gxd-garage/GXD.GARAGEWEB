@@ -10,6 +10,7 @@ detalles:
   - Para productos, empaques y regalos
 destacado: false
 orden: 2
+ocultar_colores: true
 publicado: true
 ---
 Los stickers son una de las formas más simples de hacer que tu marca se vea en todas partes. Te ayudamos con el diseño si todavía no lo tienes y los fabricamos en la forma y el tamaño que necesites.

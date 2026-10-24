@@ -55,10 +55,14 @@ content:
       - name: colores
         label: Colores disponibles
         type: select
-        description: Elige uno o varios. El cliente escoge el color en la ficha y se incluye en su mensaje de WhatsApp. El primero es el que aparece marcado.
+        description: Elige uno o varios. El cliente escoge el color en la ficha y se incluye en su mensaje de WhatsApp. El primero es el que aparece marcado. Si lo dejas vacío, se usan los colores por defecto de Datos del negocio.
         options:
           multiple: true
           values: ["Negro", "Blanco", "Gris", "Plateado", "Rojo", "Naranjo", "Amarillo", "Verde", "Azul", "Celeste", "Morado", "Rosado", "Café", "Dorado", "Madera", "Transparente", "Multicolor"]
+      - name: ocultar_colores
+        label: Ocultar colores
+        type: boolean
+        description: Actívalo en los productos donde no se elige color (por ejemplo un logo o un banner). No se muestran las muestras ni el selector.
       - name: tipo_venta
         label: Disponibilidad
         type: select
@@ -325,6 +329,13 @@ content:
         label: Mostrar valores de referencia
         type: boolean
         description: Apagado, todo el catálogo aparece como "A cotizar". Encendido, se muestran los valores de referencia de los productos que lo tengan.
+      - name: colores_por_defecto
+        label: Colores por defecto
+        type: select
+        description: Los colores que tienen todos los productos que no tienen colores propios. En cada producto puedes poner otros o activar "Ocultar colores".
+        options:
+          multiple: true
+          values: ["Negro", "Blanco", "Gris", "Plateado", "Rojo", "Naranjo", "Amarillo", "Verde", "Azul", "Celeste", "Morado", "Rosado", "Café", "Dorado", "Madera", "Transparente", "Multicolor"]
       - name: instagram
         label: Usuario de Instagram
         type: string

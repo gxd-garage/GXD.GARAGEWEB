@@ -88,7 +88,8 @@ Campos que solo usa Impresión 3D:
 
 - **Sección de Impresión 3D:** en cuál de las tres secciones aparece.
 - **Tipo (opcional):** sirve para los filtros de Productos y para el grupo de Hecho a medida.
-- **Colores disponibles:** elige uno o varios. En la tarjeta se ven como muestras de color y en la ficha el cliente elige el suyo, que se incluye en el mensaje de WhatsApp y en su cotización.
+- **Colores disponibles:** elige uno o varios. En la tarjeta se ven como muestras de color y en la ficha el cliente elige el suyo, que se incluye en el mensaje de WhatsApp y en su cotización. Si lo dejas vacío, el producto usa los **Colores por defecto** de Datos del negocio (sirve para cualquier línea, no solo 3D).
+- **Ocultar colores:** apaga las muestras y el selector en ese producto, por ejemplo en un logo o un banner.
 - **Disponibilidad:**
   - *Hecho a pedido* (por defecto): se cotiza.
   - *En stock*: completa **Unidades en stock**. Con más de 5 dice "Disponible", con 5 o menos "Quedan 3", y con 0 "Agotado": el botón de agregar se reemplaza por "Avísame cuando vuelva". Si tiene precio, se muestra siempre y el botón dice "Pedir". Cuando vendas, baja el número y guarda.

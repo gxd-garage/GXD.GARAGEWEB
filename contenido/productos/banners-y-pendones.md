@@ -10,6 +10,7 @@ detalles:
   - Medidas a pedido
 destacado: false
 orden: 1
+ocultar_colores: true
 publicado: true
 ---
 Si vas a una feria o un evento, un pendón con tu marca hace que te encuentren. Lo diseñamos con tu identidad y lo preparamos en la medida que necesites.

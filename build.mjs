@@ -61,6 +61,10 @@ const fecha = (v, respaldo) => {
   return d && !isNaN(d) ? d : respaldo;
 };
 
+const coloresDefecto = lista(sitio.colores_por_defecto).flatMap((c) => String(c).split(",")).map((c) => c.trim()).filter((c) => {
+  if (c && T.COLORES[c] === undefined) avisos.push(`contenido/sitio.json: el color por defecto "${c}" no está en la lista y se ignoró`);
+  return c && T.COLORES[c] !== undefined;
+});
 const productos = leerColeccion("contenido/productos")
   .map(({ archivo, slug, datos: d, cuerpo }) => {
     if (!d.titulo) { avisos.push(`${archivo}: falta el nombre del producto, no se publicó`); return null; }
@@ -85,6 +89,7 @@ const productos = leerColeccion("contenido/productos")
       seccion_panel: d.seccion ? String(d.seccion).trim() : "",
       stock: typeof d.stock === "number" ? Math.max(0, Math.floor(d.stock)) : numero(d.stock) ?? 0,
       precio_visible: d.precio_visible === true,
+      ocultar_colores: d.ocultar_colores === true,
       compatibilidad: lista(d.compatibilidad).map(String).map((s) => s.trim()).filter(Boolean),
       destacado: d.destacado === true, orden: numero(d.orden) ?? 100,
       publicado: d.publicado !== false, html: md(cuerpo),
@@ -97,6 +102,8 @@ const productos = leerColeccion("contenido/productos")
     return { ...p, seccion: ok ? p.seccion_panel : T.seccionPorDefecto(p) };
   })
   .filter((p) => p && p.publicado)
+  // colores: los propios del producto o, si no tiene, los por defecto; nada si se ocultaron
+  .map((p) => ({ ...p, colores: p.ocultar_colores ? [] : p.colores.length ? p.colores : coloresDefecto }))
   .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
 
 const portafolio = leerColeccion("contenido/portafolio")

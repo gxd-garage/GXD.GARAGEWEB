@@ -10,6 +10,7 @@ detalles:
   - Archivos listos para redes, impresión y web
 destacado: false
 orden: 1
+ocultar_colores: true
 publicado: true
 ---
 Una identidad bien hecha hace que tu negocio se vea profesional en todas partes. Partimos conociendo tu marca y tu público, y te presentamos una propuesta.
