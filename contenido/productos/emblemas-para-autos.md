@@ -8,19 +8,24 @@ resumen: Emblemas y logos para tu auto impresos en 3D, para reemplazar uno roto 
   perdido. Elige el color y pídelo por WhatsApp.
 colores:
   - Negro
+  - Plateado
   - Gris
+  - Rojo
 tipo_venta: En stock
 stock: 2
-compatibilidad:
-  - Toyota Yaris 2006-2013
+compatibilidad: []
+precio: 20000
 precio_visible: true
-precio_desde: true
+precio_desde: false
 oferta_activa: true
+precio_oferta: 15000
 oferta_texto: ¡Oportunidad Única!
-oferta_detalle: $2.700 c/u comprando 15 o más
+oferta_detalle: Precio de lanzamiento, solo por esta semana.
 oferta_hasta: 2026-10-25
 detalles:
-  - Material PETG
+  - Material PETG, más resistente al calor y la humedad
+  - Disponible en negro, plateado, gris o rojo
+  - ¿Otro modelo o marca? Lo hacemos a medida
 destacado: true
 orden: 1
 publicado: true
