@@ -1,6 +1,7 @@
 ---
 titulo: Llavero NFC inteligente
 categoria: Impresión 3D
+seccion: Productos
 subcategoria: Llaveros NFC
 etiqueta: Llaveros NFC
 resumen: Comparte tu Instagram, WhatsApp o sitio web con un toque del celular. Sin aplicaciones y con el diseño y los colores de tu marca.

@@ -1,6 +1,7 @@
 ---
 titulo: Emblemas personalizados
 categoria: Impresión 3D
+seccion: Hecho a medida
 subcategoria: Letreros y emblemas
 etiqueta: Emblemas
 resumen: Emblemas y logos en relieve para autos, motos, productos o regalos, impresos en 3D con el diseño que necesites.

@@ -10,6 +10,19 @@ export const GRUPOS = [
   { nombre: "Impresión digital", id: "tab-print", abrev: "ID", ruta: "/impresion-digital/", clave: "digital" },
 ];
 // Subcategorías de Impresión 3D (las mismas del panel). El orden define el orden de los filtros.
+// Impresión 3D se ordena en tres secciones; el "tipo" (subcategoría) es opcional y sirve para filtros y grupos
+export const SECCIONES_3D = [
+  { nombre: "Repuestos para autos", id: "auto-a-medida", num: "01" },
+  { nombre: "Productos", id: "productos", num: "02" },
+  { nombre: "Hecho a medida", id: "a-medida", num: "03" },
+];
+const SECCION_POR_TIPO = {
+  "Repuestos para autos": "Repuestos para autos", "Accesorios para autos": "Repuestos para autos",
+  "Fidgets y juguetes": "Productos", "Lámparas y decoración": "Productos", "Llaveros NFC": "Productos",
+  "Hogar y repuestos varios": "Hecho a medida", "Letreros y emblemas": "Hecho a medida", "Figuras y miniaturas": "Hecho a medida", "Prototipos y modelado": "Hecho a medida",
+};
+export const seccionPorDefecto = (p) => SECCION_POR_TIPO[p.subcategoria] || (p.tipo_venta === "En stock" ? "Productos" : "Hecho a medida");
+const seccion3D = (nombre) => SECCIONES_3D.find((x) => x.nombre === nombre) || SECCIONES_3D[2];
 export const SUBCATEGORIAS_3D = ["Repuestos para autos", "Accesorios para autos", "Fidgets y juguetes", "Lámparas y decoración", "Hogar y repuestos varios", "Llaveros NFC", "Letreros y emblemas", "Figuras y miniaturas", "Prototipos y modelado"];
 // Colores de filamento disponibles en el panel y su muestra en pantalla
 export const COLORES = {
@@ -258,7 +271,9 @@ export function tarjetaProducto(sitio, p) {
   const buscar = [p.titulo, p.resumen, etiqueta, ...(p.compatibilidad || []), ...(p.colores || [])].join(" ").toLowerCase();
   const of = ofertaDe(p);
   const msg = of ? `Hola GXD Garage, quiero la oferta: *${p.titulo}* (${of.texto}, ${of.ahora})\n\nDetalles:` : `Hola GXD Garage, quiero cotizar: *${p.titulo}*\n\nDetalles:`;
-  const normal = `<span class="product-price${ref ? "" : " cot"}${of ? " solo-normal" : ""}">${esc(ref || "A cotizar")}</span>`;
+  const normal = ref || of || disp?.cls === "ok" || disp?.agotado
+    ? `<span class="product-price${ref ? "" : " cot"}${of ? " solo-normal" : ""}">${esc(ref || "A cotizar")}</span>`
+    : `<span class="service-arrow${of ? " solo-normal" : ""}">Ver detalles →</span>`;
   const precio = of
     ? `<span class="product-price oferta solo-oferta">${of.antes ? `<s>${esc(of.antes)}</s>` : ""}${esc(of.ahora)}</span>${normal}`
     : normal;
@@ -311,6 +326,8 @@ const ldNegocio = (sitio) => ({
 
 // ---------- inicio ----------
 export function paginaInicio({ sitio, productos, posts, portafolio }) {
+  const marcados = productos.filter((p) => p.destacado);
+  const destacados = (marcados.length ? marcados : productos).slice(0, 6);
   const marquee = ["Impresión 3D", "Diseño Gráfico", "Impresión Digital", "Repuestos a medida", "Lámparas", "Prototipos", "Branding", "Llaveros NFC", "Innovación capa por capa"];
   const catsPorta = GRUPOS.map((g) => g.nombre).filter((c) => portafolio.some((w) => w.categoria === c));
   const cuerpo = `
@@ -369,17 +386,9 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
 
 <div class="section-divider"></div>
 
-<section id="catalogo" class="section-alt">
-  ${cabecera("// 02 — productos", "Catálogo", "de servicios", "Todo se fabrica a pedido. Elige lo que necesitas y escríbenos por WhatsApp: te respondemos con una propuesta.")}
-  <div class="catalog-tabs" role="tablist" aria-label="Líneas de servicio">
-    ${GRUPOS.map((g, i) => `<button class="catalog-tab${i === 0 ? " active" : ""}" id="${g.id}" role="tab" aria-selected="${i === 0}" aria-controls="panel-${g.id}">${esc(g.nombre)}</button>`).join("")}
-  </div>
-  ${GRUPOS.map((g, i) => {
-    const lista = productos.filter((p) => p.categoria === g.nombre).slice(0, 6);
-    return `<div class="catalog-panel${i === 0 ? " active" : ""}" id="panel-${g.id}" role="tabpanel" aria-labelledby="${g.id}">
-    ${lista.map((p) => tarjetaProducto(sitio, p)).join("")}
-  </div>`;
-  }).join("")}
+<section id="destacados" class="section-alt">
+  ${cabecera("// 02 — destacados", "Lo más", "pedido", "Una selección de lo que hacemos. Cada línea tiene su página con todo el detalle.")}
+  <div class="catalog-panel active">${destacados.map((p) => tarjetaProducto(sitio, p)).join("")}</div>
   <div class="catalog-more">${GRUPOS.map((g) => `<a href="${g.ruta}" class="btn-primary">${esc(g.nombre)} →</a>`).join("")}</div>
 </section>
 
@@ -437,7 +446,7 @@ ${posts.length ? `<section id="blog" class="section-alt">
 
 // ---------- bloque de repuestos para autos (siempre presente en Impresión 3D) ----------
 const EJEMPLOS_AUTO = ["Clips y grapas de tapiz", "Tapas y embellecedores", "Perillas y botones", "Soportes y bases", "Rejillas de ventilación", "Piezas descontinuadas"];
-export function bloqueAuto(sitio, compacto = false) {
+export function bloqueAuto(sitio, compacto = false, piezas = []) {
   const msg = "Hola GXD Garage, necesito un repuesto para mi auto.\n\n• Marca y modelo:\n• Año:\n• Pieza:";
   if (compacto) return `<section class="strip-sec" aria-labelledby="auto-strip-t">
   <div class="auto-strip fade-up">
@@ -453,7 +462,7 @@ export function bloqueAuto(sitio, compacto = false) {
   </div>
 </section>`;
   return `<section id="auto-a-medida" class="auto-block">
-  ${cabecera("// eje principal — repuestos para autos", "Repuestos para autos", "a medida", "Esa pieza plástica que ya no venden o que cuesta encontrar. Tráenos la original, como sea que esté, y la fabricamos en 3D.")}
+  ${cabecera("// 01 — repuestos para autos", "Repuestos para autos", "a medida", "Esa pieza plástica que ya no venden o que cuesta encontrar. Tráenos la original, como sea que esté, y la fabricamos en 3D.")}
   <div class="auto-layout">
     <div class="auto-info fade-up">
       <ul class="auto-chips" aria-label="Ejemplos de piezas">${EJEMPLOS_AUTO.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
@@ -484,6 +493,10 @@ export function bloqueAuto(sitio, compacto = false) {
       <p class="form-hint">Después puedes enviar fotos de la pieza en el mismo chat.</p>
     </form>
   </div>
+  ${piezas.length ? `<div class="sub-bloque">
+    <div class="sub-head"><h3>Piezas para autos</h3><p>Listas para pedir en el color que elijas.</p></div>
+    <div class="catalog-panel active">${piezas.map((p) => tarjetaProducto(sitio, p)).join("")}</div>
+  </div>` : ""}
 </section>`;
 }
 
@@ -532,30 +545,57 @@ export function paginaImpresion3D({ sitio, productos, portafolio, posts = [] }) 
   const g = GRUPOS[0];
   const items = [["Inicio", "/"], [g.nombre, null]];
   const lista = productos.filter((p) => p.categoria === g.nombre);
-  const subs = SUBCATEGORIAS_3D.filter((s) => lista.some((p) => p.subcategoria === s));
-  const hayStock = lista.some((p) => disponibilidad(p)?.cls === "ok");
+  const de = (n) => lista.filter((p) => p.seccion === n);
+  const autos = de("Repuestos para autos"), prods = de("Productos"), medida = de("Hecho a medida");
+  // filtros y buscador solo cuando hay suficientes productos para que sirvan
+  const subs = SUBCATEGORIAS_3D.filter((t) => prods.some((p) => p.subcategoria === t));
+  const conFiltros = prods.length >= 6 && subs.length >= 2;
+  const conBuscador = prods.length >= 8;
+  const conStock = prods.some((p) => disponibilidad(p)?.cls === "ok") && prods.some((p) => disponibilidad(p)?.cls !== "ok");
+  const marca = medida.filter((p) => p.subcategoria === "Letreros y emblemas");
+  const proyecto = medida.filter((p) => p.subcategoria !== "Letreros y emblemas");
   const guia = posts.find((a) => a.slug === "pla-petg-o-resina");
+  const port = portafolio.filter((w) => w.categoria === g.nombre);
+  const secciones = [
+    ["Repuestos para autos", "auto-a-medida", "01"],
+    ...(prods.length ? [["Productos", "productos", "02"]] : []),
+    ...(medida.length ? [["Hecho a medida", "a-medida", prods.length ? "03" : "02"]] : []),
+    ["Materiales", "materiales", ""],
+    ...(port.length ? [["Trabajos", "trabajos", ""]] : []),
+  ];
+  const grupoMedida = (titulo, desc, arr) => arr.length ? `<div class="sub-bloque">
+    <div class="sub-head"><h3>${esc(titulo)}</h3><p>${esc(desc)}</p></div>
+    <div class="catalog-panel active">${arr.map((p) => tarjetaProducto(sitio, p)).join("")}</div>
+  </div>` : "";
   const cuerpo = `
 ${heroInterior(items, "// impresión 3d", "Impresión", "3D",
-    `Repuestos para autos a medida, piezas en stock y objetos impresos capa por capa en ${esc(sitio.comuna)}. Cada producto muestra sus colores: elige el tuyo y pídelo por WhatsApp.`,
-    `<div class="hero-actions" style="margin-top:2.5rem"><a class="btn-primary" href="#auto-a-medida">Repuesto para mi auto</a><a class="btn-line" href="#productos">Ver productos</a></div>`)}
-${bloqueAuto(sitio)}
-<section id="productos" class="section-alt">
-  ${cabecera("// productos 3d", "Piezas y", "productos", "Lo que dice “Disponible” está en stock. El resto lo fabricamos a pedido en el color que elijas.")}
-  <div class="tienda-bar fade-up">
-    <div class="filter-row chips" role="group" aria-label="Filtrar por tipo de producto">
-      <button class="filter-btn active" type="button" data-sub="" aria-pressed="true">Todo <span class="n">${lista.length}</span></button>
-      ${subs.map((s) => `<button class="filter-btn" type="button" data-sub="${esc(slug(s))}" aria-pressed="false">${esc(s)} <span class="n">${lista.filter((p) => p.subcategoria === s).length}</span></button>`).join("")}
-    </div>
-    <div class="tienda-tools">
-      <div class="form-group tienda-search"><label for="buscar3d">Buscar</label><input id="buscar3d" type="search" placeholder="Clip, Yaris, lámpara..." data-buscar autocomplete="off"></div>
-      ${hayStock ? `<label class="choice solo-stock"><input type="checkbox" data-solo-stock>Solo en stock</label>` : ""}
-    </div>
-  </div>
-  <div class="catalog-panel active" data-tienda>${lista.map((p) => tarjetaProducto(sitio, p)).join("")}</div>
-  <p class="cz-vacio tienda-vacio" data-tienda-vacio hidden>No encontramos productos con ese filtro. ¿Buscas algo puntual? <a href="#auto-a-medida">Cuéntanos qué necesitas</a> y lo fabricamos a medida.</p>
-</section>
-<section id="materiales">
+    `Repuestos para autos a medida, productos en el color que elijas y piezas hechas a medida en ${esc(sitio.comuna)}. Todo impreso capa por capa y cotizado por WhatsApp.`,
+    `<div class="hero-actions" style="margin-top:2.5rem"><a class="btn-primary" href="#auto-a-medida">Repuesto para mi auto</a><a class="btn-line" href="#${prods.length ? "productos" : "a-medida"}">Ver productos</a></div>`)}
+<div class="subnav" role="navigation" aria-label="Secciones de Impresión 3D">
+  <div class="subnav-in">${secciones.map(([t, id, n]) => `<a href="#${id}" data-subnav="${id}">${n ? `<span>${n}</span>` : ""}${esc(t)}</a>`).join("")}</div>
+</div>
+${bloqueAuto(sitio, false, autos)}
+${prods.length ? `<section id="productos" class="section-alt">
+  ${cabecera(`// 02 — productos`, "Elige tu", "color", "Productos listos para pedir. Los que dicen “Disponible” están en stock; el resto lo fabricamos a pedido en el color que elijas.")}
+  ${conFiltros || conBuscador || conStock ? `<div class="tienda-bar fade-up">
+    ${conFiltros ? `<div class="filter-row chips" role="group" aria-label="Filtrar por tipo de producto">
+      <button class="filter-btn active" type="button" data-sub="" aria-pressed="true">Todo <span class="n">${prods.length}</span></button>
+      ${subs.map((t) => `<button class="filter-btn" type="button" data-sub="${esc(slug(t))}" aria-pressed="false">${esc(t)} <span class="n">${prods.filter((p) => p.subcategoria === t).length}</span></button>`).join("")}
+    </div>` : ""}
+    ${conBuscador || conStock ? `<div class="tienda-tools">
+      ${conBuscador ? `<div class="form-group tienda-search"><label for="buscar3d">Buscar</label><input id="buscar3d" type="search" placeholder="Lámpara, llavero, fidget..." data-buscar autocomplete="off"></div>` : "<span></span>"}
+      ${conStock ? `<label class="choice solo-stock"><input type="checkbox" data-solo-stock>Solo en stock</label>` : ""}
+    </div>` : ""}
+  </div>` : ""}
+  <div class="catalog-panel active" data-tienda>${prods.map((p) => tarjetaProducto(sitio, p)).join("")}</div>
+  <p class="cz-vacio tienda-vacio" data-tienda-vacio hidden>No encontramos productos con ese filtro. <a href="#a-medida">Revisa lo que hacemos a medida</a> o escríbenos.</p>
+</section>` : ""}
+${medida.length ? `<section id="a-medida"${prods.length ? "" : ' class="section-alt"'}>
+  ${cabecera(`// ${prods.length ? "03" : "02"} — hecho a medida`, "Hecho", "a medida", "Lo diseñamos y fabricamos para ti. Primero cotizamos el diseño y, con el diseño listo, la impresión.")}
+  ${grupoMedida("Para tu marca o institución", "Letreros, emblemas y escudos con tu logo en relieve.", marca)}
+  ${grupoMedida("Para tu proyecto", "Modelado, prototipos, figuras y repuestos para el hogar.", proyecto)}
+</section>` : ""}
+<section id="materiales" class="section-alt">
   ${cabecera("// materiales", "PLA, PETG", "o resina", "Te recomendamos el material según dónde va la pieza y cuánto esfuerzo tiene que aguantar.")}
   <div class="services-grid">
     <article class="service-card fade-up"><div class="service-num">PLA</div><h3 class="service-name">Uso general</h3><p class="service-desc">Rígido y con buen acabado. Para decoración, lámparas, figuras, letreros y piezas de interior.</p></article>
@@ -564,14 +604,17 @@ ${bloqueAuto(sitio)}
   </div>
   ${guia ? `<div class="catalog-more"><a href="/blog/${guia.slug}/" class="btn-primary">Leer la guía de materiales</a></div>` : ""}
 </section>
-${portafolioDe(portafolio, g.nombre, "// trabajos 3d")}
+${port.length ? `<section id="trabajos">
+  ${cabecera("// trabajos 3d", "Salido del", "taller", "Trabajos reales que hicimos para nuestros clientes.")}
+  <div class="portfolio-grid tres">${port.map(tarjetaPortafolio).join("")}</div>
+</section>` : ""}
 <section class="section-alt">
-  ${cabecera("// a medida", "¿No está", "lo que buscas?", "Lo diseñamos desde cero. Cuéntanos tu idea y te enviamos una propuesta.")}
+  ${cabecera("// ¿algo distinto?", "¿No está", "lo que buscas?", "Lo diseñamos desde cero. Cuéntanos tu idea y te enviamos una propuesta.")}
   <div class="hero-actions fade-up"><a class="btn-primary" href="/cotizar/">Cotizar mi idea</a><a class="btn-wa" href="${waLink(sitio, "Hola GXD Garage, quiero cotizar una impresión 3D.")}" ${ext}>${WA}Escribir por WhatsApp</a></div>
 </section>`;
   return layout({
     sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${sitio.comuna}: repuestos para autos a medida`,
-    descripcion: `Impresión 3D en ${sitio.comuna}: repuestos para autos a medida, piezas en stock, fidgets, lámparas y prototipos en PLA, PETG o resina. Elige el color y cotiza por WhatsApp.`,
+    descripcion: `Impresión 3D en ${sitio.comuna}: repuestos para autos a medida, emblemas, lámparas, llaveros NFC, letreros y escudos en relieve, prototipos y modelado 3D. Cotiza por WhatsApp.`,
     jsonld: [ldMigas(sitio, items), ldLista(sitio, lista)], cuerpo,
   });
 }
@@ -686,7 +729,8 @@ const mensajeProducto = (p, url, { color = "", cant = 1, of = null, stock = fals
 export function paginaProducto({ sitio, p, relacionados }) {
   const g = grupo(p.categoria);
   const es3D = g.clave === "3d";
-  const items = [["Inicio", "/"], [g.nombre, g.ruta], ...(p.subcategoria ? [[p.subcategoria, `${g.ruta}#f-${slug(p.subcategoria)}`]] : []), [p.titulo, null]];
+  const sec = es3D ? seccion3D(p.seccion) : null;
+  const items = [["Inicio", "/"], [g.nombre, g.ruta], ...(sec ? [[sec.nombre, `${g.ruta}#${sec.id}`]] : []), [p.titulo, null]];
   const base = sitio.url.replace(/\/$/, "");
   const abs = (u) => (u.startsWith("http") ? u : base + u);
   const url = base + urlProducto(p);

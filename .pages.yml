@@ -12,7 +12,7 @@ content:
     path: contenido/productos
     filename: "{primary}.md"
     view:
-      fields: [titulo, categoria, subcategoria, tipo_venta, stock, publicado]
+      fields: [titulo, categoria, seccion, tipo_venta, stock, publicado]
       primary: titulo
       sort: [orden, titulo]
       default:
@@ -30,10 +30,16 @@ content:
         options:
           values: ["Impresión 3D", "Diseño gráfico", "Impresión digital"]
         description: Define en qué página aparece (Impresión 3D, Diseño gráfico o Impresión digital).
-      - name: subcategoria
-        label: Tipo de producto 3D
+      - name: seccion
+        label: Sección de Impresión 3D
         type: select
-        description: Solo para Impresión 3D. Es el filtro donde aparece en la página Impresión 3D.
+        description: "Solo para Impresión 3D. Repuestos para autos: piezas para autos (van junto al formulario de repuestos). Productos: lo que se pide eligiendo el color, en stock o a pedido. Hecho a medida: servicios que se diseñan para cada cliente."
+        options:
+          values: ["Repuestos para autos", "Productos", "Hecho a medida"]
+      - name: subcategoria
+        label: Tipo (opcional)
+        type: select
+        description: Solo para Impresión 3D. En Productos sirve para los filtros (aparecen con 6 productos o más); en Hecho a medida, "Letreros y emblemas" va en el grupo Para tu marca o institución.
         options:
           values: ["Repuestos para autos", "Accesorios para autos", "Fidgets y juguetes", "Lámparas y decoración", "Hogar y repuestos varios", "Llaveros NFC", "Letreros y emblemas", "Figuras y miniaturas", "Prototipos y modelado"]
       - name: etiqueta

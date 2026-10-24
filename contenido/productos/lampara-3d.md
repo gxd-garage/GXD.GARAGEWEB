@@ -1,6 +1,7 @@
 ---
 titulo: Lámpara impresa en 3D
 categoria: Impresión 3D
+seccion: Productos
 subcategoria: Lámparas y decoración
 etiqueta: Lámparas
 resumen: Lámparas diseñadas e impresas en 3D a tu medida. Tú eliges la forma, el tamaño y el color, y la luz se filtra suave y cálida por sus capas.

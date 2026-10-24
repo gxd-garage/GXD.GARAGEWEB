@@ -852,3 +852,33 @@ body { font-family: var(--f-text); font-size: 1rem; line-height: 1.7; -webkit-fo
   -webkit-appearance: auto; appearance: auto; width: 18px; height: 18px; min-width: 18px;
   padding: 0; margin: 0; border: 0; background: none; accent-color: var(--wa); flex-shrink: 0;
 }
+
+/* ═══ Impresión 3D en secciones ═══ */
+.subnav { position: sticky; top: 81px; z-index: 400; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); border-top: 1px solid var(--border); }
+.subnav-in { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; padding: 0.75rem 3rem; }
+.subnav-in::-webkit-scrollbar { display: none; }
+.subnav a { flex-shrink: 0; white-space: nowrap; font-family: var(--f-mono); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); text-decoration: none; padding: 0.55rem 0.9rem; border: 1px solid transparent; transition: color 0.2s, border-color 0.2s; }
+.subnav a span { color: var(--white); margin-right: 0.5rem; opacity: 0.6; }
+.subnav a:hover { color: var(--white); }
+.subnav a.activo { color: var(--white); border-color: rgba(255,255,255,0.35); }
+.subnav a.activo span { opacity: 1; }
+#auto-a-medida, #productos, #a-medida, #materiales, #trabajos { scroll-margin-top: 140px; }
+.sub-bloque { margin-top: 4rem; }
+.sub-bloque:first-of-type { margin-top: 0; }
+.auto-block .sub-bloque { margin-top: 5rem; }
+.sub-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.sub-head h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.05em; font-weight: 400; }
+.sub-head p { font-size: 0.95rem; color: var(--dim); }
+.product-footer .service-arrow { color: var(--dim); }
+.product-card:hover .product-footer .service-arrow { color: var(--white); }
+@media (max-width: 900px) {
+  .subnav { top: 73px; }
+  .subnav-in { padding: 0.6rem 1.5rem; }
+  #auto-a-medida, #productos, #a-medida, #materiales, #trabajos { scroll-margin-top: 125px; }
+}
+@media (max-width: 420px) { .subnav { top: 69px; } }
+/* Grillas sin celdas vacías: cada tarjeta lleva su propio borde */
+.catalog-panel.active { background: transparent; border: 0; gap: 1px; padding: 1px; }
+.product-card { box-shadow: 0 0 0 1px var(--border); }
+.product-footer .service-arrow { margin: 0; padding: 0; line-height: 1; align-self: center; }
+.sub-head h3 { line-height: 1.1; }

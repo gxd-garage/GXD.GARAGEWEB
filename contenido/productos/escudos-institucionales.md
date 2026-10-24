@@ -1,6 +1,7 @@
 ---
 titulo: Escudos institucionales
 categoria: Impresión 3D
+seccion: Hecho a medida
 subcategoria: Letreros y emblemas
 etiqueta: Escudos
 resumen: El escudo o emblema de tu institución en relieve, impreso en 3D y montado para exhibir. Ideal para aniversarios, reconocimientos, despedidas y oficinas.

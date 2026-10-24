@@ -176,6 +176,21 @@
     window.addEventListener("hashchange", desdeHash);
   }
 
+  // ---------- Menú de secciones de Impresión 3D: marca la sección visible ----------
+  var subLinks = document.querySelectorAll("[data-subnav]");
+  if (subLinks.length && "IntersectionObserver" in window) {
+    var marcar = function (id) {
+      subLinks.forEach(function (a) {
+        var on = a.dataset.subnav === id; a.classList.toggle("activo", on);
+        if (on && a.scrollIntoView && a.parentNode.scrollWidth > a.parentNode.clientWidth) a.parentNode.scrollTo({ left: a.offsetLeft - 24, behavior: "smooth" });
+      });
+    };
+    var obsS = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) marcar(e.target.id); });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    subLinks.forEach(function (a) { var sec = document.getElementById(a.dataset.subnav); if (sec) obsS.observe(sec); });
+  }
+
   // ---------- Ficha: color elegido y mensaje de WhatsApp ----------
   var ficha = document.querySelector("[data-producto]");
   if (ficha) {

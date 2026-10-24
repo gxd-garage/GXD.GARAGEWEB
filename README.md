@@ -74,18 +74,27 @@ Si usas otro dominio, cámbialo en el panel de edición, en **Datos del negocio 
 
 Para ocultar un producto sin borrarlo, desactiva **Publicado**.
 
-### Impresión 3D: colores, stock y repuestos para autos
+### Impresión 3D: secciones, colores y stock
 
-La página **Impresión 3D** tiene arriba, siempre visible, el bloque **Repuestos para autos a medida** con un formulario (marca, modelo, año y pieza) que arma el mensaje de WhatsApp. Debajo están los productos 3D con filtros por tipo y un buscador. Cada ficha de un producto 3D termina con un recordatorio del servicio de repuestos.
+La página **Impresión 3D** tiene un menú propio que se queda fijo arriba y tres secciones numeradas:
+
+1. **Repuestos para autos:** el formulario (marca, modelo, año y pieza) que arma el mensaje de WhatsApp y, debajo, las piezas para autos que publiques.
+2. **Productos:** lo que se pide eligiendo el color, en stock o a pedido. Con 6 productos o más aparecen filtros por tipo, y con 8 o más un buscador.
+3. **Hecho a medida:** los servicios que se diseñan para cada cliente, en dos grupos: *Para tu marca o institución* (los de tipo "Letreros y emblemas") y *Para tu proyecto* (el resto).
+
+Cada ficha de un producto 3D termina con un recordatorio del servicio de repuestos.
 
 Campos que solo usa Impresión 3D:
 
-- **Tipo de producto 3D:** el filtro donde aparece (Repuestos para autos, Fidgets y juguetes, Lámparas y decoración, etc.). Los filtros sin productos no se muestran.
+- **Sección de Impresión 3D:** en cuál de las tres secciones aparece.
+- **Tipo (opcional):** sirve para los filtros de Productos y para el grupo de Hecho a medida.
 - **Colores disponibles:** elige uno o varios. En la tarjeta se ven como muestras de color y en la ficha el cliente elige el suyo, que se incluye en el mensaje de WhatsApp y en su cotización.
 - **Disponibilidad:**
-  - *Hecho a pedido* (por defecto): se cotiza y dice "Hecho a pedido".
+  - *Hecho a pedido* (por defecto): se cotiza.
   - *En stock*: completa **Unidades en stock**. Con más de 5 dice "Disponible", con 5 o menos "Quedan 3", y con 0 "Agotado": el botón de agregar se reemplaza por "Avísame cuando vuelva". Si tiene precio, se muestra siempre y el botón dice "Pedir". Cuando vendas, baja el número y guarda.
 - **Compatible con (autos):** un auto por línea, por ejemplo "Toyota Yaris 2006-2013". Aparece en la ficha y el buscador lo encuentra.
+
+En el inicio, la sección **Destacados** muestra hasta 6 productos con el interruptor **Destacado en la portada** encendido.
 
 Hay un producto oculto llamado **EJEMPLO · Pieza en stock (duplícame)** con todo esto completo. Para crear una pieza en stock, ábrelo, usa la opción de duplicar (o copia sus valores en uno nuevo), cámbiale el nombre, las fotos, los colores y el stock, y activa **Publicado**.
 

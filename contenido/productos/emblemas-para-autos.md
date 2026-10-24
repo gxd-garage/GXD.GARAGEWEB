@@ -1,6 +1,7 @@
 ---
-titulo: Emblemas
+titulo: Emblemas para autos
 categoria: Impresión 3D
+seccion: Repuestos para autos
 subcategoria: Repuestos para autos
 etiqueta: Repuestos
 resumen: Emblemas y logos para tu auto impresos en 3D, para reemplazar uno roto o

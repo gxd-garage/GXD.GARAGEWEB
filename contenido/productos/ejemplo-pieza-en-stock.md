@@ -1,7 +1,8 @@
 ---
 titulo: "EJEMPLO · Pieza en stock (duplícame)"
 categoria: Impresión 3D
-subcategoria: Accesorios para autos
+seccion: Productos
+subcategoria: Fidgets y juguetes
 etiqueta: ""
 resumen: Este producto es una plantilla y no aparece en el sitio. Duplícalo, cambia el nombre, las fotos, los colores y el stock, y activa Publicado.
 colores:

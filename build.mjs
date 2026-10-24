@@ -82,12 +82,19 @@ const productos = leerColeccion("contenido/productos")
         return c && T.COLORES[c] !== undefined;
       }),
       tipo_venta: categoria === "Impresión 3D" && d.tipo_venta === "En stock" ? "En stock" : "Hecho a pedido",
+      seccion_panel: d.seccion ? String(d.seccion).trim() : "",
       stock: typeof d.stock === "number" ? Math.max(0, Math.floor(d.stock)) : numero(d.stock) ?? 0,
       precio_visible: d.precio_visible === true,
       compatibilidad: lista(d.compatibilidad).map(String).map((s) => s.trim()).filter(Boolean),
       destacado: d.destacado === true, orden: numero(d.orden) ?? 100,
       publicado: d.publicado !== false, html: md(cuerpo),
     };
+  })
+  .map((p) => {
+    if (!p || p.categoria !== "Impresión 3D") return p;
+    const ok = T.SECCIONES_3D.some((x) => x.nombre === p.seccion_panel);
+    if (p.seccion_panel && !ok) avisos.push(`${p.slug}: la sección "${p.seccion_panel}" no existe, se eligió una según el tipo`);
+    return { ...p, seccion: ok ? p.seccion_panel : T.seccionPorDefecto(p) };
   })
   .filter((p) => p && p.publicado)
   .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
@@ -177,12 +184,15 @@ const redirecciones = [];
 for (const p of productos) {
   // primero los de la misma subcategoría, después el resto de la misma línea
   const mismaLinea = productos.filter((r) => r.categoria === p.categoria && r.slug !== p.slug);
-  const relacionados = [...mismaLinea.filter((r) => p.subcategoria && r.subcategoria === p.subcategoria), ...mismaLinea.filter((r) => !p.subcategoria || r.subcategoria !== p.subcategoria)].slice(0, 3);
+  const misma = (r) => (p.seccion ? r.seccion === p.seccion : true);
+  const relacionados = [...mismaLinea.filter(misma), ...mismaLinea.filter((r) => !misma(r))].slice(0, 3);
   const destino = T.urlProducto(p);
   escribir(`${destino.slice(1)}index.html`, T.paginaProducto({ sitio, p, relacionados }), true, hoy);
   // las direcciones antiguas /catalogo/<producto>/ siguen funcionando
   redirecciones.push(`/catalogo/${p.slug}/ ${destino} 301`, `/catalogo/${p.slug} ${destino} 301`);
 }
+// páginas que se reemplazaron por una sección
+redirecciones.push("/impresion-3d/repuesto-para-auto-a-medida/ /impresion-3d/#auto-a-medida 301", "/impresion-3d/repuesto-para-auto-a-medida /impresion-3d/#auto-a-medida 301");
 if (!PREVIEW) fs.writeFileSync(path.join(SALIDA, "_redirects"), redirecciones.join("\n") + "\n");
 escribir("cotizar/index.html", T.paginaCotizar({ sitio }), true, hoy);
 const categorias = T.CATEGORIAS_BLOG;

@@ -1,6 +1,7 @@
 ---
 titulo: Repuesto a medida
 categoria: Impresión 3D
+seccion: Hecho a medida
 subcategoria: Hogar y repuestos varios
 etiqueta: Repuestos
 resumen: ¿Se rompió una pieza plástica que ya no venden? Tráela como sea que esté, la modelamos y la fabricamos en 3D.

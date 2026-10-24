@@ -1,6 +1,7 @@
 ---
 titulo: Figuras y miniaturas
 categoria: Impresión 3D
+seccion: Hecho a medida
 subcategoria: Figuras y miniaturas
 etiqueta: Figuras
 resumen: Figuras, miniaturas y piezas decorativas con detalle fino, impresas en filamento o en resina.
