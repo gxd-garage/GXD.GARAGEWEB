@@ -1,9 +1,9 @@
 ---
-titulo: "Etiquetas personalizadas para vino y cerveza artesanal: guía para tu primera etiqueta"
+titulo: "Etiquetas para vino y cerveza: cómo hacer la tuya"
 descripcion: Cómo medir el envase, qué información incluir, cómo preparar el archivo y qué terminación elegir para que la etiqueta de tu vino o cerveza se vea profesional.
 categoria: Guías
 fecha: 2026-10-24
-portada: ""
+portada: /media/blog-etiquetas.jpg
 borrador: false
 ---
 La etiqueta es lo primero que ve quien toma tu botella. En una feria, en la mesa de un restorán o como regalo, una buena etiqueta hace que un vino de producción propia o una cerveza artesanal se vea tan cuidada como lo que lleva adentro. Estos son los puntos que revisamos con cada cliente antes de imprimir.

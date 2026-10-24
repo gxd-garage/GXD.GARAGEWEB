@@ -112,7 +112,9 @@ export function layout({ sitio, titulo, descripcion, ruta, imagen, tipo = "websi
   const base = sitio.url.replace(/\/$/, "");
   const url = base + ruta;
   const img = base + (imagen || "/brand/compartir.jpg");
-  const tituloCompleto = ruta === "/" ? `${sitio.nombre} | ${titulo}` : `${titulo} | ${sitio.nombre}`;
+  // Google corta los títulos de más de ~60 caracteres: si no cabe el nombre, va solo el título
+  const conMarca = ruta === "/" ? `${sitio.nombre} | ${titulo}` : `${titulo} | ${sitio.nombre}`;
+  const tituloCompleto = conMarca.length <= 62 ? conMarca : titulo;
   const nav = (href, txt, key) => `<li><a href="${href}"${actual === key ? ' aria-current="page"' : ""}>${txt}</a></li>`;
   return `<!doctype html>
 <html lang="es-CL">
@@ -450,7 +452,7 @@ ${posts.length ? `<section id="blog" class="section-alt">
     ${formContacto(sitio)}
   </div>
 </section>`;
-  return layout({ sitio, ruta: "/", titulo: "Impresión 3D, diseño gráfico e impresión digital en Talagante", descripcion: sitio.descripcion, jsonld: [ldNegocio(sitio)], cuerpo });
+  return layout({ sitio, ruta: "/", titulo: "Impresión 3D y diseño en Talagante", descripcion: sitio.descripcion, jsonld: [ldNegocio(sitio)], cuerpo });
 }
 
 // ---------- bloque de repuestos para autos (siempre presente en Impresión 3D) ----------
@@ -674,8 +676,8 @@ ${port.length ? `<section id="trabajos">
   <div class="hero-actions fade-up"><a class="btn-primary" href="/cotizar/">Cotizar mi idea</a><a class="btn-wa" href="${waLink(sitio, "Hola GXD Garage, quiero cotizar una impresión 3D.")}" ${ext}>${WA}Escribir por WhatsApp</a></div>
 </section>`;
   return layout({
-    sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${sitio.comuna}: repuestos para autos a medida`,
-    descripcion: `Impresión 3D en ${sitio.comuna}: repuestos para autos a medida, emblemas, lámparas, llaveros NFC, letreros y escudos en relieve, prototipos y modelado 3D. Cotiza por WhatsApp.`,
+    sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${sitio.comuna}: repuestos para autos`,
+    descripcion: `Impresión 3D en ${sitio.comuna}: repuestos para autos a medida, emblemas, lámparas, llaveros NFC, letreros, escudos y prototipos. Cotiza por WhatsApp.`,
     jsonld: [ldMigas(sitio, items), ldLista(sitio, lista)], cuerpo,
   });
 }
@@ -685,7 +687,7 @@ const INFO_GRUPO = {
   "Diseño gráfico": {
     t1: "Diseño", t2: "gráfico",
     desc: "Identidad visual, logotipos, packaging y piezas para redes sociales. Diseño estratégico que conecta tu marca con tu audiencia.",
-    seo: "Diseño gráfico en Talagante: logos, identidad visual y packaging",
+    seo: "Diseño gráfico en Talagante: logos e identidad",
     seoDesc: (s) => `Diseño gráfico en ${s.comuna}: logotipos, identidad visual, tarjetas de presentación, packaging y piezas para redes sociales. Cotiza tu proyecto por WhatsApp.`,
     productos: ["Lo que", "diseñamos"],
     pasos: [
@@ -699,8 +701,8 @@ const INFO_GRUPO = {
   "Impresión digital": {
     t1: "Impresión", t2: "digital",
     desc: "Etiquetas personalizadas para vinos, cervezas y emprendimientos, stickers, vinilos adhesivos, banners y pendones con colores vibrantes y acabados profesionales.",
-    seo: "Impresión digital en Talagante: etiquetas personalizadas, stickers y banners",
-    seoDesc: (s) => `Impresión digital en ${s.comuna}: etiquetas personalizadas para vino, cerveza artesanal y emprendimientos, stickers, vinilo adhesivo, banners y pendones. Sin mínimo. Cotiza por WhatsApp.`,
+    seo: "Etiquetas e impresión digital en Talagante",
+    seoDesc: (s) => `Etiquetas personalizadas para vino, cerveza y emprendimientos, stickers, vinilos, banners y pendones en ${s.comuna}. Sin mínimo. Cotiza por WhatsApp.`,
     bloque: (s) => bloqueEtiquetas(s),
     productos: ["Lo que", "imprimimos"],
     pasos: [
@@ -1042,5 +1044,5 @@ export function pagina404({ sitio }) {
   <p class="hero-subtitle" style="margin-bottom:0">Puede que el enlace esté mal escrito o que el contenido se haya movido.</p>
   <div class="hero-actions"><a class="btn-primary" href="/">Volver al inicio</a><a class="btn-wa" href="/impresion-3d/">${WA}Ver Impresión 3D</a></div>
 </section>`;
-  return layout({ sitio, ruta: "/404", titulo: "Página no encontrada", descripcion: "Esta página no existe.", cuerpo, noindex: true });
+  return layout({ sitio, ruta: "/404", titulo: "Página no encontrada", descripcion: "Esta página no existe o se movió. Vuelve al inicio de GXD Garage para ver impresión 3D, diseño e impresión digital.", cuerpo, noindex: true });
 }

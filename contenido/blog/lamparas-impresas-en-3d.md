@@ -3,7 +3,7 @@ titulo: "Lámparas impresas en 3D: cómo se hacen y cómo pedir la tuya"
 descripcion: Cómo se fabrica una lámpara impresa en 3D, qué materiales y ampolletas conviene usar, qué formas se pueden lograr y cómo cotizar una lámpara a tu medida.
 categoria: Guías
 fecha: 2026-10-23
-portada: /media/lampara-portada.jpg
+portada: /media/blog-lamparas.jpg
 borrador: false
 ---
 Una lámpara impresa en 3D no se parece a ninguna otra. Se fabrica capa por capa, y eso le da una textura y una forma de dejar pasar la luz que es difícil de conseguir con otros métodos. Además, se puede diseñar exactamente para el lugar donde va a estar.

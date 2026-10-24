@@ -3,7 +3,7 @@ titulo: "PLA, PETG o resina: qué material elegir para tu impresión 3D"
 descripcion: Guía práctica para elegir entre PLA, PETG y resina según el uso de tu pieza, el calor al que estará expuesta y el nivel de detalle que necesitas.
 categoria: Guías
 fecha: 2026-10-18
-portada: ""
+portada: /media/blog-materiales.jpg
 borrador: false
 ---
 Cuando nos piden una pieza impresa en 3D, la primera pregunta no es el color ni el tamaño. Es **para qué la vas a usar**. El material correcto depende de dónde va a estar la pieza, cuánto esfuerzo va a soportar y cuánto detalle necesita. En impresión 3D los tres materiales más comunes son el PLA, el PETG y la resina, y cada uno tiene su lugar.

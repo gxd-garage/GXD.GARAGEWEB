@@ -945,3 +945,8 @@ html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(12
   .hero-banner { width: 100%; }
   .hero-banner::after { background: linear-gradient(0deg, var(--black) 0%, rgba(10,10,10,0.82) 45%, rgba(10,10,10,0.55) 100%); }
 }
+/* Portafolio: desfase parejo en la segunda columna, sin que las fotos se toquen */
+.portfolio-grid:not(.tres) .portfolio-card:nth-child(2), .portfolio-grid:not(.tres) .portfolio-card:nth-child(4) { margin-top: 0; }
+.portfolio-grid:not(.tres) .portfolio-card:nth-child(even) { transform: translateY(2rem); }
+.portfolio-grid:not(.tres) { padding-bottom: 2rem; }
+@media (max-width: 560px) { .portfolio-grid:not(.tres) .portfolio-card:nth-child(even) { transform: none; } .portfolio-grid:not(.tres) { padding-bottom: 0; } }
