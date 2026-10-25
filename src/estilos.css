@@ -950,3 +950,18 @@ html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(12
 .portfolio-grid:not(.tres) .portfolio-card:nth-child(even) { transform: translateY(2rem); }
 .portfolio-grid:not(.tres) { padding-bottom: 2rem; }
 @media (max-width: 560px) { .portfolio-grid:not(.tres) .portfolio-card:nth-child(even) { transform: none; } .portfolio-grid:not(.tres) { padding-bottom: 0; } }
+
+/* Inicio · Nuestros servicios: al pasar el mouse la tarjeta se vuelve blanca y toda es clickeable */
+#servicios .service-card { position: relative; transition: background 0.35s, color 0.35s; }
+#servicios .service-card .service-name, #servicios .service-card .service-desc, #servicios .service-card .service-arrow,
+#servicios .service-card .service-num, #servicios .service-card .service-icon { transition: color 0.35s, opacity 0.35s, filter 0.35s; }
+#servicios .service-card .service-arrow::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+#servicios .service-card:hover, #servicios .service-card:focus-within { background: var(--white); }
+#servicios .service-card:hover::before, #servicios .service-card:focus-within::before { background: var(--black); }
+#servicios .service-card:hover .service-name, #servicios .service-card:focus-within .service-name { color: var(--black); }
+#servicios .service-card:hover .service-desc, #servicios .service-card:focus-within .service-desc { color: #3a3a36; }
+#servicios .service-card:hover .service-desc b, #servicios .service-card:focus-within .service-desc b { color: var(--black); }
+#servicios .service-card:hover .service-num, #servicios .service-card:focus-within .service-num { color: rgba(10,10,10,0.12); }
+#servicios .service-card:hover .service-arrow, #servicios .service-card:focus-within .service-arrow { color: var(--black); }
+#servicios .service-card:hover .service-icon, #servicios .service-card:focus-within .service-icon { filter: invert(1); opacity: 1; }
+#servicios .service-card .service-arrow:focus-visible { outline-color: var(--black); }
