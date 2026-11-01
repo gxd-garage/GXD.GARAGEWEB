@@ -573,7 +573,7 @@ html:not(.js) .fade-up { opacity: 1; transform: none; }
 .cz-steps li { counter-increment: p; font-size: 0.72rem; line-height: 1.8; color: var(--dim); display: grid; grid-template-columns: 28px 1fr; }
 .cz-steps li::before { content: '0' counter(p); font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--white); line-height: 1.2; }
 .cz-steps b { color: var(--white); font-weight: 500; }
-.cz-side .btn-submit { align-self: stretch; justify-content: center; }
+.cz-side .btn-submit { align-self: stretch; justify-content: center; padding-left: 1.25rem; padding-right: 1.25rem; white-space: nowrap; letter-spacing: 0.1em; }
 .cz-error { font-size: 0.72rem; color: var(--white); border-left: 2px solid var(--wa); padding-left: 0.75rem; line-height: 1.7; }
 .cz-copy { font-size: 0.68rem; color: var(--dim); }
 .cz-copy summary { color: var(--white); letter-spacing: 0.1em; }
@@ -965,3 +965,30 @@ html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(12
 #servicios .service-card:hover .service-arrow, #servicios .service-card:focus-within .service-arrow { color: var(--black); }
 #servicios .service-card:hover .service-icon, #servicios .service-card:focus-within .service-icon { filter: invert(1); opacity: 1; }
 #servicios .service-card .service-arrow:focus-visible { outline-color: var(--black); }
+
+/* ---------- marcador para fichas sin foto ---------- */
+.post-card-img, .gallery-main { position: relative; }
+.ph {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  background: radial-gradient(ellipse 70% 60% at 50% 45%, #262625 0%, #161616 75%);
+}
+.ph::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 28px 28px; background-position: center;
+  -webkit-mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000 20%, transparent 75%);
+}
+.ph::after {
+  content: ""; position: absolute; left: 18%; right: 18%; top: 50%; height: 1px; margin-top: 46px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+}
+.ph-in { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1.6rem; transition: transform 0.5s; }
+.ph-in .service-icon { width: 54px; height: 54px; margin: 0; opacity: 0.75; }
+.ph-tag { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.42); text-align: center; padding: 0 1rem; }
+.ph-logo .ph-in svg { width: 110px; height: auto; opacity: 0.5; }
+.ph-logo::after { margin-top: 30px; }
+.product-card:hover .ph-in, .post-card:hover .ph-in { transform: translateY(-4px); }
+.ph-grande .ph-in .service-icon { width: 84px; height: 84px; }
+.ph-grande .ph-tag { font-size: 0.7rem; }
+.ph-grande .ph::after { margin-top: 64px; }

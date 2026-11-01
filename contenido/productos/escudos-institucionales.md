@@ -10,6 +10,7 @@ imagenes:
   - /media/escudo-gendarmeria.jpg
   - /media/escudo-gendarmeria-detalle.jpg
 colores: []
+ocultar_colores: true
 tipo_venta: Hecho a pedido
 compatibilidad: []
 detalles:

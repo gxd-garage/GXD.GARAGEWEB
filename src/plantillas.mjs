@@ -101,6 +101,9 @@ const ICONO = {
   "Diseño gráfico": `<svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="19" y="4" width="10" height="5" rx="1"/><path d="M19 9l-5 10 10 14 10-14-5-10z"/><line x1="24" y1="33" x2="24" y2="22"/><circle cx="24" cy="20" r="2"/><path d="M6 42C14 31.3 34 31.3 42 42"/><rect x="4" y="40" width="4" height="4" fill="#0a0a0a"/><rect x="40" y="40" width="4" height="4" fill="#0a0a0a"/></svg>`,
   "Impresión digital": `<svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="17" r="10"/><circle cx="30" cy="17" r="10"/><circle cx="24" cy="28" r="10"/></svg>`,
 };
+// Marcador para productos o artículos sin foto: grilla de taller, ícono de la línea y etiqueta
+const marcador = (g, etiqueta, logo = false) => `<div class="ph${logo ? " ph-logo" : ""}" aria-hidden="true"><div class="ph-in">${logo ? logoTrazo() : (ICONO[g.nombre] || "")}<span class="ph-tag">${esc(etiqueta || g.nombre)}</span></div></div>`;
+
 const ICONO_CONTACTO = {
   ig: `<svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`,
   wa: `<svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 12a9 9 0 01-9 9 8.965 8.965 0 01-4.636-1.284L3 21l1.338-4.22A8.953 8.953 0 013 12a9 9 0 019-9 9 9 0 019 9z"/></svg>`,
@@ -210,7 +213,7 @@ function pie(sitio) {
   return `<footer>
   <div class="footer-brand">
     <span class="nav-brand">GXD GARAGE</span>
-    <p class="footer-slogan">${esc(sitio.slogan)}.<br>Impresión 3D · Diseño Gráfico<br>Impresión Digital · ${esc(sitio.comuna)}</p>
+    <p class="footer-slogan">${esc(sitio.slogan)}.<br>Impresión 3D · Diseño gráfico<br>Impresión digital · ${esc(sitio.comuna)}</p>
   </div>
   <div class="footer-col">
     <h4>Servicios</h4>
@@ -285,7 +288,7 @@ export function tarjetaProducto(sitio, p) {
     : normal;
   return `<article class="product-card fade-up${disp?.agotado ? " is-agotado" : ""}" data-sub="${esc(slug(p.subcategoria || ""))}"${disp?.cls === "ok" ? ' data-stock="1"' : ""} data-q="${esc(buscar)}"${of && of.hasta ? ` data-oferta-hasta="${of.hasta}"` : ""}>
   <a class="product-link" href="${urlProducto(p)}">
-    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : `<div class="product-img-placeholder">${g.abrev}</div>`}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}${disp && disp.cls !== "pedido" ? `<span class="badge-stock ${disp.cls}">${esc(disp.txt)}</span>` : ""}</div>
+    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : marcador(g, etiqueta)}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}${disp && disp.cls !== "pedido" ? `<span class="badge-stock ${disp.cls}">${esc(disp.txt)}</span>` : ""}</div>
     <div class="product-body">
       <span class="product-cat">${esc(g.nombre)}${etiqueta ? ` · ${esc(etiqueta)}` : ""}</span>
       <h3 class="product-name">${esc(p.titulo)}</h3>
@@ -303,7 +306,7 @@ export function tarjetaProducto(sitio, p) {
 
 export function tarjetaPost(a, destacado = false) {
   return `<a class="post-card${destacado ? " post-feature" : ""} fade-up" href="/blog/${a.slug}/">
-  <div class="post-card-img">${a.portada ? `<img src="${esc(a.portada)}" alt="" loading="lazy">` : `<div class="product-img-placeholder">GXD</div>`}</div>
+  <div class="post-card-img">${a.portada ? `<img src="${esc(a.portada)}" alt="" loading="lazy">` : marcador(null, a.categoria, true)}</div>
   <div class="post-card-body">
     <div class="post-meta"><span>// ${esc(a.categoria)}</span><time datetime="${fechaISO(a.fecha)}">${fechaCorta(a.fecha)}</time></div>
     <h3 class="post-title">${esc(a.titulo)}</h3>
@@ -334,7 +337,7 @@ const ldNegocio = (sitio) => ({
 export function paginaInicio({ sitio, productos, posts, portafolio }) {
   const marcados = productos.filter((p) => p.destacado);
   const destacados = (marcados.length ? marcados : productos).slice(0, 6);
-  const marquee = ["Impresión 3D", "Diseño Gráfico", "Impresión Digital", "Repuestos a medida", "Lámparas", "Prototipos", "Branding", "Llaveros NFC", "Innovación capa por capa"];
+  const marquee = ["Impresión 3D", "Diseño gráfico", "Impresión digital", "Repuestos a medida", "Lámparas", "Prototipos", "Branding", "Llaveros NFC", "Innovación capa por capa"];
   const catsPorta = GRUPOS.map((g) => g.nombre).filter((c) => portafolio.some((w) => w.categoria === c));
   const cuerpo = `
 <section id="hero">
@@ -360,7 +363,7 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
   <div class="hero-stats">
     <div><div class="stat-num">3</div><div class="stat-label">Servicios</div></div>
     <div><div class="stat-num">3</div><div class="stat-label">Materiales</div></div>
-    <div><div class="stat-num">100%</div><div class="stat-label">A pedido</div></div>
+    <div><div class="stat-num">1</div><div class="stat-label">Unidad mínima</div></div>
   </div>
 </section>
 
@@ -369,7 +372,7 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
 </div>
 
 <section id="servicios">
-  ${cabecera("// 01 — lo que hacemos", "Nuestros", "Servicios", "Unimos el diseño gráfico con la tecnología 3D para darte soluciones que no encuentras en tiendas.")}
+  ${cabecera("// 01 — lo que hacemos", "Nuestros", "servicios", "Unimos el diseño gráfico con la tecnología 3D para darte soluciones que no encuentras en tiendas.")}
   <div class="services-grid">
     <article class="service-card fade-up">
       <div class="service-num">01</div>
@@ -381,14 +384,14 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
     <article class="service-card fade-up">
       <div class="service-num">02</div>
       ${ICONO["Diseño gráfico"]}
-      <h3 class="service-name">Diseño Gráfico</h3>
+      <h3 class="service-name">Diseño gráfico</h3>
       <p class="service-desc">Identidad visual, logotipos, packaging y piezas para redes sociales. Diseño estratégico que conecta tu marca con tu audiencia.</p>
       <a href="/diseno-grafico/" class="service-arrow">Ver Diseño gráfico →</a>
     </article>
     <article class="service-card fade-up">
       <div class="service-num">03</div>
       ${ICONO["Impresión digital"]}
-      <h3 class="service-name">Impresión Digital</h3>
+      <h3 class="service-name">Impresión digital</h3>
       <p class="service-desc"><b>Etiquetas personalizadas</b> para vinos, cervezas y emprendimientos, además de stickers, vinilos y banners con colores vibrantes y acabados profesionales.</p>
       <a href="/impresion-digital/" class="service-arrow">Ver Impresión digital →</a>
     </article>
@@ -426,10 +429,10 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
 
 ${portafolio.length ? `<div class="section-divider"></div>
 <section id="portafolio">
-  ${cabecera("// 04 — trabajos", "Nuestro", "Portafolio", "Proyectos reales que salieron de nuestro taller.")}
+  ${cabecera("// 04 — trabajos", "Nuestro", "portafolio", "Proyectos reales que salieron de nuestro taller.")}
   <div class="portfolio-layout">
     <div class="portfolio-sidebar">
-      <p style="font-size:0.78rem;color:var(--dim);line-height:1.9;margin-bottom:2rem;">Cada proyecto es una oportunidad para superar límites. Exploramos lo que es posible con las herramientas que tenemos.</p>
+      <p style="font-size:0.78rem;color:var(--dim);line-height:1.9;margin-bottom:2rem;">Escudos, letreros, emblemas y etiquetas que hoy están en manos de nuestros clientes. Filtra por tipo de trabajo.</p>
       <div class="portfolio-filter" role="group" aria-label="Filtrar trabajos">
         <button class="filter-btn active" type="button" data-f="" aria-pressed="true">Todo</button>
         ${catsPorta.map((c) => `<button class="filter-btn" type="button" data-f="${esc(slug(c))}" aria-pressed="false">${esc(c)}</button>`).join("")}
@@ -446,7 +449,7 @@ ${posts.length ? `<section id="blog" class="section-alt">
 </section>` : ""}
 
 <section id="contacto"${posts.length ? "" : ' class="section-alt"'}>
-  ${cabecera("// 06 — hablemos", "¿Tienes un", "Proyecto?", "Cuéntanos tu idea y cotizamos sin compromiso. Te respondemos por WhatsApp.")}
+  ${cabecera("// 06 — hablemos", "¿Tienes un", "proyecto?", "Cuéntanos tu idea y cotizamos sin compromiso. Te respondemos por WhatsApp.")}
   <div class="contact-layout">
     ${contactoInfo(sitio, `Estamos en ${esc(sitio.comuna)} y listos para fabricar tu proyecto. Ya sea una pieza única en 3D, la identidad de tu marca o material impreso, en ${esc(sitio.nombre)} lo hacemos realidad.`)}
     ${formContacto(sitio)}
@@ -819,7 +822,7 @@ export function paginaProducto({ sitio, p, relacionados }) {
   const galeria = p.imagenes.length
     ? `<div class="gallery-main"><img id="foto" src="${esc(p.imagenes[0])}" alt="${esc(p.titulo)}"></div>
        ${p.imagenes.length > 1 ? `<div class="thumbs">${p.imagenes.map((src, i) => `<button class="thumb" type="button" data-src="${esc(src)}" aria-label="Ver foto ${i + 1}" aria-current="${i === 0}"><img src="${esc(src)}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}`
-    : `<div class="gallery-main"><div class="product-img-placeholder" style="font-size:7rem">${g.abrev}</div></div>`;
+    : `<div class="gallery-main ph-grande">${marcador(g, p.subcategoria || p.etiqueta)}</div>`;
   const selector = colores.length ? `<fieldset class="color-pick">
         <legend>Color: <b data-color-nombre>${esc(colores[0])}</b>${colores.length > 1 ? ` <span>· ${colores.length} disponibles</span>` : ""}</legend>
         <div class="sw-pick">${colores.map((c, i) => `<label class="swp" title="${esc(c)}"><input type="radio" name="color" value="${esc(c)}"${i === 0 ? " checked" : ""}><span class="swp-c" style="background:${COLORES[c] || "#555"}"></span><span class="sr-only">${esc(c)}</span></label>`).join("")}</div>
@@ -835,7 +838,7 @@ export function paginaProducto({ sitio, p, relacionados }) {
     <div class="prod-info" data-producto data-titulo="${esc(p.titulo)}" data-url="${esc(url)}" data-oferta="${of ? esc(`${of.texto}, ${of.ahora}`) : ""}" data-modo="${agotado ? "avisar" : enStock ? "pedir" : "cotizar"}">
       <span class="product-cat">${esc(g.nombre)}${p.subcategoria || p.etiqueta ? ` · ${esc(p.subcategoria || p.etiqueta)}` : ""}</span>
       <h1 class="section-title">${esc(p.titulo)}</h1>
-      ${disp ? `<p class="estado ${disp.cls}"><span class="dot"></span>${esc(disp.txt)}${disp.cls === "pedido" ? " · lo fabricamos en el color que elijas" : ""}</p>` : ""}
+      ${disp ? `<p class="estado ${disp.cls}"><span class="dot"></span>${esc(disp.txt)}${disp.cls === "pedido" && colores.length ? " · lo fabricamos en el color que elijas" : ""}</p>` : ""}
       ${p.resumen ? `<p class="lead">${esc(p.resumen)}</p>` : ""}
       ${p.compatibilidad?.length ? `<div class="compat-box"><span class="product-cat">Compatible con</span><ul>${p.compatibilidad.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></div>` : ""}
       ${of ? `<div class="offer-box solo-oferta"${of.hasta ? ` data-oferta-hasta="${of.hasta}"` : ""}>
