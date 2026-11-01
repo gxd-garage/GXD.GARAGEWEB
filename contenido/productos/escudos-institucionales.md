@@ -7,6 +7,8 @@ etiqueta: Escudos
 resumen: El escudo o emblema de tu institución en relieve, impreso en 3D y montado para exhibir. Ideal para aniversarios, reconocimientos, despedidas y oficinas.
 imagenes:
   - /media/escudos-institucionales.jpg
+  - /media/escudo-gendarmeria.jpg
+  - /media/escudo-gendarmeria-detalle.jpg
 colores: []
 tipo_venta: Hecho a pedido
 compatibilidad: []
@@ -19,7 +21,7 @@ destacado: false
 orden: 3
 publicado: true
 ---
-Reproducimos el escudo o emblema de tu institución con impresión 3D: el emblema, las letras y los detalles quedan en relieve y la pieza se monta sobre una base para exhibirla en una oficina, un salón o una vitrina. En la foto, una pieza con base roja, cordón dorado y atril.
+Reproducimos el escudo o emblema de tu institución con impresión 3D: el emblema, las letras y los detalles quedan en relieve y la pieza se monta sobre una base para exhibirla en una oficina, un salón o una vitrina. En las fotos, dos trabajos entregados: el escudo del Ejército de Chile, con base roja, cordón dorado y atril, y el de Gendarmería de Chile, con fondo de terciopelo verde y cordón blanco.
 
 Es un regalo con presencia para aniversarios, ceremonias, reconocimientos, despedidas o la llegada de una nueva autoridad.
 
