@@ -438,7 +438,7 @@ ${portafolio.length ? `<div class="section-divider"></div>
         ${catsPorta.map((c) => `<button class="filter-btn" type="button" data-f="${esc(slug(c))}" aria-pressed="false">${esc(c)}</button>`).join("")}
       </div>
     </div>
-    <div class="portfolio-grid">${portafolio.map(tarjetaPortafolio).join("")}</div>
+    <div class="portfolio-grid">${portafolio.map(tarjetaPortafolio).join("")}<a class="portfolio-cta" href="/cotizar/"><span class="p-card-category">// tu proyecto</span><span class="portfolio-cta-title">¿El próximo<br><em>es el tuyo?</em></span><span class="portfolio-cta-link">Cotizar sin compromiso →</span></a></div>
   </div>
 </section>` : ""}
 

@@ -992,3 +992,24 @@ html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(12
 .ph-grande .ph-in .service-icon { width: 84px; height: 84px; }
 .ph-grande .ph-tag { font-size: 0.7rem; }
 .ph-grande .ph::after { margin-top: 64px; }
+
+/* ---------- portafolio: tarjeta para cotizar al final de la grilla ---------- */
+.portfolio-cta {
+  position: relative; aspect-ratio: 4/3; display: flex; flex-direction: column; justify-content: space-between;
+  padding: 2rem; border: 1px solid var(--border); color: var(--white); text-decoration: none; overflow: hidden;
+  background: radial-gradient(ellipse 80% 70% at 70% 30%, #232322 0%, #141414 75%);
+  transition: border-color 0.3s;
+}
+.portfolio-cta::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 70% 30%, #000 10%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 70% at 70% 30%, #000 10%, transparent 75%);
+}
+.portfolio-cta > * { position: relative; }
+.portfolio-cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 3.4vw, 3rem); line-height: 0.95; letter-spacing: 0.02em; }
+.portfolio-cta-title em { font-family: 'Instrument Serif', serif; font-style: italic; text-transform: none; color: var(--dim); letter-spacing: 0; }
+.portfolio-cta-link { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--wa); }
+.portfolio-cta:hover { border-color: var(--wa); }
+.portfolio-cta:hover .portfolio-cta-link { text-decoration: underline; text-underline-offset: 4px; }
