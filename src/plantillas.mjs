@@ -108,6 +108,7 @@ const ICONO_CONTACTO = {
   ig: `<svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`,
   wa: `<svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 12a9 9 0 01-9 9 8.965 8.965 0 01-4.636-1.284L3 21l1.338-4.22A8.953 8.953 0 013 12a9 9 0 019-9 9 9 0 019 9z"/></svg>`,
   pin: `<svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s7-6.1 7-12a7 7 0 0 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>`,
+  envio: `<svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h11v10H3zM14 9h4l3 3.5V16h-7z"/><circle cx="7" cy="17.5" r="1.8" fill="#0a0a0a"/><circle cx="17" cy="17.5" r="1.8" fill="#0a0a0a"/></svg>`,
 };
 
 // ---------- estructura común ----------
@@ -324,6 +325,7 @@ function tarjetaPortafolio(w) {
 }
 
 const zona = (s) => s.zona || "la Región Metropolitana";
+const entrega = (s) => s.entrega || `Envíos a toda ${zona(s)} y a regiones, o retiro coordinado en nuestro taller en ${s.comuna}.`;
 const ldNegocio = (sitio) => ({
   "@context": "https://schema.org", "@type": "LocalBusiness",
   name: sitio.nombre, description: sitio.descripcion, slogan: sitio.slogan, url: sitio.url,
@@ -424,7 +426,7 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
     <article class="service-card fade-up">
       <div class="service-num">03</div>
       <h3 class="service-name">Imprimimos capa por capa</h3>
-      <p class="service-desc">Con el diseño listo, te damos el valor de la impresión según el material, el tamaño y la cantidad, y te entregamos la pieza lista.</p>
+      <p class="service-desc">Con el diseño listo, te damos el valor de la impresión según el material, el tamaño y la cantidad, y te la enviamos o la retiras en el taller.</p>
     </article>
   </div>
 </section>
@@ -592,6 +594,7 @@ const contactoInfo = (sitio, texto) => `<div class="contact-info fade-up">
         <a href="https://www.instagram.com/${esc(sitio.instagram)}/" class="contact-link" ${ext}>${ICONO_CONTACTO.ig}@${esc(sitio.instagram)}</a>
         <a href="${waLink(sitio)}" class="contact-link" ${ext}>${ICONO_CONTACTO.wa}WhatsApp ${esc(sitio.whatsapp_visible)}<span class="mini copy" data-copy="+${esc(sitio.whatsapp)}" role="button" tabindex="0">Copiar</span></a>
         <a href="${mapa(sitio)}" class="contact-link" ${ext}>${ICONO_CONTACTO.pin}${esc(sitio.direccion)}, ${esc(sitio.comuna)}</a>
+        <span class="contact-link">${ICONO_CONTACTO.envio}${esc(entrega(sitio))}</span>
       </div>
     </div>`;
 
@@ -713,7 +716,7 @@ const INFO_GRUPO = {
     pasos: [
       ["Envíanos tu diseño o tu idea", "Si ya tienes el archivo, lo revisamos. Si no, lo diseñamos: primero cotizamos el diseño."],
       ["Cotizamos medida y cantidad", "El valor depende del tamaño, el material y la cantidad. Te lo confirmamos antes de imprimir."],
-      ["Imprimimos y entregamos", "Te avisamos cuando esté listo y coordinamos la entrega."],
+      ["Imprimimos y entregamos", "Te avisamos cuando esté listo y te lo enviamos, a la RM o a regiones, o lo retiras en el taller."],
     ],
     cruce: { t: "¿Aún no tienes diseño?", d: "Creamos tu logo y tus piezas gráficas, y las dejamos listas para imprimir.", links: [["/diseno-grafico/", "Diseño gráfico"], ["/cotizar/", "Cotizar"]] },
     contacto: "Cuéntanos qué necesitas imprimir, la medida aproximada y la cantidad. Te respondemos por WhatsApp.",
@@ -859,7 +862,8 @@ export function paginaProducto({ sitio, p, relacionados }) {
       <p class="added" data-added hidden>Agregado a tu cotización. <a href="/cotizar/">Ver mi cotización →</a></p>
       <a class="btn-wa" style="align-self:flex-start" data-wa-producto href="${waLink(sitio, waMsg)}" ${ext}>${WA}${agotado ? "Avísame cuando vuelva" : of ? "Pedir esta oferta por WhatsApp" : enStock ? "Pedir por WhatsApp" : "Cotizar directo por WhatsApp"}</a>
       ${p.detalles.length ? `<ul class="spec-list">${p.detalles.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
-      <p class="fine">${enStock || agotado ? "Coordinamos el pago y la entrega por WhatsApp. Los colores pueden variar levemente con respecto a la foto."
+      <p class="entrega-linea">${ICONO_CONTACTO.envio}<span>${esc(entrega(sitio))}</span></p>
+      <p class="fine">${enStock || agotado ? "Coordinamos el pago y el envío o retiro por WhatsApp. Los colores pueden variar levemente con respecto a la foto."
         : "Cada pieza se fabrica a pedido. El valor depende de la complejidad del diseño, el tamaño, el material y la cantidad, y te lo confirmamos en la cotización."}</p>
     </div>
   </div>
@@ -908,6 +912,8 @@ ${heroInterior(items, "// cotizar", "Cotiza tu", "idea", "Cuéntanos qué necesi
         </div>
         <div class="form-group"><label for="cz-plazo">¿Para cuándo lo necesitas?</label>
           <select id="cz-plazo" name="plazo"><option>Sin apuro</option><option>Dentro de las próximas 2 semanas</option><option>Esta semana</option><option>Para una fecha específica</option></select></div>
+        <div class="form-group"><label for="cz-entrega">Entrega</label>
+          <select id="cz-entrega" name="entrega"><option>Envío a domicilio</option><option>Retiro en el taller (${esc(sitio.comuna)})</option><option>Por definir</option></select></div>
       </fieldset>
       <fieldset class="cz-block">
         <legend><span>03</span>Tus datos</legend>

@@ -376,6 +376,9 @@ content:
       - name: zona
         label: Zona que atiendes (aparece en los textos, ej. "la Región Metropolitana")
         type: string
+      - name: entrega
+        label: Envíos y retiro (aparece en fichas, contacto y cotizar)
+        type: string
       - name: codigo_postal
         label: Código postal
         type: string

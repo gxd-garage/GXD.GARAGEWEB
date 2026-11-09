@@ -113,6 +113,7 @@
       if (det) lineas.push("• Detalle: " + det);
       lineas.push("• " + d.get("tengo"));
       lineas.push("• Plazo: " + d.get("plazo"));
+      if (d.get("entrega")) lineas.push("• Entrega: " + d.get("entrega"));
       lineas.push("");
       var nombre = String(d.get("nombre") || "").trim();
       var comuna = String(d.get("comuna") || "").trim();
