@@ -2,7 +2,7 @@
   "nombre": "GXD Garage",
   "url": "https://gxd-garageweb.gxd-garage.workers.dev",
   "slogan": "Innovación capa por capa",
-  "descripcion": "Impresión 3D, diseño gráfico e impresión digital en Talagante: repuestos para autos a medida, etiquetas, lámparas, stickers y llaveros NFC. Cotiza por WhatsApp.",
+  "descripcion": "Impresión 3D, diseño gráfico e impresión digital en la Región Metropolitana, con taller en Talagante: repuestos para autos a medida, etiquetas, lámparas, stickers y llaveros NFC. Cotiza por WhatsApp.",
   "whatsapp": "56983409755",
   "whatsapp_visible": "+56 9 8340 9755",
   "mensaje_whatsapp": "Hola GXD, quiero cotizar un proyecto.",
@@ -11,6 +11,7 @@
   "direccion": "Avenida Tala Canta Ilabe 436",
   "comuna": "Talagante",
   "region": "Región Metropolitana",
+  "zona": "la Región Metropolitana",
   "codigo_postal": "9670000",
   "horario": "Lunes a viernes de 10:00 a 19:00",
   "colores_por_defecto": [

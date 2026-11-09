@@ -213,7 +213,7 @@ function pie(sitio) {
   return `<footer>
   <div class="footer-brand">
     <span class="nav-brand">GXD GARAGE</span>
-    <p class="footer-slogan">${esc(sitio.slogan)}.<br>Impresión 3D · Diseño gráfico<br>Impresión digital · ${esc(sitio.comuna)}</p>
+    <p class="footer-slogan">${esc(sitio.slogan)}.<br>Impresión 3D · Diseño gráfico<br>Impresión digital<br>Taller en ${esc(sitio.comuna)}, ${esc(sitio.region)}</p>
   </div>
   <div class="footer-col">
     <h4>Servicios</h4>
@@ -323,12 +323,14 @@ function tarjetaPortafolio(w) {
 </figure>`;
 }
 
+const zona = (s) => s.zona || "la Región Metropolitana";
 const ldNegocio = (sitio) => ({
   "@context": "https://schema.org", "@type": "LocalBusiness",
   name: sitio.nombre, description: sitio.descripcion, slogan: sitio.slogan, url: sitio.url,
   image: sitio.url.replace(/\/$/, "") + "/brand/icono-512.png", logo: sitio.url.replace(/\/$/, "") + "/brand/icono-512.png",
   telephone: "+" + sitio.whatsapp,
   address: { "@type": "PostalAddress", streetAddress: sitio.direccion, addressLocality: sitio.comuna, addressRegion: sitio.region, postalCode: sitio.codigo_postal, addressCountry: "CL" },
+  areaServed: [{ "@type": "AdministrativeArea", name: "Región Metropolitana de Santiago" }, { "@type": "City", name: sitio.comuna }],
   sameAs: [`https://www.instagram.com/${sitio.instagram}/`],
   contactPoint: { "@type": "ContactPoint", contactType: "customer service", telephone: "+" + sitio.whatsapp, availableLanguage: "Spanish" },
 });
@@ -344,7 +346,7 @@ export function paginaInicio({ sitio, productos, posts, portafolio }) {
   <div class="hero-left">
     <div class="hero-tag">${esc(sitio.slogan)}</div>
     <h1 class="hero-title">Creamos<br><em>lo que</em><br>imaginas</h1>
-    <p class="hero-subtitle">Impresión 3D, diseño gráfico e impresión digital en ${esc(sitio.comuna)}. Transformamos tus ideas en objetos reales: repuestos que ya no venden, lámparas, regalos y la identidad de tu marca.</p>
+    <p class="hero-subtitle">Impresión 3D, diseño gráfico e impresión digital para toda ${esc(zona(sitio))}, desde nuestro taller en ${esc(sitio.comuna)}. Transformamos tus ideas en objetos reales: repuestos que ya no venden, lámparas, regalos y la identidad de tu marca.</p>
     <div class="hero-actions">
       <a href="/impresion-3d/" class="btn-primary">Ver Impresión 3D</a>
       <a href="${waLink(sitio, "Hola GXD Garage, quiero cotizar un proyecto.")}" ${ext} class="btn-wa">${WA}Cotizar ahora</a>
@@ -451,11 +453,11 @@ ${posts.length ? `<section id="blog" class="section-alt">
 <section id="contacto"${posts.length ? "" : ' class="section-alt"'}>
   ${cabecera("// 06 — hablemos", "¿Tienes un", "proyecto?", "Cuéntanos tu idea y cotizamos sin compromiso. Te respondemos por WhatsApp.")}
   <div class="contact-layout">
-    ${contactoInfo(sitio, `Estamos en ${esc(sitio.comuna)} y listos para fabricar tu proyecto. Ya sea una pieza única en 3D, la identidad de tu marca o material impreso, en ${esc(sitio.nombre)} lo hacemos realidad.`)}
+    ${contactoInfo(sitio, `Nuestro taller está en ${esc(sitio.comuna)} y trabajamos con clientes de toda ${esc(zona(sitio))}. Ya sea una pieza única en 3D, la identidad de tu marca o material impreso, en ${esc(sitio.nombre)} lo hacemos realidad.`)}
     ${formContacto(sitio)}
   </div>
 </section>`;
-  return layout({ sitio, ruta: "/", titulo: "Impresión 3D y diseño en Talagante", descripcion: sitio.descripcion, jsonld: [ldNegocio(sitio)], cuerpo });
+  return layout({ sitio, ruta: "/", titulo: "Impresión 3D y diseño en la Región Metropolitana", descripcion: sitio.descripcion, jsonld: [ldNegocio(sitio)], cuerpo });
 }
 
 // ---------- bloque de repuestos para autos (siempre presente en Impresión 3D) ----------
@@ -635,7 +637,7 @@ export function paginaImpresion3D({ sitio, productos, portafolio, posts = [] }) 
   </div>` : "";
   const cuerpo = `
 ${heroInterior(items, "// impresión 3d", "Impresión", "3D",
-    `Repuestos para autos a medida, productos en el color que elijas y piezas hechas a medida en ${esc(sitio.comuna)}. Todo impreso capa por capa y cotizado por WhatsApp.`,
+    `Repuestos para autos a medida, productos en el color que elijas y piezas hechas a medida para toda ${esc(zona(sitio))}, desde ${esc(sitio.comuna)}. Todo impreso capa por capa y cotizado por WhatsApp.`,
     `<div class="hero-actions" style="margin-top:2.5rem"><a class="btn-primary" href="#auto-a-medida">Repuesto para mi auto</a><a class="btn-line" href="#${prods.length ? "productos" : "a-medida"}">Ver productos</a></div>`, OPC.banners["3d"])}
 <div class="subnav" role="navigation" aria-label="Secciones de Impresión 3D">
   <div class="subnav-in">${secciones.map(([t, id, n]) => `<a href="#${id}" data-subnav="${id}">${n ? `<span>${n}</span>` : ""}${esc(t)}</a>`).join("")}</div>
@@ -679,8 +681,8 @@ ${port.length ? `<section id="trabajos">
   <div class="hero-actions fade-up"><a class="btn-primary" href="/cotizar/">Cotizar mi idea</a><a class="btn-wa" href="${waLink(sitio, "Hola GXD Garage, quiero cotizar una impresión 3D.")}" ${ext}>${WA}Escribir por WhatsApp</a></div>
 </section>`;
   return layout({
-    sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${sitio.comuna}: repuestos para autos`,
-    descripcion: `Impresión 3D en ${sitio.comuna}: repuestos para autos a medida, emblemas, lámparas, llaveros NFC, letreros, escudos y prototipos. Cotiza por WhatsApp.`,
+    sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${zona(sitio)}: repuestos para autos`,
+    descripcion: `Impresión 3D en ${zona(sitio)}, con taller en ${sitio.comuna}: repuestos para autos a medida, emblemas, lámparas, llaveros NFC, letreros, escudos y prototipos. Cotiza por WhatsApp.`,
     jsonld: [ldMigas(sitio, items), ldLista(sitio, lista)], cuerpo,
   });
 }
@@ -690,8 +692,8 @@ const INFO_GRUPO = {
   "Diseño gráfico": {
     t1: "Diseño", t2: "gráfico",
     desc: "Identidad visual, logotipos, packaging y piezas para redes sociales. Diseño estratégico que conecta tu marca con tu audiencia.",
-    seo: "Diseño gráfico en Talagante: logos e identidad",
-    seoDesc: (s) => `Diseño gráfico en ${s.comuna}: logotipos, identidad visual, tarjetas de presentación, packaging y piezas para redes sociales. Cotiza tu proyecto por WhatsApp.`,
+    seo: "Diseño gráfico en la Región Metropolitana: logos e identidad",
+    seoDesc: (s) => `Diseño gráfico en ${zona(s)}, desde ${s.comuna}: logotipos, identidad visual, tarjetas de presentación, packaging y piezas para redes sociales. Cotiza tu proyecto por WhatsApp.`,
     productos: ["Lo que", "diseñamos"],
     pasos: [
       ["Conversamos tu marca", "Qué haces, a quién le vendes y qué referencias te gustan. Si ya tienes logo o colores, partimos de ahí."],
@@ -704,8 +706,8 @@ const INFO_GRUPO = {
   "Impresión digital": {
     t1: "Impresión", t2: "digital",
     desc: "Etiquetas personalizadas para vinos, cervezas y emprendimientos, stickers, vinilos adhesivos, banners y pendones con colores vibrantes y acabados profesionales.",
-    seo: "Etiquetas e impresión digital en Talagante",
-    seoDesc: (s) => `Etiquetas personalizadas para vino, cerveza y emprendimientos, stickers, vinilos, banners y pendones en ${s.comuna}. Sin mínimo. Cotiza por WhatsApp.`,
+    seo: "Etiquetas e impresión digital en la Región Metropolitana",
+    seoDesc: (s) => `Etiquetas personalizadas para vino, cerveza y emprendimientos, stickers, vinilos, banners y pendones en ${zona(s)}, desde ${s.comuna}. Sin mínimo. Cotiza por WhatsApp.`,
     bloque: (s) => bloqueEtiquetas(s),
     productos: ["Lo que", "imprimimos"],
     pasos: [
@@ -761,7 +763,7 @@ export function paginaCatalogo({ sitio, productos }) {
   const items = [["Inicio", "/"], ["Catálogo", null]];
   const grupos = GRUPOS.filter((g) => productos.some((p) => p.categoria === g.nombre));
   const cuerpo = `
-${heroInterior(items, "// catálogo completo", "Todo lo", "que hacemos", `Impresión 3D, diseño gráfico e impresión digital en ${esc(sitio.comuna)}, en una sola página. Agrega lo que te interese a tu cotización o escríbenos directo por WhatsApp.`)}
+${heroInterior(items, "// catálogo completo", "Todo lo", "que hacemos", `Impresión 3D, diseño gráfico e impresión digital para toda ${esc(zona(sitio))}, en una sola página. Agrega lo que te interese a tu cotización o escríbenos directo por WhatsApp.`)}
 <section>
   <div class="filter-row" role="navigation" aria-label="Líneas de servicio">
     ${grupos.map((g) => `<a class="filter-btn" href="#${g.id}">${esc(g.nombre)}</a>`).join("")}
@@ -780,7 +782,7 @@ ${heroInterior(items, "// catálogo completo", "Todo lo", "que hacemos", `Impres
 </section>`;
   return layout({
     sitio, ruta: "/catalogo/", actual: "catalogo", titulo: "Catálogo de impresión 3D, diseño e impresión digital",
-    descripcion: `Catálogo completo de ${sitio.nombre}: repuestos para autos a medida, impresión 3D, logos, stickers, vinilos y llaveros NFC en ${sitio.comuna}. Cotiza por WhatsApp.`,
+    descripcion: `Catálogo completo de ${sitio.nombre}: repuestos para autos a medida, impresión 3D, logos, stickers, vinilos y llaveros NFC en ${zona(sitio)}, desde ${sitio.comuna}. Cotiza por WhatsApp.`,
     jsonld: [ldMigas(sitio, items), ldLista(sitio, productos)], cuerpo,
   });
 }
@@ -871,7 +873,7 @@ ${relacionados.length ? `<section class="section-alt">
 </section>` : ""}`;
   return layout({
     sitio, ruta, actual: g.clave, titulo: p.titulo,
-    descripcion: p.resumen || `${p.titulo} hecho a pedido por ${sitio.nombre} en ${sitio.comuna}. Cotiza por WhatsApp.`,
+    descripcion: p.resumen || `${p.titulo} hecho a pedido por ${sitio.nombre} para ${zona(sitio)}, desde ${sitio.comuna}. Cotiza por WhatsApp.`,
     imagen: p.imagenes[0], jsonld: [ldMigas(sitio, items), ldServ], cuerpo,
   });
 }
@@ -911,7 +913,7 @@ ${heroInterior(items, "// cotizar", "Cotiza tu", "idea", "Cuéntanos qué necesi
         <legend><span>03</span>Tus datos</legend>
         <div class="form-row">
           <div class="form-group"><label for="cz-nombre">Nombre</label><input id="cz-nombre" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre"></div>
-          <div class="form-group"><label for="cz-comuna">Comuna</label><input id="cz-comuna" name="comuna" type="text" autocomplete="address-level2" placeholder="Ej.: Talagante"></div>
+          <div class="form-group"><label for="cz-comuna">Comuna</label><input id="cz-comuna" name="comuna" type="text" autocomplete="address-level2" placeholder="Ej.: Maipú"></div>
         </div>
       </fieldset>
     </div>
@@ -935,7 +937,7 @@ ${heroInterior(items, "// cotizar", "Cotiza tu", "idea", "Cuéntanos qué necesi
 </section>`;
   return layout({
     sitio, ruta: "/cotizar/", actual: "cotizar", titulo: "Cotiza tu proyecto de impresión 3D o diseño",
-    descripcion: `Cotiza con ${sitio.nombre}: repuestos a medida, impresión 3D, lámparas, diseño gráfico, stickers y llaveros NFC en ${sitio.comuna}. Arma tu solicitud y envíala por WhatsApp.`,
+    descripcion: `Cotiza con ${sitio.nombre}: repuestos a medida, impresión 3D, lámparas, diseño gráfico, stickers y llaveros NFC en ${zona(sitio)}. Arma tu solicitud y envíala por WhatsApp.`,
     jsonld: [ldMigas(sitio, items)], cuerpo, flotante: false,
   });
 }
@@ -966,7 +968,7 @@ ${heroInterior(items, cat ? "// blog — categoría" : "// blog", cat ? esc(cat)
   return layout({
     sitio, ruta: cat ? rutaCat(cat) : "/blog/", actual: "blog",
     titulo: cat ? `${cat} sobre impresión 3D y diseño` : "Blog de impresión 3D y diseño",
-    descripcion: cat ? `${INTRO_CAT[cat] || ""} Blog de ${sitio.nombre}, ${sitio.comuna}.`.trim()
+    descripcion: cat ? `${INTRO_CAT[cat] || ""} Blog de ${sitio.nombre}, impresión 3D y diseño en ${zona(sitio)}.`.trim()
       : `Guías, proyectos y novedades de ${sitio.nombre} sobre impresión 3D, materiales como PLA, PETG y resina, repuestos a medida, lámparas y diseño para tu marca.`,
     jsonld: [ldMigas(sitio, items)], cuerpo,
   });

@@ -373,6 +373,9 @@ content:
       - name: region
         label: Región
         type: string
+      - name: zona
+        label: Zona que atiendes (aparece en los textos, ej. "la Región Metropolitana")
+        type: string
       - name: codigo_postal
         label: Código postal
         type: string
