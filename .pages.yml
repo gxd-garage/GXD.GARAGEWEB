@@ -123,6 +123,26 @@ content:
         type: string
         list: true
         description: Puntos breves, por ejemplo materiales, medidas o tiempos de entrega.
+      - name: preguntas
+        label: Preguntas frecuentes
+        type: object
+        list: true
+        description: Aparecen al final de la ficha y Google puede mostrarlas en los resultados.
+        fields:
+          - name: pregunta
+            label: Pregunta
+            type: string
+          - name: respuesta
+            label: Respuesta
+            type: text
+      - name: seo_titulo
+        label: Título para Google (opcional)
+        type: string
+        description: Lo que aparece en azul en Google y en la pestaña. Ideal entre 45 y 60 caracteres. Si lo dejas vacío se usa el nombre del producto.
+      - name: seo_descripcion
+        label: Descripción para Google (opcional)
+        type: text
+        description: El texto bajo el título en Google. Ideal entre 120 y 155 caracteres. Si lo dejas vacío se usa el resumen.
       - name: destacado
         label: Destacado en la portada
         type: boolean

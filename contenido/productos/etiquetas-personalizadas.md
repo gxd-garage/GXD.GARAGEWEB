@@ -15,6 +15,15 @@ ocultar_colores: true
 destacado: true
 orden: 1
 publicado: true
+seo_titulo: "Etiquetas personalizadas sin mínimo"
+seo_descripcion: "Etiquetas adhesivas para vino, cerveza, miel o tu emprendimiento, cortadas a la forma y con laminado mate o brillante. Sin mínimo, desde una unidad."
+preguntas:
+  - pregunta: "¿Hay cantidad mínima?"
+    respuesta: "No, imprimimos desde una unidad."
+  - pregunta: "¿Qué terminaciones tienen?"
+    respuesta: "Papel adhesivo, cortado a la forma de tu etiqueta, con laminado mate o brillante."
+  - pregunta: "¿Pueden diseñar la etiqueta?"
+    respuesta: "Sí, si lo necesitas; el diseño se cotiza aparte. Revisa nuestra guía de [etiquetas para vino y cerveza](/blog/etiquetas-personalizadas-para-vino-y-cerveza/)."
 ---
 Una buena etiqueta hace que tu producto se vea profesional en la mesa, en la feria o en la góndola. Las imprimimos en papel adhesivo, cortadas con la forma de tu diseño y con laminado mate o brillante para protegerlas del roce y la manipulación.
 

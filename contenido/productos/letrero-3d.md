@@ -14,6 +14,13 @@ detalles:
 destacado: true
 orden: 3
 publicado: true
+seo_titulo: "Letrero 3D con tu logo para tu negocio"
+seo_descripcion: "Tu logo en volumen para el mesón, la vitrina o la oficina, diseñado e impreso en 3D a la medida. Tamaño y colores a elección. Taller en Talagante."
+preguntas:
+  - pregunta: "¿Necesito tener mi logo en vector?"
+    respuesta: "No es obligatorio. Si lo tienes en AI, SVG o PDF, el proceso es más rápido; si no, lo redibujamos a partir de una imagen."
+  - pregunta: "¿Dónde se puede usar un letrero 3D?"
+    respuesta: "En el mesón, la vitrina, la oficina o un stand. El tamaño y los colores son a elección."
 ---
 Convertimos tu logo en una pieza física con volumen, lista para poner en el mesón de atención, en una vitrina o en la recepción de tu oficina.
 

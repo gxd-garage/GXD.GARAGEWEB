@@ -1019,3 +1019,20 @@ html.js .hero-print.imprimiendo .hp-boquilla { animation: hpBoquilla 3s steps(12
 .entrega-linea .contact-link-icon { color: var(--wa); margin-top: 0.1rem; }
 span.contact-link { cursor: default; }
 @media (max-width: 768px) { .entrega-linea { font-size: 0.88rem; } }
+
+/* ---------- preguntas frecuentes ---------- */
+.faq-list { max-width: 860px; border-top: 1px solid var(--border); }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 1.5rem; align-items: baseline; padding: 1.4rem 0; font-size: 0.95rem; color: var(--white); }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: "+"; font-family: 'DM Mono', monospace; color: var(--dim); flex-shrink: 0; transition: transform 0.3s; }
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item summary:focus-visible { outline: 1px solid var(--white); outline-offset: 4px; }
+.faq-item p { padding: 0 0 1.5rem; max-width: 70ch; font-size: 0.85rem; line-height: 1.9; color: rgba(245,245,240,0.72); }
+.faq-item p a { color: var(--white); text-underline-offset: 4px; }
+
+/* ---------- página local ---------- */
+.zona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.zona-item { background: var(--black); padding: 1.8rem 1.6rem; }
+.zona-item h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+.zona-item p { font-size: 0.8rem; line-height: 1.8; color: rgba(245,245,240,0.65); }

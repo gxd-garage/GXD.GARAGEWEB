@@ -12,5 +12,7 @@ destacado: false
 orden: 2
 ocultar_colores: true
 publicado: true
+seo_titulo: "Diseño de tarjetas de presentación"
+seo_descripcion: "Tarjetas con el diseño de tu marca, en versión para imprimir y en versión digital para compartir por WhatsApp. Combinables con llaveros NFC."
 ---
 Una tarjeta sigue siendo una forma simple de dejar tus datos. La diseñamos con tu marca y, si quieres, la complementamos con un llavero NFC que abre tu WhatsApp o tu Instagram con un toque.

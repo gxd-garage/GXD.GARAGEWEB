@@ -12,6 +12,8 @@ destacado: false
 orden: 1
 ocultar_colores: true
 publicado: true
+seo_titulo: "Diseño de logo e identidad visual"
+seo_descripcion: "Diseñamos el logo y la identidad de tu marca: versiones para fondos claros y oscuros, colores, tipografías y archivos listos para redes, impresión y web."
 ---
 Una identidad bien hecha hace que tu negocio se vea profesional en todas partes. Partimos conociendo tu marca y tu público, y te presentamos una propuesta.
 

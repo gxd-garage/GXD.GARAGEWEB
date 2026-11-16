@@ -15,6 +15,15 @@ detalles:
 destacado: true
 orden: 4
 publicado: true
+seo_titulo: "Llavero NFC personalizado con tu logo"
+seo_descripcion: "Comparte tu Instagram, WhatsApp, sitio web o reseñas de Google con un toque del celular. Llaveros NFC impresos en 3D con tu logo, con precio por mayor."
+preguntas:
+  - pregunta: "¿Cómo funciona un llavero NFC?"
+    respuesta: "Tiene un chip que abre un enlace al acercarlo a un celular con NFC: tu Instagram, tu WhatsApp, tu sitio web o la página para dejar una reseña en Google. No necesita aplicaciones."
+  - pregunta: "¿Puede llevar el logo de mi negocio?"
+    respuesta: "Sí, lo imprimimos en 3D con tu logo y en los colores de tu marca."
+  - pregunta: "¿Hay precio por mayor?"
+    respuesta: "Sí, desde 15 unidades hay precio especial. Escríbenos por WhatsApp para cotizar."
 ---
 El llavero lleva un chip NFC programado con el enlace que tú elijas: tu perfil de Instagram, tu WhatsApp, tu sitio web o la página de reseñas de Google de tu negocio. Basta con acercarlo a un celular compatible para que el enlace se abra.
 

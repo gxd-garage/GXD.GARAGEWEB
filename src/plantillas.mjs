@@ -218,7 +218,7 @@ function pie(sitio) {
   </div>
   <div class="footer-col">
     <h4>Servicios</h4>
-    <ul>${GRUPOS.map((g) => `<li><a href="${g.ruta}">${esc(g.nombre)}</a></li>`).join("")}<li><a href="/impresion-3d/#auto-a-medida">Repuestos para autos</a></li></ul>
+    <ul>${GRUPOS.map((g) => `<li><a href="${g.ruta}">${esc(g.nombre)}</a></li>`).join("")}<li><a href="/impresion-3d/#auto-a-medida">Repuestos para autos</a></li><li><a href="/impresion-3d-talagante/">Impresión 3D en Talagante</a></li></ul>
   </div>
   <div class="footer-col">
     <h4>Sitio</h4>
@@ -682,10 +682,11 @@ ${port.length ? `<section id="trabajos">
 <section class="section-alt">
   ${cabecera("// ¿algo distinto?", "¿No está", "lo que buscas?", "Lo diseñamos desde cero. Cuéntanos tu idea y te enviamos una propuesta.")}
   <div class="hero-actions fade-up"><a class="btn-primary" href="/cotizar/">Cotizar mi idea</a><a class="btn-wa" href="${waLink(sitio, "Hola GXD Garage, quiero cotizar una impresión 3D.")}" ${ext}>${WA}Escribir por WhatsApp</a></div>
+  <p class="fine fade-up" style="margin-top:2rem">¿Estás en la provincia de Talagante o en Melipilla? Mira cómo trabajamos con <a href="/impresion-3d-talagante/">impresión 3D en Talagante y alrededores</a>.</p>
 </section>`;
   return layout({
     sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${zona(sitio)}: repuestos para autos`,
-    descripcion: `Impresión 3D en ${zona(sitio)}, con taller en ${sitio.comuna}: repuestos para autos a medida, emblemas, lámparas, llaveros NFC, letreros, escudos y prototipos. Cotiza por WhatsApp.`,
+    descripcion: `Impresión 3D en ${zona(sitio)}, con taller en ${sitio.comuna}: repuestos para autos, emblemas, lámparas, letreros y prototipos. Cotiza por WhatsApp.`,
     jsonld: [ldMigas(sitio, items), ldLista(sitio, lista)], cuerpo,
   });
 }
@@ -696,7 +697,7 @@ const INFO_GRUPO = {
     t1: "Diseño", t2: "gráfico",
     desc: "Identidad visual, logotipos, packaging y piezas para redes sociales. Diseño estratégico que conecta tu marca con tu audiencia.",
     seo: "Diseño gráfico en la Región Metropolitana: logos e identidad",
-    seoDesc: (s) => `Diseño gráfico en ${zona(s)}, desde ${s.comuna}: logotipos, identidad visual, tarjetas de presentación, packaging y piezas para redes sociales. Cotiza tu proyecto por WhatsApp.`,
+    seoDesc: (s) => `Diseño gráfico en ${zona(s)}, desde ${s.comuna}: logos, identidad visual, tarjetas, packaging y piezas para redes. Cotiza por WhatsApp.`,
     productos: ["Lo que", "diseñamos"],
     pasos: [
       ["Conversamos tu marca", "Qué haces, a quién le vendes y qué referencias te gustan. Si ya tienes logo o colores, partimos de ahí."],
@@ -710,7 +711,7 @@ const INFO_GRUPO = {
     t1: "Impresión", t2: "digital",
     desc: "Etiquetas personalizadas para vinos, cervezas y emprendimientos, stickers, vinilos adhesivos, banners y pendones con colores vibrantes y acabados profesionales.",
     seo: "Etiquetas e impresión digital en la Región Metropolitana",
-    seoDesc: (s) => `Etiquetas personalizadas para vino, cerveza y emprendimientos, stickers, vinilos, banners y pendones en ${zona(s)}, desde ${s.comuna}. Sin mínimo. Cotiza por WhatsApp.`,
+    seoDesc: (s) => `Etiquetas para vino, cerveza y emprendimientos, stickers, vinilos y pendones en ${zona(s)}, desde ${s.comuna}. Sin mínimo.`,
     bloque: (s) => bloqueEtiquetas(s),
     productos: ["Lo que", "imprimimos"],
     pasos: [
@@ -785,7 +786,7 @@ ${heroInterior(items, "// catálogo completo", "Todo lo", "que hacemos", `Impres
 </section>`;
   return layout({
     sitio, ruta: "/catalogo/", actual: "catalogo", titulo: "Catálogo de impresión 3D, diseño e impresión digital",
-    descripcion: `Catálogo completo de ${sitio.nombre}: repuestos para autos a medida, impresión 3D, logos, stickers, vinilos y llaveros NFC en ${zona(sitio)}, desde ${sitio.comuna}. Cotiza por WhatsApp.`,
+    descripcion: `Catálogo de ${sitio.nombre}: repuestos a medida, impresión 3D, logos, etiquetas, stickers y llaveros NFC para ${zona(sitio)}, desde ${sitio.comuna}.`,
     jsonld: [ldMigas(sitio, items), ldLista(sitio, productos)], cuerpo,
   });
 }
@@ -869,6 +870,7 @@ export function paginaProducto({ sitio, p, relacionados }) {
   </div>
   ${p.html.trim() ? `<div class="prose fade-up" style="margin-top:6rem">${p.html}</div>` : ""}
 </section>
+${p.preguntas.length ? bloquePreguntas(p.preguntas) : ""}
 ${es3D ? bloqueAuto(sitio, true) : ""}
 ${relacionados.length ? `<section class="section-alt">
   ${cabecera("// también te puede servir", "Más de", esc(g.nombre))}
@@ -876,9 +878,81 @@ ${relacionados.length ? `<section class="section-alt">
   <div class="catalog-more"><a href="${g.ruta}" class="btn-primary">Ver todo ${esc(g.nombre)}</a></div>
 </section>` : ""}`;
   return layout({
-    sitio, ruta, actual: g.clave, titulo: p.titulo,
-    descripcion: p.resumen || `${p.titulo} hecho a pedido por ${sitio.nombre} para ${zona(sitio)}, desde ${sitio.comuna}. Cotiza por WhatsApp.`,
-    imagen: p.imagenes[0], jsonld: [ldMigas(sitio, items), ldServ], cuerpo,
+    sitio, ruta, actual: g.clave, titulo: p.seo_titulo || p.titulo,
+    descripcion: p.seo_descripcion || p.resumen || `${p.titulo} hecho a pedido por ${sitio.nombre} para ${zona(sitio)}, desde ${sitio.comuna}. Cotiza por WhatsApp.`,
+    imagen: p.imagenes[0], jsonld: [ldMigas(sitio, items), ldServ, ...(p.preguntas.length ? [ldPreguntas(p.preguntas)] : [])], cuerpo,
+  });
+}
+
+// ---------- preguntas frecuentes ----------
+const textoPlano = (t) => String(t).replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*?([^*]+)\*\*?/g, "$1");
+const conEnlaces = (t) => esc(t).replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g, '<a href="$2">$1</a>');
+export const ldPreguntas = (qs) => ({
+  "@context": "https://schema.org", "@type": "FAQPage",
+  mainEntity: qs.map((q) => ({ "@type": "Question", name: q.pregunta, acceptedAnswer: { "@type": "Answer", text: textoPlano(q.respuesta) } })),
+});
+const bloquePreguntas = (qs, titulo = ["Preguntas", "frecuentes"]) => `<section class="faq-section">
+  ${cabecera("// preguntas frecuentes", titulo[0], titulo[1])}
+  <div class="faq-list">${qs.map((q) => `<details class="faq-item"><summary>${esc(q.pregunta)}</summary><p>${conEnlaces(q.respuesta)}</p></details>`).join("")}</div>
+</section>`;
+
+// ---------- página local: impresión 3D en Talagante y alrededores ----------
+export function paginaLocal({ sitio, productos, portafolio }) {
+  const items = [["Inicio", "/"], ["Impresión 3D", "/impresion-3d/"], ["Talagante y alrededores", null]];
+  const orden = ["repuesto-a-medida", "emblemas-para-autos", "escudos-institucionales", "letrero-3d", "prototipos-y-maquetas", "lampara-3d"];
+  const destacados = orden.map((s) => productos.find((p) => p.slug === s)).filter(Boolean);
+  const port = portafolio.filter((w) => w.categoria === "Impresión 3D").slice(0, 3);
+  const zonas = [
+    ["Talagante", `Nuestro taller está aquí. Puedes traer la pieza y retirar tu pedido coordinando antes por WhatsApp.`],
+    ["Peñaflor y Padre Hurtado", "Retiro coordinado en el taller de Talagante o envío a domicilio."],
+    ["El Monte e Isla de Maipo", "Retiro coordinado en el taller o envío a domicilio."],
+    ["Melipilla y Curacaví", "Envío a domicilio o retiro coordinado en Talagante."],
+    ["Maipú y el resto de Santiago", "Envío a domicilio en toda la Región Metropolitana."],
+    ["Regiones", "Envío por courier. Para repuestos, nos mandas fotos con una regla al lado."],
+  ];
+  const preguntas = [
+    { pregunta: "¿Dónde está el taller de impresión 3D?", respuesta: `En ${sitio.direccion}, ${sitio.comuna}. Atendemos ${sitio.horario.charAt(0).toLowerCase() + sitio.horario.slice(1)}, con retiro coordinado: escríbenos por WhatsApp antes de venir.` },
+    { pregunta: "¿Hacen envíos fuera de Talagante?", respuesta: entrega(sitio) },
+    { pregunta: "¿Qué se puede imprimir en 3D?", respuesta: "Repuestos plásticos que ya no se venden, emblemas para autos, letreros con tu logo, escudos institucionales, prototipos, maquetas, figuras y lámparas. Si es una pieza plástica y cabe en la impresora, lo más probable es que se pueda hacer." },
+    { pregunta: "¿Cuánto cuesta imprimir una pieza en 3D?", respuesta: "Depende de la pieza. Primero cotizamos el diseño, que varía según la complejidad, y con el diseño listo cotizamos la impresión según el material, el tamaño y la cantidad. Algunos productos tienen precio publicado en su ficha." },
+    { pregunta: "¿Qué material conviene para mi pieza?", respuesta: "PLA para decoración y piezas de interior, PETG para piezas que van en el auto, al aire libre o que soportan esfuerzo, y resina para figuras y piezas pequeñas con mucho detalle. Lo explicamos en la [guía de materiales](/blog/pla-petg-o-resina/)." },
+    { pregunta: "Se me rompió una pieza, ¿qué hago?", respuesta: "Tráela al taller como sea que esté, aunque esté rota o incompleta. Si no puedes venir, mándanos fotos de frente, de lado y desde arriba, con una regla o una moneda al lado. Más detalles en [cómo pedir un repuesto impreso en 3D](/blog/como-pedir-un-repuesto-impreso-en-3d/)." },
+  ];
+  const cuerpo = `
+${heroInterior(items, "// impresión 3d en talagante", "Impresión 3D", "en Talagante",
+    `Taller de impresión 3D en ${esc(sitio.comuna)} para Peñaflor, Padre Hurtado, El Monte, Isla de Maipo, Melipilla y toda la Región Metropolitana. Repuestos que ya no venden, emblemas, letreros, escudos y prototipos, cotizados por WhatsApp.`,
+    `<div class="hero-actions" style="margin-top:2.5rem"><a class="btn-wa" href="${waLink(sitio, "Hola GXD Garage, estoy en la zona de Talagante y quiero cotizar una impresión 3D.")}" ${ext}>${WA}Cotizar por WhatsApp</a><a class="btn-line" href="/impresion-3d/">Ver impresión 3D</a></div>`)}
+<section>
+  ${cabecera("// cerca de ti", "Sin ir", "a Santiago", `Si vives en la provincia de ${esc(sitio.comuna)} o en Melipilla, puedes imprimir una pieza en 3D sin cruzar la ciudad. Traes la pieza al taller, conversamos qué necesitas y coordinamos la entrega.`)}
+  <div class="zona-grid fade-up">${zonas.map(([t, d]) => `<div class="zona-item"><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join("")}</div>
+</section>
+${destacados.length ? `<section class="section-alt">
+  ${cabecera("// lo que más nos piden", "Qué imprimimos", "en el taller", "Piezas a medida y productos que fabricamos para clientes de la zona y de toda la región.")}
+  <div class="catalog-panel active">${destacados.map((p) => tarjetaProducto(sitio, p)).join("")}</div>
+  <div class="catalog-more"><a href="/impresion-3d/" class="btn-primary">Ver todo Impresión 3D</a></div>
+</section>` : ""}
+<section>
+  ${cabecera("// cómo funciona", "De la pieza rota", "a la nueva", "El mismo proceso para un repuesto, un emblema o un prototipo.")}
+  <div class="services-grid">
+    <article class="service-card fade-up"><div class="service-num">01</div><h3 class="service-name">Trae la pieza o una foto</h3><p class="service-desc">La pieza original, aunque esté rota, o fotos con una regla al lado. Si es un logo o una idea, nos mandas lo que tengas.</p></article>
+    <article class="service-card fade-up"><div class="service-num">02</div><h3 class="service-name">Cotizamos y diseñamos</h3><p class="service-desc">Primero el diseño, según la complejidad. Con el diseño listo, la impresión según material, tamaño y cantidad.</p></article>
+    <article class="service-card fade-up"><div class="service-num">03</div><h3 class="service-name">Imprimimos y entregamos</h3><p class="service-desc">Retiras en el taller de ${esc(sitio.comuna)} coordinando antes, o te lo enviamos a domicilio.</p></article>
+  </div>
+</section>
+${port.length ? `<section class="section-alt">
+  ${cabecera("// trabajos", "Salido del", "taller", "Algunos trabajos reales que hicimos en impresión 3D.")}
+  <div class="portfolio-grid tres">${port.map(tarjetaPortafolio).join("")}</div>
+</section>` : ""}
+${bloquePreguntas(preguntas)}
+<section class="section-alt">
+  ${cabecera("// cotiza", "¿Tienes una pieza", "en mente?", "Escríbenos con una foto y te respondemos con el siguiente paso.")}
+  <div class="hero-actions fade-up"><a class="btn-primary" href="/cotizar/">Cotizar mi idea</a><a class="btn-wa" href="${waLink(sitio, "Hola GXD Garage, quiero cotizar una impresión 3D.")}" ${ext}>${WA}Escribir por WhatsApp</a></div>
+</section>`;
+  return layout({
+    sitio, ruta: "/impresion-3d-talagante/", actual: "3d",
+    titulo: `Impresión 3D en ${sitio.comuna}, Peñaflor y Melipilla`,
+    descripcion: `Taller de impresión 3D en ${sitio.comuna}: repuestos, emblemas, letreros y prototipos para Peñaflor, Padre Hurtado, Isla de Maipo y Melipilla. Cotiza por WhatsApp.`,
+    jsonld: [ldMigas(sitio, items), ldNegocio(sitio), ldPreguntas(preguntas)], cuerpo,
   });
 }
 
@@ -943,14 +1017,14 @@ ${heroInterior(items, "// cotizar", "Cotiza tu", "idea", "Cuéntanos qué necesi
 </section>`;
   return layout({
     sitio, ruta: "/cotizar/", actual: "cotizar", titulo: "Cotiza tu proyecto de impresión 3D o diseño",
-    descripcion: `Cotiza con ${sitio.nombre}: repuestos a medida, impresión 3D, lámparas, diseño gráfico, stickers y llaveros NFC en ${zona(sitio)}. Arma tu solicitud y envíala por WhatsApp.`,
+    descripcion: `Cotiza repuestos a medida, impresión 3D, diseño gráfico, etiquetas y llaveros NFC con ${sitio.nombre}. Arma tu solicitud y envíala por WhatsApp.`,
     jsonld: [ldMigas(sitio, items)], cuerpo, flotante: false,
   });
 }
 
 // ---------- blog ----------
 const INTRO_CAT = {
-  "Guías": "Respuestas prácticas a lo que más nos preguntan: materiales, repuestos, diseño y cómo pedir tu pieza.",
+  "Guías": "Respuestas prácticas sobre materiales, repuestos, diseño y cómo pedir tu pieza.",
   "Proyectos": "Trabajos reales que salieron del taller: el encargo, el proceso y el resultado.",
   "Novedades": "Lo nuevo en GXD Garage: productos, eventos, promociones y lo que estamos probando.",
 };
@@ -976,7 +1050,7 @@ ${heroInterior(items, cat ? "// blog — categoría" : "// blog", cat ? esc(cat)
     titulo: cat ? `${cat} sobre impresión 3D y diseño` : "Blog de impresión 3D y diseño",
     descripcion: cat ? `${INTRO_CAT[cat] || ""} Blog de ${sitio.nombre}, impresión 3D y diseño en ${zona(sitio)}.`.trim()
       : `Guías, proyectos y novedades de ${sitio.nombre} sobre impresión 3D, materiales como PLA, PETG y resina, repuestos a medida, lámparas y diseño para tu marca.`,
-    jsonld: [ldMigas(sitio, items)], cuerpo,
+    jsonld: [ldMigas(sitio, items)], cuerpo, noindex: !lista.length,
   });
 }
 

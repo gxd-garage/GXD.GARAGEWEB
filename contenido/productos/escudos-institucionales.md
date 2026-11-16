@@ -21,6 +21,15 @@ detalles:
 destacado: false
 orden: 3
 publicado: true
+seo_titulo: "Escudos institucionales impresos en 3D"
+seo_descripcion: "El escudo de tu institución en relieve, impreso en 3D y montado para exhibir. Ideal para aniversarios, despedidas y reconocimientos. Envíos a la RM y regiones."
+preguntas:
+  - pregunta: "¿Para quién hacen escudos institucionales?"
+    respuesta: "Para instituciones, colegios, clubes y empresas. Entre nuestros trabajos están el escudo del Ejército de Chile y el de Gendarmería de Chile."
+  - pregunta: "¿Qué necesito enviar?"
+    respuesta: "El escudo o logo en la mejor calidad que tengas. Si solo tienes una foto o una pieza física, también sirve."
+  - pregunta: "¿Cómo se cotiza?"
+    respuesta: "Primero cotizamos el diseño, que depende del nivel de detalle del escudo. Con el diseño listo, cotizamos la fabricación y te mostramos la propuesta antes de imprimir."
 ---
 Reproducimos el escudo o emblema de tu institución con impresión 3D: el emblema, las letras y los detalles quedan en relieve y la pieza se monta sobre una base para exhibirla en una oficina, un salón o una vitrina. En las fotos, dos trabajos entregados: el escudo del Ejército de Chile, con base roja, cordón dorado y atril, y el de Gendarmería de Chile, con fondo de terciopelo verde y cordón blanco.
 

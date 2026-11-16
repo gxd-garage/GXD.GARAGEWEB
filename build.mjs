@@ -92,6 +92,8 @@ const productos = leerColeccion("contenido/productos")
       ocultar_colores: d.ocultar_colores === true,
       compatibilidad: lista(d.compatibilidad).map(String).map((s) => s.trim()).filter(Boolean),
       destacado: d.destacado === true, orden: numero(d.orden) ?? 100,
+      seo_titulo: d.seo_titulo ? String(d.seo_titulo).trim() : "", seo_descripcion: d.seo_descripcion ? String(d.seo_descripcion).trim() : "",
+      preguntas: lista(d.preguntas).filter((q) => q && q.pregunta && q.respuesta).map((q) => ({ pregunta: String(q.pregunta).trim(), respuesta: String(q.respuesta).trim() })),
       publicado: d.publicado !== false, html: md(cuerpo),
     };
   })
@@ -210,6 +212,7 @@ for (const p of productos) {
 redirecciones.push("/impresion-3d/repuesto-para-auto-a-medida/ /impresion-3d/#auto-a-medida 301", "/impresion-3d/repuesto-para-auto-a-medida /impresion-3d/#auto-a-medida 301");
 if (!PREVIEW) fs.writeFileSync(path.join(SALIDA, "_redirects"), redirecciones.join("\n") + "\n");
 escribir("cotizar/index.html", T.paginaCotizar({ sitio }), true, hoy);
+escribir("impresion-3d-talagante/index.html", T.paginaLocal({ sitio, productos, portafolio }), true, hoy);
 const categorias = T.CATEGORIAS_BLOG;
 escribir("blog/index.html", T.paginaBlog({ sitio, posts, categorias }), true, posts[0]?.fecha || hoy);
 for (const c of categorias) {

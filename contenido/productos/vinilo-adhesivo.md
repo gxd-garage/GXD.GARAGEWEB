@@ -12,5 +12,7 @@ destacado: false
 orden: 3
 ocultar_colores: true
 publicado: true
+seo_titulo: "Vinilo adhesivo para vitrinas y vehículos"
+seo_descripcion: "Vinilo cortado o impreso para llevar tu marca a vitrinas, vehículos, paredes y superficies lisas, con el diseño adaptado a cada superficie."
 ---
 Diseñamos y producimos vinilos para que tu local, tu vehículo de trabajo o tu oficina comuniquen tu marca. Mándanos una foto de la superficie con sus medidas y te proponemos el diseño.
