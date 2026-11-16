@@ -36,4 +36,4 @@ Perillas, tapas, soportes, clips, engranajes y carcasas: muchas piezas plástica
 3. **Cotizamos el diseño.** Su valor depende de la complejidad de la pieza.
 4. **Con el diseño listo, cotizamos la impresión** según el material, el tamaño y la cantidad. En piezas muy técnicas puede convenir una impresión de prueba.
 
-Lee nuestra guía [cómo pedir un repuesto impreso en 3D](/blog/como-pedir-un-repuesto-impreso-en-3d/) para conocer el proceso completo.
+Lee nuestra guía [cómo pedir un repuesto impreso en 3D](/blog/como-pedir-un-repuesto-impreso-en-3d/) para conocer el proceso completo. Si es para tu auto, revisa [qué repuestos de auto se pueden imprimir en 3D](/blog/repuestos-de-auto-impresos-en-3d/).
