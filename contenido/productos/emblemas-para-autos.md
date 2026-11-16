@@ -44,3 +44,5 @@ preguntas:
 Los emblemas del auto se quiebran, se despegan o se pierden con el lavado y el sol, y muchas veces no se encuentran de repuesto. Los fabricamos en 3D para que tu auto vuelva a verse completo.
 
 ¿Necesitas un emblema distinto o para otro modelo? Tráenos el original, aunque esté roto, o envíanos una foto con una regla al lado, y lo hacemos a medida.
+
+¿Necesitas otra pieza del auto? Revisa [qué repuestos de auto se pueden imprimir en 3D](/blog/repuestos-de-auto-impresos-en-3d/).
