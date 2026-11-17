@@ -1055,3 +1055,10 @@ span.contact-link { cursor: default; }
   .cliente > a, .cliente > div { min-height: 120px; padding: 1.25rem 0.75rem; }
   .cliente-nombre { font-size: 1.35rem; }
 }
+
+/* Logo horizontal (isotipo + GARAGE) en menú y pie de página */
+.nav-logo .logo-h { display: block; height: 19px; width: auto; color: var(--white); }
+.footer-logo { display: block; margin-bottom: 1.25rem; color: var(--white); }
+.footer-logo .logo-h { display: block; height: 28px; width: auto; max-width: 100%; }
+@media (min-width: 901px) and (max-width: 1120px) { .nav-logo .logo-h { height: 14px; } }
+@media (max-width: 420px) { .nav-logo .logo-h { height: 15px; } }
