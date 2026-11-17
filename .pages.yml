@@ -198,6 +198,44 @@ content:
         label: Publicado
         type: boolean
 
+  - name: clientes
+    label: Marcas que confían en nosotros
+    type: collection
+    path: contenido/clientes
+    filename: "{primary}.md"
+    view:
+      fields: [nombre, rubro, publicado]
+      primary: nombre
+      sort: [orden, nombre]
+      default:
+        sort: orden
+        order: asc
+    fields:
+      - name: nombre
+        label: Nombre de la marca
+        type: string
+        required: true
+      - name: rubro
+        label: Rubro
+        type: string
+        description: "Opcional. Una línea corta que aparece bajo el nombre, por ejemplo: Automotora, Alimentos, Institución pública."
+      - name: logo
+        label: Logo
+        type: image
+        description: "Opcional. Si no subes logo, se muestra el nombre escrito. Ideal: PNG o SVG con fondo transparente, en blanco o un solo color, horizontal (unos 600 × 300 px). Se muestra en gris y toma color al pasar el mouse. Sube el logo solo si la marca te dio permiso."
+        options:
+          extensions: [png, svg, webp, jpg, jpeg]
+      - name: enlace
+        label: Sitio web o Instagram
+        type: string
+        description: "Opcional. Si lo pones, el nombre o el logo lleva a ese enlace."
+      - name: orden
+        label: Orden
+        type: number
+        description: Los números más bajos aparecen primero.
+      - name: publicado
+        label: Publicado
+        type: boolean
   - name: blog
     label: Blog
     type: collection

@@ -338,7 +338,17 @@ const ldNegocio = (sitio) => ({
 });
 
 // ---------- inicio ----------
-export function paginaInicio({ sitio, productos, posts, portafolio }) {
+// ---------- marcas que han trabajado con nosotros ----------
+function tarjetaCliente(c) {
+  const dentro = c.logo
+    ? `<img src="${esc(c.logo)}" alt="${esc(c.nombre)}" loading="lazy" decoding="async">`
+    : `<span class="cliente-nombre">${esc(c.nombre)}</span>`;
+  const rubro = c.rubro ? `<span class="cliente-rubro">${esc(c.rubro)}</span>` : "";
+  const cuerpo = `<span class="cliente-marca">${dentro}</span>${c.logo ? `<span class="cliente-sr">${esc(c.nombre)}</span>` : ""}${rubro}`;
+  return `<li class="cliente fade-up">${c.enlace ? `<a href="${esc(c.enlace)}" ${ext}>${cuerpo}</a>` : `<div>${cuerpo}</div>`}</li>`;
+}
+
+export function paginaInicio({ sitio, productos, posts, portafolio, clientes = [] }) {
   const marcados = productos.filter((p) => p.destacado);
   const destacados = (marcados.length ? marcados : productos).slice(0, 6);
   const marquee = ["Impresión 3D", "Diseño gráfico", "Impresión digital", "Repuestos a medida", "Lámparas", "Prototipos", "Branding", "Llaveros NFC", "Innovación capa por capa"];
@@ -446,14 +456,19 @@ ${portafolio.length ? `<div class="section-divider"></div>
   </div>
 </section>` : ""}
 
+${clientes.length ? `<section id="clientes">
+  ${cabecera("// 05 — clientes", "Marcas que", "confían en nosotros", "Empresas, instituciones y emprendimientos que ya trabajaron con nuestro taller.")}
+  <ul class="clientes-grid" role="list">${clientes.map(tarjetaCliente).join("")}</ul>
+</section>
+` : ""}
 ${posts.length ? `<section id="blog" class="section-alt">
-  ${cabecera("// 05 — blog", "Guías y", "novedades", "Respondemos lo que más nos preguntan sobre impresión 3D, materiales y diseño.")}
+  ${cabecera(`// ${clientes.length ? "06" : "05"} — blog`, "Guías y", "novedades", "Respondemos lo que más nos preguntan sobre impresión 3D, materiales y diseño.")}
   <div class="blog-grid">${posts.slice(0, 3).map((a) => tarjetaPost(a)).join("")}</div>
   <div class="catalog-more"><a href="/blog/" class="btn-primary">Ver todos los artículos</a></div>
 </section>` : ""}
 
 <section id="contacto"${posts.length ? "" : ' class="section-alt"'}>
-  ${cabecera("// 06 — hablemos", "¿Tienes un", "proyecto?", "Cuéntanos tu idea y cotizamos sin compromiso. Te respondemos por WhatsApp.")}
+  ${cabecera(`// ${clientes.length ? "07" : "06"} — hablemos`, "¿Tienes un", "proyecto?", "Cuéntanos tu idea y cotizamos sin compromiso. Te respondemos por WhatsApp.")}
   <div class="contact-layout">
     ${contactoInfo(sitio, `Nuestro taller está en ${esc(sitio.comuna)} y trabajamos con clientes de toda ${esc(zona(sitio))}. Ya sea una pieza única en 3D, la identidad de tu marca o material impreso, en ${esc(sitio.nombre)} lo hacemos realidad.`)}
     ${formContacto(sitio)}

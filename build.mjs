@@ -118,6 +118,16 @@ const portafolio = leerColeccion("contenido/portafolio")
   .filter((w) => w && w.publicado)
   .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
 
+const clientes = leerColeccion("contenido/clientes")
+  .map(({ archivo, datos: d }) => {
+    if (!d.nombre) { avisos.push(`${archivo}: falta el nombre de la marca, no se publicó`); return null; }
+    let enlace = d.enlace ? String(d.enlace).trim() : "";
+    if (enlace && !/^https?:\/\//.test(enlace)) enlace = "https://" + enlace;
+    return { nombre: String(d.nombre).trim(), rubro: d.rubro ? String(d.rubro).trim() : "", logo: ruta(d.logo), enlace, orden: numero(d.orden) ?? 100, publicado: d.publicado !== false };
+  })
+  .filter((c) => c && c.publicado)
+  .sort((a, b) => a.orden - b.orden || a.nombre.localeCompare(b.nombre, "es"));
+
 const posts = leerColeccion("contenido/blog")
   .map(({ archivo, slug, datos: d, cuerpo, mtime }) => {
     if (!d.titulo) { avisos.push(`${archivo}: falta el título del artículo, no se publicó`); return null; }
@@ -191,7 +201,7 @@ function escribir(archivo, html, enMapa = true, lastmod) {
 }
 
 const hoy = new Date();
-escribir("index.html", T.paginaInicio({ sitio, productos, posts, portafolio }), true, hoy);
+escribir("index.html", T.paginaInicio({ sitio, productos, posts, portafolio, clientes }), true, hoy);
 escribir("catalogo/index.html", T.paginaCatalogo({ sitio, productos }), true, hoy);
 for (const g of T.GRUPOS) {
   const html = g.clave === "3d" ? T.paginaImpresion3D({ sitio, productos, portafolio, posts }) : T.paginaGrupo({ sitio, g, productos, portafolio });
