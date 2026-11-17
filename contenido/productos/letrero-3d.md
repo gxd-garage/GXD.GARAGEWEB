@@ -6,7 +6,7 @@ subcategoria: Letreros y emblemas
 etiqueta: Letreros
 resumen: Tu logo en volumen para el mesón, la vitrina o la oficina. Diseñado e impreso en 3D a la medida.
 imagenes:
-  - /media/sg-autos.jpg
+  - /media/letrero-3d-sg-autos.jpg
 detalles:
   - Diseño a partir de tu logo
   - Tamaño y colores a elección
