@@ -292,6 +292,26 @@ content:
         label: Borrador
         type: boolean
         description: Actívalo para guardar el artículo sin publicarlo.
+      - name: seo_titulo
+        label: Título para Google
+        type: string
+        description: "Opcional. Entre 40 y 55 caracteres, con la palabra clave al inicio. Si lo dejas vacío, se usa el título del artículo."
+      - name: seo_descripcion
+        label: Descripción para Google
+        type: text
+        description: "Opcional. Entre 140 y 160 caracteres. Si la dejas vacía, se usa la descripción del artículo."
+      - name: preguntas
+        label: Preguntas frecuentes
+        type: object
+        list: true
+        description: "Opcional. Aparecen al final del artículo y Google puede mostrarlas en los resultados."
+        fields:
+          - name: pregunta
+            label: Pregunta
+            type: string
+          - name: respuesta
+            label: Respuesta
+            type: text
       - name: body
         label: Contenido
         type: rich-text

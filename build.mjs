@@ -180,6 +180,8 @@ const posts = leerColeccion("contenido/blog")
       slug, titulo: String(d.titulo), descripcion: d.descripcion ? String(d.descripcion).trim() : "", categoria,
       fecha: fecha(d.fecha, mtime), actualizado: fecha(d.actualizado, null), portada: ruta(d.portada),
       borrador: d.borrador === true, minutos: Math.max(1, Math.round(palabras / 200)), html: md(cuerpo),
+      seo_titulo: d.seo_titulo ? String(d.seo_titulo).trim() : "", seo_descripcion: d.seo_descripcion ? String(d.seo_descripcion).trim() : "",
+      preguntas: lista(d.preguntas).filter((q) => q && q.pregunta && q.respuesta).map((q) => ({ pregunta: String(q.pregunta).trim(), respuesta: String(q.respuesta).trim() })),
     };
   })
   .filter((a) => a && !a.borrador)

@@ -693,7 +693,7 @@ ${medida.length ? `<section id="a-medida"${prods.length ? "" : ' class="section-
   ${grupoMedida("Para tu proyecto", "Modelado, prototipos, figuras y repuestos para el hogar.", proyecto)}
 </section>` : ""}
 <section id="materiales" class="section-alt">
-  ${cabecera("// materiales", "12 materiales,", "uno para cada uso", "Te recomendamos el material según dónde va la pieza: si recibe calor, sol o esfuerzo, o si tiene que doblarse.")}
+  ${cabecera("// 12 materiales", "Materiales de", "impresión 3D", "Imprimimos en PLA, PETG, ABS, ASA y TPU, con versiones + y con fibra de carbono. Te recomendamos el filamento según si la pieza recibe calor, sol o esfuerzo, o si tiene que doblarse.")}
   <div class="services-grid materiales-grid">
     ${MATERIALES.map((m) => `<article class="service-card fade-up"><div class="service-num">${esc(m.familia)}</div><h3 class="service-name">${esc(m.uso)}</h3><p class="service-desc">${esc(m.desc)}</p><p class="mat-variantes">${m.variantes.map((v) => `<span>${esc(v)}</span>`).join("")}</p></article>`).join("")}
   </div>
@@ -1125,13 +1125,14 @@ export function paginaPost({ sitio, a, otros }) {
     </aside>
   </div>
 </section>
+${a.preguntas?.length ? bloquePreguntas(a.preguntas) : ""}
 ${otros.length ? `<section class="section-alt">
   ${cabecera("// sigue leyendo", "Más", "artículos")}
   <div class="blog-grid">${otros.map((o) => tarjetaPost(o)).join("")}</div>
 </section>` : ""}`;
   return layout({
-    sitio, ruta: `/blog/${a.slug}/`, actual: "blog", titulo: a.titulo, descripcion: a.descripcion,
-    imagen: a.portada, tipo: "article", jsonld: [ldMigas(sitio, items), ldPost], cuerpo,
+    sitio, ruta: `/blog/${a.slug}/`, actual: "blog", titulo: a.seo_titulo || a.titulo, descripcion: a.seo_descripcion || a.descripcion,
+    imagen: a.portada, tipo: "article", jsonld: [ldMigas(sitio, items), ldPost, ...(a.preguntas?.length ? [ldPreguntas(a.preguntas)] : [])], cuerpo,
   });
 }
 
