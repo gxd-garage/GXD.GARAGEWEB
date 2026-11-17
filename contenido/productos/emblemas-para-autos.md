@@ -8,8 +8,6 @@ resumen: Emblemas y logos para tu auto impresos en 3D, para reemplazar uno roto 
   perdido. Elige el color y pídelo por WhatsApp.
 imagenes:
   - /media/emblema-toyota-estudio.jpg
-  - /media/emblemas-nissan-sunny.jpg
-  - /media/emblemas-hyundai.jpg
 colores:
   - Negro
   - Plateado

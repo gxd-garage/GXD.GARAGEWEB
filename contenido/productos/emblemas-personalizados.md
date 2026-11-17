@@ -5,8 +5,7 @@ seccion: Hecho a medida
 subcategoria: Letreros y emblemas
 etiqueta: Emblemas
 resumen: Emblemas y logos en relieve para autos, motos, productos o regalos, impresos en 3D con el diseño que necesites.
-imagenes:
-  - /media/emblemas-nissan-sunny.jpg
+imagenes: []
 detalles:
   - Reproducción de emblemas difíciles de encontrar
   - Diseños propios con nombres o logos
