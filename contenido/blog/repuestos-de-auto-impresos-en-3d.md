@@ -3,7 +3,7 @@ titulo: ¿Se puede imprimir un repuesto de auto en 3D?
 descripcion: Qué piezas del auto se pueden fabricar con impresión 3D, cuáles no conviene imprimir nunca, qué material usar según el calor y cómo pedir la tuya.
 categoria: Guías
 fecha: 2026-11-16
-portada: ""
+portada: /media/blog-repuesto-impresora.jpg
 borrador: false
 ---
 Se cortó el clip de un tapiz, se quebró la tapa de la botonera o se perdió el emblema de la maleta, y el repuesto ya no se vende o hay que encargarlo afuera. En muchos de esos casos la respuesta corta es **sí: la pieza se puede volver a fabricar con impresión 3D**. Pero no todas las piezas del auto sirven, y elegir bien el material es lo que hace que dure.
