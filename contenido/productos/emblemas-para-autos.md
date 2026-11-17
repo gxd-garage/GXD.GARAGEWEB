@@ -6,6 +6,10 @@ subcategoria: Repuestos para autos
 etiqueta: Repuestos
 resumen: Emblemas y logos para tu auto impresos en 3D, para reemplazar uno roto o
   perdido. Elige el color y pídelo por WhatsApp.
+imagenes:
+  - /media/emblemas-toyota.jpg
+  - /media/emblemas-nissan-sunny.jpg
+  - /media/emblemas-hyundai.jpg
 colores:
   - Negro
   - Plateado
