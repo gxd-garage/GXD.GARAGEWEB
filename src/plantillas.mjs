@@ -292,7 +292,7 @@ export function tarjetaProducto(sitio, p) {
     : normal;
   return `<article class="product-card fade-up${disp?.agotado ? " is-agotado" : ""}" data-sub="${esc(slug(p.subcategoria || ""))}"${disp?.cls === "ok" ? ' data-stock="1"' : ""} data-q="${esc(buscar)}"${of && of.hasta ? ` data-oferta-hasta="${of.hasta}"` : ""}>
   <a class="product-link" href="${urlProducto(p)}">
-    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : marcador(g, etiqueta)}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}${disp && disp.cls !== "pedido" ? `<span class="badge-stock ${disp.cls}">${esc(disp.txt)}</span>` : ""}${p.por_mayor ? `<span class="badge-mayor">Por mayor desde ${minMayor(sitio)} u.</span>` : ""}</div>
+    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : marcador(g, etiqueta)}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}${disp && disp.cls !== "pedido" ? `<span class="badge-stock ${disp.cls}">${esc(disp.txt)}</span>` : ""}</div>
     <div class="product-body">
       <span class="product-cat">${esc(g.nombre)}${etiqueta ? ` · ${esc(etiqueta)}` : ""}</span>
       <h3 class="product-name">${esc(p.titulo)}</h3>
