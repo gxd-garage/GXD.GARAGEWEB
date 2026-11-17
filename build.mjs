@@ -94,6 +94,8 @@ const productos = leerColeccion("contenido/productos")
       destacado: d.destacado === true, orden: numero(d.orden) ?? 100,
       seo_titulo: d.seo_titulo ? String(d.seo_titulo).trim() : "", seo_descripcion: d.seo_descripcion ? String(d.seo_descripcion).trim() : "",
       preguntas: lista(d.preguntas).filter((q) => q && q.pregunta && q.respuesta).map((q) => ({ pregunta: String(q.pregunta).trim(), respuesta: String(q.respuesta).trim() })),
+      por_mayor_modo: ["Sí", "No"].includes(String(d.por_mayor || "").trim()) ? String(d.por_mayor).trim() : "Automático",
+      precio_mayor: numero(d.precio_mayor),
       publicado: d.publicado !== false, html: md(cuerpo),
     };
   })
@@ -102,6 +104,12 @@ const productos = leerColeccion("contenido/productos")
     const ok = T.SECCIONES_3D.some((x) => x.nombre === p.seccion_panel);
     if (p.seccion_panel && !ok) avisos.push(`${p.slug}: la sección "${p.seccion_panel}" no existe, se eligió una según el tipo`);
     return { ...p, seccion: ok ? p.seccion_panel : T.seccionPorDefecto(p) };
+  })
+  // precio por mayor: automático en piezas no personalizadas (secciones Productos y Repuestos para autos de Impresión 3D)
+  .map((p) => {
+    if (!p) return p;
+    const auto = p.categoria === "Impresión 3D" && ["Productos", "Repuestos para autos"].includes(p.seccion);
+    return { ...p, por_mayor: p.por_mayor_modo === "Sí" || (p.por_mayor_modo === "Automático" && auto) };
   })
   .filter((p) => p && p.publicado)
   // colores: los propios del producto o, si no tiene, los por defecto; nada si se ocultaron

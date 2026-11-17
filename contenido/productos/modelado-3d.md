@@ -6,7 +6,7 @@ subcategoria: Prototipos y modelado
 etiqueta: Modelado
 resumen: Transformamos tu idea, un boceto o una pieza existente en un modelo 3D listo para imprimir o fabricar.
 imagenes:
-  - /media/casco.jpg
+  - /media/colgador-casco.jpg
 detalles:
   - Modelado desde bocetos, fotos o piezas físicas
   - Prototipos para validar forma y tamaño

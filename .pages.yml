@@ -86,6 +86,16 @@ content:
         label: Mostrar este precio
         type: boolean
         description: Muestra el precio de este producto aunque el resto del sitio esté "A cotizar".
+      - name: por_mayor
+        label: Precio por mayor
+        type: select
+        description: "Automático: se muestra en los productos no personalizados (secciones Productos y Repuestos para autos). Elige Sí o No para forzarlo en este producto. La cantidad mínima se define en Datos del negocio."
+        options:
+          values: ["Automático", "Sí", "No"]
+      - name: precio_mayor
+        label: Precio por mayor (c/u)
+        type: number
+        description: "Opcional. Solo el número. Si lo dejas vacío, se muestra 'Comprando 12 unidades o más tienes precio por mayor' con el botón para cotizar."
       - name: precio_desde
         label: Mostrar como "Desde"
         type: boolean
@@ -407,6 +417,10 @@ content:
       - name: mensaje_whatsapp
         label: Mensaje inicial de WhatsApp
         type: string
+      - name: mayor_minimo
+        label: Unidades mínimas para precio por mayor
+        type: number
+        description: "Desde cuántas unidades rige el precio por mayor. Hoy: 12."
       - name: mostrar_precios
         label: Mostrar valores de referencia
         type: boolean

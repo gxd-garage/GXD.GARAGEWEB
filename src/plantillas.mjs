@@ -292,7 +292,7 @@ export function tarjetaProducto(sitio, p) {
     : normal;
   return `<article class="product-card fade-up${disp?.agotado ? " is-agotado" : ""}" data-sub="${esc(slug(p.subcategoria || ""))}"${disp?.cls === "ok" ? ' data-stock="1"' : ""} data-q="${esc(buscar)}"${of && of.hasta ? ` data-oferta-hasta="${of.hasta}"` : ""}>
   <a class="product-link" href="${urlProducto(p)}">
-    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : marcador(g, etiqueta)}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}${disp && disp.cls !== "pedido" ? `<span class="badge-stock ${disp.cls}">${esc(disp.txt)}</span>` : ""}</div>
+    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : marcador(g, etiqueta)}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}${disp && disp.cls !== "pedido" ? `<span class="badge-stock ${disp.cls}">${esc(disp.txt)}</span>` : ""}${p.por_mayor ? `<span class="badge-mayor">Por mayor desde ${minMayor(sitio)} u.</span>` : ""}</div>
     <div class="product-body">
       <span class="product-cat">${esc(g.nombre)}${etiqueta ? ` · ${esc(etiqueta)}` : ""}</span>
       <h3 class="product-name">${esc(p.titulo)}</h3>
@@ -818,6 +818,17 @@ const mensajeProducto = (p, url, { color = "", cant = 1, of = null, stock = fals
   return l.join("\n");
 };
 
+// precio por mayor (desde N unidades) en piezas no personalizadas
+const minMayor = (sitio) => Math.max(2, parseInt(sitio.mayor_minimo, 10) || 12);
+const bloqueMayor = (sitio, p) => {
+  if (!p.por_mayor) return "";
+  const n = minMayor(sitio);
+  const msg = `Hola GXD Garage, quiero cotizar por mayor (${n} o más unidades): *${p.titulo}*\n\n• Cantidad:\n• Color:`;
+  return `<div class="mayor-box"><span class="product-cat">Precio por mayor</span>
+        <p>${p.precio_mayor > 0 ? `Desde ${n} unidades: <b>${esc(pesos(p.precio_mayor))}</b> c/u.` : `Comprando ${n} unidades o más tienes precio por mayor.`} <a href="${waLink(sitio, msg)}" ${ext}>Cotizar por mayor →</a></p>
+      </div>`;
+};
+
 export function paginaProducto({ sitio, p, relacionados }) {
   const g = grupo(p.categoria);
   const es3D = g.clave === "3d";
@@ -872,6 +883,7 @@ export function paginaProducto({ sitio, p, relacionados }) {
         ${of.hastaLarga ? `<p class="fine">Válida hasta el ${esc(of.hastaLarga)}.</p>` : ""}
       </div>` : ""}
       ${ref ? `<p class="ref-price${of ? " solo-normal" : ""}"><small>${enStock || agotado ? "Precio" : "Valor de referencia"}</small>${esc(ref)}</p>` : ""}
+      ${bloqueMayor(sitio, p)}
       ${selector}
       <div class="quote-box">
         ${agotado ? `<p class="agotado-txt">Por ahora no nos queda stock. Te avisamos cuando vuelva, o lo fabricamos a pedido.</p>`
