@@ -8,7 +8,6 @@ resumen: ¿Se rompió una pieza plástica que ya no venden? Tráela como sea que
 imagenes:
   - /media/repuesto-auto-ducto.jpg
   - /media/repuesto-auto-impresora.jpg
-  - /media/impresora.jpg
 detalles:
   - Ideal para piezas descontinuadas o difíciles de encontrar
   - Modelado a partir de la pieza original, aunque esté rota
