@@ -13,6 +13,9 @@ detalles:
   - Ideal para mesones, vitrinas y stands
 destacado: true
 orden: 3
+precio: 19990
+precio_visible: true
+precio_desde: false
 publicado: true
 seo_titulo: "Letrero 3D con tu logo para tu negocio"
 seo_descripcion: "Tu logo en volumen para el mesón, la vitrina o la oficina, diseñado e impreso en 3D a la medida. Tamaño y colores a elección. Taller en Talagante."

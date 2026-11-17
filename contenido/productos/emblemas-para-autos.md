@@ -16,10 +16,10 @@ colores:
 tipo_venta: En stock
 stock: 2
 compatibilidad: []
-precio: 20000
+precio: 19990
 precio_visible: true
 precio_desde: false
-oferta_activa: true
+oferta_activa: false
 precio_oferta: 15000
 oferta_texto: ¡Oportunidad Única!
 oferta_detalle: Precio de lanzamiento, solo por esta semana.

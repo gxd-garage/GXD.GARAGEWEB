@@ -15,6 +15,9 @@ detalles:
   - Primero cotizamos el diseño, luego la impresión
 destacado: true
 orden: 2
+precio: 24990
+precio_visible: true
+precio_desde: true
 publicado: true
 seo_titulo: "Repuestos impresos en 3D a medida"
 seo_descripcion: "¿Se rompió una pieza plástica que ya no venden? La modelamos y la imprimimos en 3D en PLA, PETG o resina. Taller en Talagante, envíos a la RM y regiones."
