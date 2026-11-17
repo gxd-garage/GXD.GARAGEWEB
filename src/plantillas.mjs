@@ -33,6 +33,14 @@ export const COLORES = {
   "Multicolor": "conic-gradient(#c62828,#f9c80e,#2e7d32,#1565c0,#6a1b9a,#c62828)",
 };
 export const urlProducto = (p) => GRUPOS.find((g) => g.nombre === p.categoria)?.ruta + p.slug + "/";
+// Materiales con los que trabajamos (familias y variantes)
+export const MATERIALES = [
+  { familia: "PLA", uso: "Uso general", desc: "Rígido y con muy buen acabado. Para decoración, lámparas, letreros, regalos y piezas de interior.", variantes: ["PLA", "PLA+", "PLA CF"] },
+  { familia: "PETG", uso: "Piezas que aguantan", desc: "Más tenaz y resistente a la humedad. Para repuestos que reciben esfuerzo y piezas del auto, como clips y emblemas.", variantes: ["PETG", "PETG+", "PETG CF"] },
+  { familia: "ABS", uso: "Resistente al calor", desc: "Aguanta más temperatura y se puede lijar y pintar. Para piezas del auto cerca del calor y carcasas técnicas.", variantes: ["ABS", "ABS+", "ABS CF"] },
+  { familia: "ASA", uso: "Exterior y sol", desc: "Resiste el calor y la luz del sol sin ponerse quebradizo. Para piezas exteriores del auto y al aire libre.", variantes: ["ASA", "ASA+"] },
+  { familia: "TPU", uso: "Flexible", desc: "Se dobla y vuelve a su forma, como la goma. Para topes, juntas, protectores y piezas a presión.", variantes: ["TPU"] },
+];
 export const CATEGORIAS = GRUPOS.map((g) => g.nombre);
 export const CATEGORIAS_BLOG = ["Guías", "Proyectos", "Novedades"];
 export const SERVICIOS = ["Repuesto para auto", "Repuesto a medida", "Etiquetas personalizadas", "Impresión 3D", "Lámparas y decoración", "Diseño gráfico", "Impresión digital", "Llaveros NFC", "Otro"];
@@ -379,7 +387,7 @@ export function paginaInicio({ sitio, productos, posts, portafolio, clientes = [
   </div>
   <div class="hero-stats">
     <div><div class="stat-num">3</div><div class="stat-label">Servicios</div></div>
-    <div><div class="stat-num">3</div><div class="stat-label">Materiales</div></div>
+    <div><div class="stat-num">12</div><div class="stat-label">Materiales</div></div>
     <div><div class="stat-num">1</div><div class="stat-label">Unidad mínima</div></div>
   </div>
 </section>
@@ -395,7 +403,7 @@ export function paginaInicio({ sitio, productos, posts, portafolio, clientes = [
       <div class="service-num">01</div>
       ${ICONO["Impresión 3D"]}
       <h3 class="service-name">Impresión 3D</h3>
-      <p class="service-desc">Nuestro fuerte: <b>repuestos para autos a medida</b>. Además, piezas en stock, fidgets, lámparas, prototipos y piezas personalizadas en PLA, PETG o resina.</p>
+      <p class="service-desc">Nuestro fuerte: <b>repuestos para autos a medida</b>. Además, piezas en stock, fidgets, lámparas, prototipos y piezas personalizadas en PLA, PETG, ABS, ASA o TPU.</p>
       <a href="/impresion-3d/" class="service-arrow">Ver Impresión 3D →</a>
     </article>
     <article class="service-card fade-up">
@@ -643,7 +651,7 @@ export function paginaImpresion3D({ sitio, productos, portafolio, posts = [] }) 
   const conStock = prods.some((p) => disponibilidad(p)?.cls === "ok") && prods.some((p) => disponibilidad(p)?.cls !== "ok");
   const marca = medida.filter((p) => p.subcategoria === "Letreros y emblemas");
   const proyecto = medida.filter((p) => p.subcategoria !== "Letreros y emblemas");
-  const guia = posts.find((a) => a.slug === "pla-petg-o-resina");
+  const guia = posts.find((a) => a.slug === "que-material-elegir-para-impresion-3d");
   const port = portafolio.filter((w) => w.categoria === g.nombre);
   const secciones = [
     ["Repuestos para autos", "auto-a-medida", "01"],
@@ -685,12 +693,11 @@ ${medida.length ? `<section id="a-medida"${prods.length ? "" : ' class="section-
   ${grupoMedida("Para tu proyecto", "Modelado, prototipos, figuras y repuestos para el hogar.", proyecto)}
 </section>` : ""}
 <section id="materiales" class="section-alt">
-  ${cabecera("// materiales", "PLA, PETG", "o resina", "Te recomendamos el material según dónde va la pieza y cuánto esfuerzo tiene que aguantar.")}
-  <div class="services-grid">
-    <article class="service-card fade-up"><div class="service-num">PLA</div><h3 class="service-name">Uso general</h3><p class="service-desc">Rígido y con buen acabado. Para decoración, lámparas, figuras, letreros y piezas de interior.</p></article>
-    <article class="service-card fade-up"><div class="service-num">PETG</div><h3 class="service-name">Piezas que aguantan</h3><p class="service-desc">Más tenaz y resistente al calor y la humedad. Para piezas del auto, de exterior o que soportan esfuerzo.</p></article>
-    <article class="service-card fade-up"><div class="service-num">Resina</div><h3 class="service-name">Máximo detalle</h3><p class="service-desc">Superficie lisa y detalles finos. Para miniaturas, figuras y piezas pequeñas de precisión.</p></article>
+  ${cabecera("// materiales", "12 materiales,", "uno para cada uso", "Te recomendamos el material según dónde va la pieza: si recibe calor, sol o esfuerzo, o si tiene que doblarse.")}
+  <div class="services-grid materiales-grid">
+    ${MATERIALES.map((m) => `<article class="service-card fade-up"><div class="service-num">${esc(m.familia)}</div><h3 class="service-name">${esc(m.uso)}</h3><p class="service-desc">${esc(m.desc)}</p><p class="mat-variantes">${m.variantes.map((v) => `<span>${esc(v)}</span>`).join("")}</p></article>`).join("")}
   </div>
+  <p class="fine mat-nota fade-up">Las versiones <b>+</b> son fórmulas mejoradas, más tenaces. Las versiones <b>CF</b> llevan fibra de carbono: más rígidas y con acabado mate.</p>
   ${guia ? `<div class="catalog-more"><a href="/blog/${guia.slug}/" class="btn-primary">Leer la guía de materiales</a></div>` : ""}
 </section>
 ${port.length ? `<section id="trabajos">
@@ -945,7 +952,7 @@ export function paginaLocal({ sitio, productos, portafolio }) {
     { pregunta: "¿Hacen envíos fuera de Talagante?", respuesta: entrega(sitio) },
     { pregunta: "¿Qué se puede imprimir en 3D?", respuesta: "Repuestos plásticos que ya no se venden, emblemas para autos, letreros con tu logo, escudos institucionales, prototipos, maquetas, figuras y lámparas. Si es una pieza plástica y cabe en la impresora, lo más probable es que se pueda hacer." },
     { pregunta: "¿Cuánto cuesta imprimir una pieza en 3D?", respuesta: "Depende de la pieza. Primero cotizamos el diseño, que varía según la complejidad, y con el diseño listo cotizamos la impresión según el material, el tamaño y la cantidad. Algunos productos tienen precio publicado en su ficha." },
-    { pregunta: "¿Qué material conviene para mi pieza?", respuesta: "PLA para decoración y piezas de interior, PETG para piezas que van en el auto, al aire libre o que soportan esfuerzo, y resina para figuras y piezas pequeñas con mucho detalle. Lo explicamos en la [guía de materiales](/blog/pla-petg-o-resina/)." },
+    { pregunta: "¿Qué material conviene para mi pieza?", respuesta: "PLA para decoración y piezas de interior, PETG para piezas que soportan esfuerzo o humedad, ABS para piezas que reciben calor, ASA para piezas al sol o al aire libre y TPU para piezas flexibles. Lo explicamos en la [guía de materiales](/blog/que-material-elegir-para-impresion-3d/)." },
     { pregunta: "Se me rompió una pieza, ¿qué hago?", respuesta: "Tráela al taller como sea que esté, aunque esté rota o incompleta. Si no puedes venir, mándanos fotos de frente, de lado y desde arriba, con una regla o una moneda al lado. Más detalles en [cómo pedir un repuesto impreso en 3D](/blog/como-pedir-un-repuesto-impreso-en-3d/)." },
   ];
   const cuerpo = `
@@ -1079,7 +1086,7 @@ ${heroInterior(items, cat ? "// blog — categoría" : "// blog", cat ? esc(cat)
     sitio, ruta: cat ? rutaCat(cat) : "/blog/", actual: "blog",
     titulo: cat ? `${cat} sobre impresión 3D y diseño` : "Blog de impresión 3D y diseño",
     descripcion: cat ? `${INTRO_CAT[cat] || ""} Blog de ${sitio.nombre}, impresión 3D y diseño en ${zona(sitio)}.`.trim()
-      : `Guías, proyectos y novedades de ${sitio.nombre} sobre impresión 3D, materiales como PLA, PETG y resina, repuestos a medida, lámparas y diseño para tu marca.`,
+      : `Guías, proyectos y novedades de ${sitio.nombre} sobre impresión 3D, materiales como PLA, PETG, ABS, ASA y TPU, repuestos a medida, lámparas y diseño para tu marca.`,
     jsonld: [ldMigas(sitio, items)], cuerpo, noindex: !lista.length,
   });
 }

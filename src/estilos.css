@@ -1069,3 +1069,9 @@ span.contact-link { cursor: default; }
 .mayor-box b { color: var(--white); }
 .mayor-box a { color: var(--white); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
 .product-img { position: relative; }
+
+/* Materiales: 5 familias con sus variantes */
+.materiales-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.mat-variantes { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.1rem; }
+.mat-variantes span { border: 1px solid var(--border); padding: 0.2rem 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; color: var(--white); }
+.mat-nota { margin-top: 2rem; max-width: 60ch; }

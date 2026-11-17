@@ -11,7 +11,7 @@ imagenes:
 detalles:
   - Ideal para piezas descontinuadas o difíciles de encontrar
   - Modelado a partir de la pieza original, aunque esté rota
-  - Materiales PLA, PETG o resina según el uso
+  - 12 materiales a elección según el uso: PLA, PETG, ABS, ASA y TPU
   - Primero cotizamos el diseño, luego la impresión
 destacado: true
 orden: 2
@@ -20,14 +20,14 @@ precio_visible: true
 precio_desde: true
 publicado: true
 seo_titulo: "Repuestos impresos en 3D a medida"
-seo_descripcion: "¿Se rompió una pieza plástica que ya no venden? La modelamos y la imprimimos en 3D en PLA, PETG o resina. Taller en Talagante, envíos a la RM y regiones."
+seo_descripcion: "¿Se rompió una pieza plástica que ya no venden? La modelamos y la imprimimos en 3D en PLA, PETG, ABS, ASA o TPU. Taller en Talagante, envíos a la RM y regiones."
 preguntas:
   - pregunta: "¿Qué repuestos se pueden imprimir en 3D?"
     respuesta: "Piezas plásticas como perillas, tapas, soportes, clips, piezas de interior del auto y repuestos de electrodomésticos que ya no se venden. Si nos traes la pieza, aunque esté rota, te decimos si se puede fabricar."
   - pregunta: "¿Necesito llevar la pieza original?"
     respuesta: "Es lo ideal, como sea que esté. Si no puedes, sirven fotos de frente, de lado y desde arriba, con una regla o una moneda al lado."
   - pregunta: "¿Qué material conviene para un repuesto?"
-    respuesta: "PETG si va en el auto, al aire libre, cerca del calor o soporta esfuerzo; PLA para piezas de interior; y resina para piezas pequeñas con mucho detalle. Lo explicamos en la [guía de materiales](/blog/pla-petg-o-resina/)."
+    respuesta: "PETG si soporta esfuerzo o humedad, ABS si recibe calor, ASA si va al sol o al aire libre, TPU si tiene que ser flexible y PLA para piezas de interior. Si además tiene que ser más rígida, usamos la versión con fibra de carbono. Lo explicamos en la [guía de materiales](/blog/que-material-elegir-para-impresion-3d/)."
   - pregunta: "¿Cómo se cotiza un repuesto?"
     respuesta: "Primero cotizamos el diseño, según la complejidad de la pieza. Con el diseño listo, cotizamos la impresión según el material, el tamaño y la cantidad."
 ---

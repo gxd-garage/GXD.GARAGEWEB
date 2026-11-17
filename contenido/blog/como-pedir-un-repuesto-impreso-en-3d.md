@@ -33,7 +33,7 @@ El uso de la pieza define el material y el diseño. Dinos:
 - **Si soporta peso o esfuerzo:** una bisagra, un clip que se abre y se cierra, un soporte.
 - **Cuántas unidades necesitas.**
 
-Con eso elegimos entre PLA, PETG o resina. Si quieres entender la diferencia, revisa nuestra guía [PLA, PETG o resina: qué material elegir](/blog/pla-petg-o-resina/).
+Con eso elegimos el material: PLA, PETG, ABS, ASA o TPU. Si quieres entender la diferencia, revisa nuestra guía [qué material elegir para tu impresión 3D](/blog/que-material-elegir-para-impresion-3d/).
 
 ## 4. Así cotizamos: primero el diseño, después la impresión
 

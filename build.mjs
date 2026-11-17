@@ -261,6 +261,7 @@ for (const p of productos) {
   redirecciones.push(`/catalogo/${p.slug}/ ${destino} 301`, `/catalogo/${p.slug} ${destino} 301`);
 }
 // páginas que se reemplazaron por una sección
+redirecciones.push("/blog/pla-petg-o-resina/ /blog/que-material-elegir-para-impresion-3d/ 301", "/blog/pla-petg-o-resina /blog/que-material-elegir-para-impresion-3d/ 301");
 redirecciones.push("/impresion-3d/repuesto-para-auto-a-medida/ /impresion-3d/#auto-a-medida 301", "/impresion-3d/repuesto-para-auto-a-medida /impresion-3d/#auto-a-medida 301");
 if (!PREVIEW) fs.writeFileSync(path.join(SALIDA, "_redirects"), redirecciones.join("\n") + "\n");
 escribir("cotizar/index.html", T.paginaCotizar({ sitio }), true, hoy);

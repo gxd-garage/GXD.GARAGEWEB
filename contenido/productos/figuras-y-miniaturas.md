@@ -4,23 +4,23 @@ categoria: Impresión 3D
 seccion: Hecho a medida
 subcategoria: Figuras y miniaturas
 etiqueta: Figuras
-resumen: Figuras, miniaturas y piezas decorativas con detalle fino, impresas en filamento o en resina.
+resumen: Figuras, miniaturas y piezas decorativas con detalle fino, impresas en 3D con muy buen acabado.
 imagenes: []
 detalles:
-  - Resina para el detalle más fino
+  - PLA de alto detalle, en el color que elijas
   - Ideal para regalos, colecciones y decoración
   - Tamaño a elección
 destacado: false
 orden: 7
 publicado: true
 seo_titulo: "Figuras y miniaturas impresas en 3D"
-seo_descripcion: "Figuras, miniaturas y piezas decorativas con detalle fino, impresas en resina o filamento. Para regalos, colecciones y decoración, del tamaño que necesites."
+seo_descripcion: "Figuras, miniaturas y piezas decorativas con detalle fino, impresas en 3D en el color que elijas. Para regalos, colecciones y decoración, del tamaño que necesites."
 preguntas:
   - pregunta: "¿En qué material se imprimen?"
-    respuesta: "En resina para el detalle más fino, o en filamento para piezas más grandes."
+    respuesta: "Normalmente en PLA, que tiene muy buen acabado y viene en muchos colores. Para piezas que tienen que aguantar golpes usamos PLA+ o PETG."
   - pregunta: "¿De qué tamaño pueden ser?"
     respuesta: "Del tamaño que necesites. Envíanos la referencia y te contamos qué opción conviene."
 ---
-Para piezas pequeñas donde el detalle importa, la impresión en resina logra superficies lisas y rasgos definidos. Para piezas más grandes o resistentes usamos filamento.
+Las imprimimos capa por capa en PLA, que permite detalles definidos y viene en muchos colores. Para piezas más grandes o que se van a manipular mucho usamos versiones más tenaces, como PLA+ o PETG.
 
 Envíanos la referencia de lo que buscas y te contamos qué opción conviene.

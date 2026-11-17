@@ -37,10 +37,11 @@ Para esas piezas lo correcto es el repuesto original o uno certificado. Si nos t
 Un auto estacionado al sol en verano se calienta mucho por dentro, y el tablero y la luneta trasera son lo que más calor reciben. Por eso el material importa:
 
 - **PLA**: rígido y con buen acabado, pero se ablanda con el calor. Sirve para piezas que no quedan expuestas al sol, como un clip escondido bajo un panel.
-- **PETG**: más resistente al calor y a la humedad, y más tenaz. Es nuestra opción por defecto para **piezas del auto y emblemas exteriores**.
-- **Resina**: da el mayor detalle, pero es más frágil. Sirve para piezas pequeñas de terminación fina que no reciben golpes.
+- **PETG**: más resistente al calor y a la humedad, y más tenaz. Es nuestra opción por defecto para **piezas del auto**, incluidos los emblemas.
+- **ABS**: aguanta bastante más calor, cerca de los 95 a 100 °C. Es el plástico de muchas piezas originales y sirve para piezas cercanas al tablero o la calefacción.
+- **ASA**: resiste el calor como el ABS y además la luz del sol, sin ponerse quebradizo. Es lo que recomendamos para **piezas exteriores que pasan todo el día al sol**.
 
-Si la pieza va **en el tablero, a pleno sol**, cuéntanoslo: lo vemos caso a caso, porque ahí el calor de un día de verano puede llegar al límite de los plásticos de impresión 3D. Más detalles en la guía [PLA, PETG o resina: qué material elegir](/blog/pla-petg-o-resina/).
+Si la pieza va **en el tablero, a pleno sol**, cuéntanoslo: lo vemos caso a caso, porque ahí el calor de un día de verano puede llegar al límite de los plásticos de impresión 3D. Más detalles en la guía [qué material elegir para tu impresión 3D](/blog/que-material-elegir-para-impresion-3d/).
 
 ## Cómo pedir el repuesto de tu auto
 
