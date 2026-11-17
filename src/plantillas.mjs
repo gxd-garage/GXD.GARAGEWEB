@@ -341,7 +341,7 @@ const ldNegocio = (sitio) => ({
 // ---------- marcas que han trabajado con nosotros ----------
 function tarjetaCliente(c) {
   const dentro = c.logo
-    ? `<img src="${esc(c.logo)}" alt="${esc(c.nombre)}" loading="lazy" decoding="async">`
+    ? `<img src="${esc(c.logo)}" alt="${esc(c.nombre)}"${c.tamano ? ` width="${c.tamano.w}" height="${c.tamano.h}" style="width:${c.tamano.w}px;height:${c.tamano.h}px"` : ""} loading="lazy" decoding="async">`
     : `<span class="cliente-nombre">${esc(c.nombre)}</span>`;
   const rubro = c.rubro ? `<span class="cliente-rubro">${esc(c.rubro)}</span>` : "";
   const cuerpo = `<span class="cliente-marca">${dentro}</span>${c.logo ? `<span class="cliente-sr">${esc(c.nombre)}</span>` : ""}${rubro}`;

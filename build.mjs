@@ -118,12 +118,46 @@ const portafolio = leerColeccion("contenido/portafolio")
   .filter((w) => w && w.publicado)
   .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
 
+// medidas de un logo (PNG, JPG o SVG) para darle a todos el mismo peso visual
+const medidasImagen = (url) => {
+  try {
+    const f = path.join(RAIZ, "public", decodeURI(url).replace(/^\//, ""));
+    const b = fs.readFileSync(f);
+    if (b.readUInt32BE(0) === 0x89504e47) return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };
+    if (b[0] === 0xff && b[1] === 0xd8) {
+      for (let i = 2; i < b.length - 9;) {
+        if (b[i] !== 0xff) { i++; continue; }
+        const m = b[i + 1], len = b.readUInt16BE(i + 2);
+        if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) return { w: b.readUInt16BE(i + 7), h: b.readUInt16BE(i + 5) };
+        i += 2 + len;
+      }
+    }
+    const t = b.toString("utf8", 0, 4000);
+    const vb = t.match(/viewBox=["']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/);
+    if (vb) return { w: +vb[1], h: +vb[2] };
+    const w = t.match(/<svg[^>]*\swidth=["']([\d.]+)/), h = t.match(/<svg[^>]*\sheight=["']([\d.]+)/);
+    if (w && h) return { w: +w[1], h: +h[1] };
+  } catch {}
+  return null;
+};
+const tamanoLogo = (url) => {
+  const m = url && medidasImagen(url);
+  if (!m || !m.w || !m.h) return null;
+  const r = m.w / m.h, area = 7200; // misma superficie para todos, con topes de alto y ancho
+  let w = Math.sqrt(area * r), h = Math.sqrt(area / r);
+  if (h > 96) { h = 96; w = h * r; }
+  if (w > 200) { w = 200; h = w / r; }
+  return { w: Math.round(w), h: Math.round(h) };
+};
+
 const clientes = leerColeccion("contenido/clientes")
   .map(({ archivo, datos: d }) => {
     if (!d.nombre) { avisos.push(`${archivo}: falta el nombre de la marca, no se publicó`); return null; }
     let enlace = d.enlace ? String(d.enlace).trim() : "";
     if (enlace && !/^https?:\/\//.test(enlace)) enlace = "https://" + enlace;
-    return { nombre: String(d.nombre).trim(), rubro: d.rubro ? String(d.rubro).trim() : "", logo: ruta(d.logo), enlace, orden: numero(d.orden) ?? 100, publicado: d.publicado !== false };
+    const logo = ruta(d.logo);
+    if (logo && !fs.existsSync(path.join(RAIZ, "public", decodeURI(logo).replace(/^\//, "")))) avisos.push(`${archivo}: no se encontró el logo ${logo}`);
+    return { nombre: String(d.nombre).trim(), rubro: d.rubro ? String(d.rubro).trim() : "", logo, tamano: tamanoLogo(logo), enlace, orden: numero(d.orden) ?? 100, publicado: d.publicado !== false };
   })
   .filter((c) => c && c.publicado)
   .sort((a, b) => a.orden - b.orden || a.nombre.localeCompare(b.nombre, "es"));

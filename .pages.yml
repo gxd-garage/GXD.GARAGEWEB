@@ -222,7 +222,7 @@ content:
       - name: logo
         label: Logo
         type: image
-        description: "Opcional. Si no subes logo, se muestra el nombre escrito. Ideal: PNG o SVG con fondo transparente, en blanco o un solo color, horizontal (unos 600 × 300 px). Se muestra en gris y toma color al pasar el mouse. Sube el logo solo si la marca te dio permiso."
+        description: "Opcional. Si no subes logo, se muestra el nombre escrito. Sube un PNG con fondo transparente o un SVG, recortado al borde del logo; el tamaño se ajusta solo para que todos pesen igual. Como el fondo del sitio es negro, si el logo es oscuro usa su versión clara. Se ve en gris y toma su color al pasar el mouse (en celulares se ve a color). Sube el logo solo si la marca te dio permiso."
         options:
           extensions: [png, svg, webp, jpg, jpeg]
       - name: enlace
