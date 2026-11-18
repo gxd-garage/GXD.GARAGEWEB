@@ -1094,3 +1094,10 @@ span.contact-link { cursor: default; }
 .nav-logo .logo-iso { display: block; height: 26px; width: auto; color: var(--white); }
 @media (min-width: 901px) and (max-width: 1120px) { .nav-logo .logo-iso { height: 22px; } }
 @media (max-width: 420px) { .nav-logo .logo-iso { height: 22px; } }
+
+/* Menú: isologo a la izquierda, enlaces centrados en la página y Cotizar a la derecha */
+nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+nav .nav-logo { justify-self: start; }
+nav .nav-links { justify-self: center; }
+nav .nav-right { justify-self: end; grid-column: 3; }
+@media (max-width: 900px) { nav .nav-links.open { justify-self: stretch; } }
