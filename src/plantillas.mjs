@@ -112,6 +112,8 @@ const logo = (fondo = "#0a0a0a", trazo = "#fff", extra = "") =>
 // logo horizontal: isotipo GXD + GARAGE dibujado a medida (todo en curvas, toma el color del texto)
 const LOGO_GARAGE_D = "M7049.4,2175H6046.2A660,660 0 0 0 6046.2,3495H7128.6V2887.8H6970.2V3336.6H6046.2A501.6,501.6 0 0 1 6046.2,2333.4H7049.4ZM7445.4,3495V2835A660,660 0 0 1 8105.4,2175H8527.8A660,660 0 0 1 9187.8,2835V3495H9029.4V3046.2H7603.8V3495ZM7603.8,2887.8V2835A501.6,501.6 0 0 1 8105.4,2333.4H8527.8A501.6,501.6 0 0 1 9029.4,2835V2887.8ZM9504.6,3495V2175H10692.6A422.4,422.4 0 0 1 10787.38,3008.98L11273.4,3495H11049L10573.8,3019.8H9663V3495ZM9663,2333.4H10692.6A264,264 0 0 1 10692.6,2861.4H9663ZM11590.2,3495V2835A660,660 0 0 1 12250.2,2175H12672.6A660,660 0 0 1 13332.6,2835V3495H13174.2V3046.2H11748.6V3495ZM11748.6,2887.8V2835A501.6,501.6 0 0 1 12250.2,2333.4H12672.6A501.6,501.6 0 0 1 13174.2,2835V2887.8ZM15312.6,2175H14309.4A660,660 0 0 0 14309.4,3495H15391.8V2887.8H15233.4V3336.6H14309.4A501.6,501.6 0 0 1 14309.4,2333.4H15312.6ZM17371.8,2175H16368.6A660,660 0 0 0 16368.6,3495H17371.8V3336.6H16368.6A501.6,501.6 0 0 1 15873.34,2914.2H17187V2755.8H15873.34A501.6,501.6 0 0 1 16368.6,2333.4H17371.8Z";
 const logoHorizontal = () => `<svg class="logo-h" xmlns="http://www.w3.org/2000/svg" viewBox="626 2175 16825 1320" aria-hidden="true" focusable="false"><g fill="currentColor" fill-rule="evenodd"><path d="${LOGO_D}"/><path d="${LOGO_GARAGE_D}"/></g></svg>`;
+// isologo GXD solo (para el menú)
+const isologo = () => `<svg class="logo-iso" xmlns="http://www.w3.org/2000/svg" viewBox="626 2175 4417 1320" aria-hidden="true" focusable="false"><path fill="currentColor" d="${LOGO_D}"/></svg>`;
 const logoTrazo = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="560 2110 4550 1450" aria-hidden="true"><path fill="#fff" d="${LOGO_D}"/></svg>`;
 const WA = `<svg viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.523 5.837L.057 23.928l6.257-1.439A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.848 0-3.575-.504-5.063-1.383l-.363-.214-3.724.856.883-3.63-.235-.374A9.957 9.957 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>`;
 // Íconos de línea: impresora 3D con pieza en capas, pluma de vector con curva y nodos, círculos CMYK
@@ -173,7 +175,7 @@ ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).repl
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
 <nav aria-label="Principal">
-  <a class="nav-logo" href="/" aria-label="${esc(sitio.nombre)}, inicio">${logoHorizontal()}</a>
+  <a class="nav-logo" href="/" aria-label="${esc(sitio.nombre)}, inicio">${isologo()}</a>
   <ul class="nav-links" id="menu">
     ${GRUPOS.map((g) => nav(g.ruta, g.nombre, g.clave)).join("\n    ")}
     ${nav("/#portafolio", "Portafolio", "portafolio")}

@@ -1089,3 +1089,8 @@ span.contact-link { cursor: default; }
 .mat-tabla tbody th { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 1.2rem; letter-spacing: 0.05em; color: var(--white); }
 .mat-tabla tbody tr:last-child th, .mat-tabla tbody tr:last-child td { border-bottom: 0; }
 #materiales .faq-list { margin-top: 0.5rem; }
+
+/* Menú: solo el isologo GXD */
+.nav-logo .logo-iso { display: block; height: 26px; width: auto; color: var(--white); }
+@media (min-width: 901px) and (max-width: 1120px) { .nav-logo .logo-iso { height: 22px; } }
+@media (max-width: 420px) { .nav-logo .logo-iso { height: 22px; } }
