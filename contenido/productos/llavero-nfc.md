@@ -14,6 +14,7 @@ detalles:
   - Precio especial por mayor desde 15 unidades
 destacado: true
 orden: 4
+por_mayor: "No"
 publicado: true
 seo_titulo: "Llavero NFC personalizado con tu logo"
 seo_descripcion: "Comparte tu Instagram, WhatsApp, sitio web o reseñas de Google con un toque del celular. Llaveros NFC impresos en 3D con tu logo, con precio por mayor."

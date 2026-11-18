@@ -15,7 +15,7 @@ La impresión 3D funciona muy bien para **piezas plásticas que no son de seguri
 - **Clips y fijaciones** de tapices, paneles de puerta y molduras.
 - **Tapas y botones**: tapas de botonera, perillas de la ventilación, tapas de manillas y tapones.
 - **Rejillas y marcos** de ventilación del interior.
-- **Soportes y ganchos**: porta vasos, soportes de celular, ganchos de maleta.
+- **Soportes y ganchos**: portavasos, soportes de celular, ganchos de maleta.
 - **Emblemas y logos** de la marca o del modelo. Tenemos [emblemas para autos](/impresion-3d/emblemas-para-autos/) hechos en PETG y también los hacemos a medida.
 - **Piezas de autos antiguos** que ya no se fabrican y que hoy solo se encuentran en desarmadurías.
 
@@ -43,7 +43,7 @@ Un auto estacionado al sol en verano se calienta mucho por dentro, y el tablero 
 
 Si la pieza va **en el tablero, a pleno sol**, cuéntanoslo: lo vemos caso a caso, porque ahí el calor de un día de verano puede llegar al límite de los plásticos de impresión 3D. Más detalles en nuestra [sección de materiales de impresión 3D](/impresion-3d/#materiales).
 
-## Cómo pedir el repuesto de tu auto
+## ¿Cómo pedir el repuesto de tu auto?
 
 1. **Trae la pieza, como sea que esté.** Quebrada, incompleta o en varios trozos: tenerla en la mano es lo que más nos ayuda a que el repuesto calce. Si va encajada en otra pieza, trae las dos.
 2. **Si no puedes traerla, envía fotos** de frente, de lado y desde arriba, con una regla o una moneda al lado como referencia.

@@ -29,7 +29,7 @@ preguntas:
 ---
 Cada lámpara se diseña y se imprime capa por capa en nuestro taller. Sus paredes delgadas y los nervios en espiral dejan pasar la luz de forma suave, y las líneas de cada capa le dan una textura que no tiene una lámpara de tienda.
 
-## Cómo la cotizamos
+## ¿Cómo la cotizamos?
 
 1. **Cuéntanos tu idea:** el espacio donde irá, el estilo que te gusta y el tamaño aproximado. Si tienes una foto de referencia, mejor.
 2. **Diseñamos la propuesta** y te la mostramos antes de imprimir.

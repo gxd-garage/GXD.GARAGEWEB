@@ -11,7 +11,7 @@ imagenes:
 detalles:
   - Ideal para piezas descontinuadas o difíciles de encontrar
   - Modelado a partir de la pieza original, aunque esté rota
-  - 12 materiales a elección según el uso: PLA, PETG, ABS, ASA y TPU
+  - "12 materiales a elección según el uso: PLA, PETG, ABS, ASA y TPU"
   - Primero cotizamos el diseño, luego la impresión
 destacado: true
 orden: 2
@@ -33,7 +33,7 @@ preguntas:
 ---
 Perillas, tapas, soportes, clips, engranajes y carcasas: muchas piezas plásticas se pueden volver a fabricar con impresión 3D. Así le das una segunda vida a un aparato, un mueble o un accesorio del auto en vez de botarlo.
 
-## Cómo funciona
+## ¿Cómo funciona?
 
 1. **Trae la pieza, como sea que esté.** Rota, incompleta o en partes: tenerla en la mano es lo que más nos ayuda a modelarla bien. Si no puedes traerla, envíanos fotos de frente, de lado y desde arriba, con una regla o una moneda al lado.
 2. **Cuéntanos dónde va.** Si va en el auto, al aire libre o cerca del calor, o si soporta esfuerzo, eso define el material.

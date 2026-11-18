@@ -21,6 +21,6 @@ publicado: true
 seo_titulo: "Colgador de pared para casco impreso en 3D"
 seo_descripcion: "Colgador de pared para tu casco de bici o moto, impreso en 3D en el color que elijas. Se fija con dos tornillos. $7.990 y precio por mayor desde 12 unidades."
 ---
-Un lugar fijo para el casco: lo cuelgas al llegar y no queda rodando por el suelo o encima de un mueble. Se atornilla a la pared en la entrada, el garage o la bodega.
+Un lugar fijo para el casco: lo cuelgas al llegar y no queda rodando por el suelo o encima de un mueble. Se atornilla a la pared en la entrada, el garaje o la bodega.
 
 Lo imprimimos en 3D en nuestro taller en Talagante y lo fabricamos en el color que prefieras.

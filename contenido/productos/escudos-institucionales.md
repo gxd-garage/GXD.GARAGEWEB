@@ -35,7 +35,7 @@ Reproducimos el escudo o emblema de tu institución con impresión 3D: el emblem
 
 Es un regalo con presencia para aniversarios, ceremonias, reconocimientos, despedidas o la llegada de una nueva autoridad.
 
-## Cómo pedirlo
+## ¿Cómo pedirlo?
 
 1. **Envíanos el escudo o logo** en la mejor calidad que tengas. Si solo tienes una foto o una pieza física, también sirve.
 2. **Cuéntanos el tamaño y la terminación** que tienes en mente, y para cuándo lo necesitas.

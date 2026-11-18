@@ -79,7 +79,7 @@ const productos = leerColeccion("contenido/productos")
       oferta_texto: d.oferta_texto ? String(d.oferta_texto).trim() : "", oferta_detalle: d.oferta_detalle ? String(d.oferta_detalle).trim() : "",
       oferta_hasta: fecha(d.oferta_hasta, null),
       imagenes: lista(d.imagenes).map(ruta).filter(Boolean),
-      detalles: lista(d.detalles).map(String).filter((s) => s.trim()),
+      detalles: lista(d.detalles).map((x) => (x && typeof x === "object" ? Object.entries(x).map(([k, v]) => `${k}: ${v}`).join(" ") : String(x))).filter((s) => s.trim()),
       subcategoria: categoria === "Impresión 3D" && T.SUBCATEGORIAS_3D.includes(String(d.subcategoria || "").trim()) ? String(d.subcategoria).trim() : "",
       colores: lista(d.colores).flatMap((c) => String(c).split(",")).map((c) => c.trim()).filter((c) => {
         if (c && T.COLORES[c] === undefined) avisos.push(`${archivo}: el color "${c}" no está en la lista de colores y se ignoró`);

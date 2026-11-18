@@ -29,7 +29,7 @@ Una buena etiqueta hace que tu producto se vea profesional en la mesa, en la fer
 
 Como no hay cantidad mínima, puedes pedir unas pocas para una prueba, un regalo o un evento, y más cuando tu producto crezca.
 
-## Para qué se usan
+## ¿Para qué se usan?
 
 - **Vinos y espumantes** de viñas pequeñas, producción propia o regalos.
 - **Cervezas artesanales**, kombuchas y jugos.
@@ -37,7 +37,7 @@ Como no hay cantidad mínima, puedes pedir unas pocas para una prueba, un regalo
 - **Cosmética, jabones y velas.**
 - **Matrimonios, cumpleaños y regalos corporativos**, con el nombre o el logo de la ocasión.
 
-## Cómo pedirlas
+## ¿Cómo pedirlas?
 
 1. **Cuéntanos tu producto:** qué es, el tamaño del envase y cuántas etiquetas necesitas.
 2. **Diseño:** si ya tienes el archivo, lo revisamos para que imprima bien. Si no, diseñamos la etiqueta contigo; primero cotizamos el diseño.

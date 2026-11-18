@@ -561,7 +561,7 @@ export function bloqueEtiquetas(sitio) {
   ${cabecera("// destacado — etiquetas personalizadas", "Etiquetas", "para tu producto", "Para tu vino, tu cerveza o tu emprendimiento. Las diseñamos contigo y las imprimimos en papel adhesivo, cortadas a la forma y sin cantidad mínima.")}
   <div class="auto-layout">
     <div class="auto-info fade-up">
-      <ul class="auto-chips" aria-label="Para qué sirven">${USOS_ETIQUETAS.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
+      <ul class="auto-chips" aria-label="¿Para qué sirven?">${USOS_ETIQUETAS.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
       <ul class="spec-list">
         <li>Papel adhesivo de buena calidad</li>
         <li>Corte a la forma de tu etiqueta</li>
@@ -998,7 +998,7 @@ ${heroInterior(items, "// impresión 3d en talagante", "Impresión 3D", "en Tala
   <div class="zona-grid fade-up">${zonas.map(([t, d]) => `<div class="zona-item"><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join("")}</div>
 </section>
 ${destacados.length ? `<section class="section-alt">
-  ${cabecera("// lo que más nos piden", "Qué imprimimos", "en el taller", "Piezas a medida y productos que fabricamos para clientes de la zona y de toda la región.")}
+  ${cabecera("// lo que más nos piden", "¿Qué imprimimos", "en el taller?", "Piezas a medida y productos que fabricamos para clientes de la zona y de toda la región.")}
   <div class="catalog-panel active">${destacados.map((p) => tarjetaProducto(sitio, p)).join("")}</div>
   <div class="catalog-more"><a href="/impresion-3d/" class="btn-primary">Ver todo Impresión 3D</a></div>
 </section>` : ""}
