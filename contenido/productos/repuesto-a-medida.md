@@ -27,7 +27,7 @@ preguntas:
   - pregunta: "¿Necesito llevar la pieza original?"
     respuesta: "Es lo ideal, como sea que esté. Si no puedes, sirven fotos de frente, de lado y desde arriba, con una regla o una moneda al lado."
   - pregunta: "¿Qué material conviene para un repuesto?"
-    respuesta: "PETG si soporta esfuerzo o humedad, ABS si recibe calor, ASA si va al sol o al aire libre, TPU si tiene que ser flexible y PLA para piezas de interior. Si además tiene que ser más rígida, usamos la versión con fibra de carbono. Lo explicamos en la [guía de materiales](/blog/que-material-elegir-para-impresion-3d/)."
+    respuesta: "PETG si soporta esfuerzo o humedad, ABS si recibe calor, ASA si va al sol o al aire libre, TPU si tiene que ser flexible y PLA para piezas de interior. Si además tiene que ser más rígida, usamos la versión con fibra de carbono. Lo explicamos en la [sección de materiales](/impresion-3d/#materiales)."
   - pregunta: "¿Cómo se cotiza un repuesto?"
     respuesta: "Primero cotizamos el diseño, según la complejidad de la pieza. Con el diseño listo, cotizamos la impresión según el material, el tamaño y la cantidad."
 ---

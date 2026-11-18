@@ -5,7 +5,7 @@ categoria: Guías
 fecha: 2026-10-18
 actualizado: 2026-11-17
 portada: /media/blog-materiales.jpg
-borrador: false
+borrador: true
 seo_titulo: "Materiales de impresión 3D: PLA, PETG, ABS y ASA"
 seo_descripcion: "Guía de materiales de impresión 3D: cuándo usar PLA, PETG, ABS, ASA o TPU, y qué aportan las versiones + y con fibra de carbono. Taller en Talagante."
 preguntas:

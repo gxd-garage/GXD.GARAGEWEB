@@ -35,11 +35,19 @@ export const COLORES = {
 export const urlProducto = (p) => GRUPOS.find((g) => g.nombre === p.categoria)?.ruta + p.slug + "/";
 // Materiales con los que trabajamos (familias y variantes)
 export const MATERIALES = [
-  { familia: "PLA", uso: "Uso general", desc: "Rígido y con muy buen acabado. Para decoración, lámparas, letreros, regalos y piezas de interior.", variantes: ["PLA", "PLA+", "PLA CF"] },
-  { familia: "PETG", uso: "Piezas que aguantan", desc: "Más tenaz y resistente a la humedad. Para repuestos que reciben esfuerzo y piezas del auto, como clips y emblemas.", variantes: ["PETG", "PETG+", "PETG CF"] },
-  { familia: "ABS", uso: "Resistente al calor", desc: "Aguanta más temperatura y se puede lijar y pintar. Para piezas del auto cerca del calor y carcasas técnicas.", variantes: ["ABS", "ABS+", "ABS CF"] },
-  { familia: "ASA", uso: "Exterior y sol", desc: "Resiste el calor y la luz del sol sin ponerse quebradizo. Para piezas exteriores del auto y al aire libre.", variantes: ["ASA", "ASA+"] },
-  { familia: "TPU", uso: "Flexible", desc: "Se dobla y vuelve a su forma, como la goma. Para topes, juntas, protectores y piezas a presión.", variantes: ["TPU"] },
+  { familia: "PLA", uso: "Uso general", desc: "Rígido y con muy buen acabado. Para decoración, lámparas, letreros, regalos y piezas de interior.", variantes: ["PLA", "PLA+", "PLA CF"], calor: "Baja (55 a 60 °C)", sol: "Baja", flex: "Rígido", ideal: "Decoración, regalos, prototipos" },
+  { familia: "PETG", uso: "Piezas que aguantan", desc: "Más tenaz y resistente a la humedad. Para repuestos que reciben esfuerzo y piezas del auto, como clips y emblemas.", variantes: ["PETG", "PETG+", "PETG CF"], calor: "Media (70 a 80 °C)", sol: "Media", flex: "Algo flexible", ideal: "Repuestos, piezas del auto" },
+  { familia: "ABS", uso: "Resistente al calor", desc: "Aguanta más temperatura y se puede lijar y pintar. Para piezas del auto cerca del calor y carcasas técnicas.", variantes: ["ABS", "ABS+", "ABS CF"], calor: "Alta (95 a 100 °C)", sol: "Media", flex: "Algo flexible", ideal: "Piezas que reciben calor" },
+  { familia: "ASA", uso: "Exterior y sol", desc: "Resiste el calor y la luz del sol sin ponerse quebradizo. Para piezas exteriores del auto y al aire libre.", variantes: ["ASA", "ASA+"], calor: "Alta (95 a 100 °C)", sol: "Alta", flex: "Algo flexible", ideal: "Exterior y sol" },
+  { familia: "TPU", uso: "Flexible", desc: "Se dobla y vuelve a su forma, como la goma. Para topes, juntas, protectores y piezas a presión.", variantes: ["TPU"], calor: "Media", sol: "Media", flex: "Flexible", ideal: "Topes, gomas, juntas" },
+];
+export const PREGUNTAS_MATERIALES = [
+  { pregunta: "¿Cuál es el material de impresión 3D más resistente al calor?", respuesta: "Entre los que usamos, el ABS y el ASA, que se mantienen firmes hasta cerca de los 95 a 100 °C. El PETG llega a unos 70 a 80 °C y el PLA empieza a ablandarse alrededor de los 55 a 60 °C, una temperatura que se alcanza dentro de un auto al sol en verano." },
+  { pregunta: "¿Qué filamento sirve para piezas que van al sol?", respuesta: "El ASA, porque además de aguantar el calor resiste la luz ultravioleta sin ponerse quebradizo ni perder el color tan rápido. Es el indicado para piezas exteriores del auto, letreros y piezas al aire libre." },
+  { pregunta: "¿Qué significan las versiones + y CF?", respuesta: "Las versiones + (PLA+, PETG+, ABS+ y ASA+) son fórmulas mejoradas, más tenaces y con mejor unión entre capas. Las versiones CF (PLA CF, PETG CF y ABS CF) llevan fibra de carbono: son más rígidas, se deforman menos y tienen un acabado mate que disimula las capas." },
+  { pregunta: "¿Se pueden imprimir piezas flexibles en 3D?", respuesta: "Sí, con TPU, un filamento flexible parecido a la goma. Sirve para topes, gomas, juntas, protectores y piezas que calzan a presión." },
+  { pregunta: "¿Qué material conviene para un repuesto de auto?", respuesta: "Depende de dónde va. PETG para clips, tapas y piezas que no quedan a pleno sol; ABS para piezas cerca del calor, como el tablero o la calefacción; y ASA para piezas exteriores que pasan todo el día al sol. Si nos cuentas dónde va la pieza, te recomendamos el material." },
+  { pregunta: "¿Tengo que saber de materiales para pedir mi pieza?", respuesta: "No. Cuéntanos para qué es y dónde va a estar, y te recomendamos el filamento según el uso real. Escríbenos por WhatsApp o [cotiza en línea](/cotizar/)." },
 ];
 export const CATEGORIAS = GRUPOS.map((g) => g.nombre);
 export const CATEGORIAS_BLOG = ["Guías", "Proyectos", "Novedades"];
@@ -651,7 +659,6 @@ export function paginaImpresion3D({ sitio, productos, portafolio, posts = [] }) 
   const conStock = prods.some((p) => disponibilidad(p)?.cls === "ok") && prods.some((p) => disponibilidad(p)?.cls !== "ok");
   const marca = medida.filter((p) => p.subcategoria === "Letreros y emblemas");
   const proyecto = medida.filter((p) => p.subcategoria !== "Letreros y emblemas");
-  const guia = posts.find((a) => a.slug === "que-material-elegir-para-impresion-3d");
   const port = portafolio.filter((w) => w.categoria === g.nombre);
   const secciones = [
     ["Repuestos para autos", "auto-a-medida", "01"],
@@ -697,8 +704,33 @@ ${medida.length ? `<section id="a-medida"${prods.length ? "" : ' class="section-
   <div class="services-grid materiales-grid">
     ${MATERIALES.map((m) => `<article class="service-card fade-up"><div class="service-num">${esc(m.familia)}</div><h3 class="service-name">${esc(m.uso)}</h3><p class="service-desc">${esc(m.desc)}</p><p class="mat-variantes">${m.variantes.map((v) => `<span>${esc(v)}</span>`).join("")}</p></article>`).join("")}
   </div>
-  <p class="fine mat-nota fade-up">Las versiones <b>+</b> son fórmulas mejoradas, más tenaces. Las versiones <b>CF</b> llevan fibra de carbono: más rígidas y con acabado mate.</p>
-  ${guia ? `<div class="catalog-more"><a href="/blog/${guia.slug}/" class="btn-primary">Leer la guía de materiales</a></div>` : ""}
+  <div class="mat-extra">
+    <div class="mat-col fade-up">
+      <h3 class="mat-h">Versiones + y con fibra de carbono</h3>
+      <p>Las versiones <b>+</b> (PLA+, PETG+, ABS+ y ASA+) son fórmulas mejoradas, más tenaces y con mejor unión entre capas. Las usamos cuando la pieza necesita un poco más de resistencia sin cambiar de familia.</p>
+      <p>Las versiones <b>CF</b> (PLA CF, PETG CF y ABS CF) llevan fibra de carbono. Son más rígidas, se deforman menos y tienen un acabado mate que disimula las capas. Son ideales para piezas técnicas, soportes y repuestos que no se pueden doblar.</p>
+    </div>
+    <div class="mat-col fade-up">
+      <h3 class="mat-h">¿Qué material elijo?</h3>
+      <ol class="mat-regla">
+        <li><b>Decorativa, regalo o prototipo:</b> PLA.</li>
+        <li><b>Tiene que aguantar esfuerzo o humedad:</b> PETG.</li>
+        <li><b>Va a recibir calor:</b> ABS.</li>
+        <li><b>Va al sol o al aire libre:</b> ASA.</li>
+        <li><b>Tiene que doblarse o amortiguar:</b> TPU.</li>
+        <li><b>Además tiene que ser más rígida:</b> la versión CF de su familia.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="mat-tabla fade-up">
+    <table>
+      <caption class="sr-only">Comparación de materiales de impresión 3D</caption>
+      <thead><tr><th scope="col">Material</th><th scope="col">Resistencia al calor</th><th scope="col">Resistencia al sol</th><th scope="col">Flexibilidad</th><th scope="col">Ideal para</th></tr></thead>
+      <tbody>${MATERIALES.map((m) => `<tr><th scope="row">${esc(m.familia)}</th><td>${esc(m.calor)}</td><td>${esc(m.sol)}</td><td>${esc(m.flex)}</td><td>${esc(m.ideal)}</td></tr>`).join("")}</tbody>
+    </table>
+  </div>
+  <h3 class="mat-h fade-up" style="margin-top:4rem">Preguntas sobre materiales</h3>
+  <div class="faq-list">${PREGUNTAS_MATERIALES.map((q) => `<details class="faq-item"><summary>${esc(q.pregunta)}</summary><p>${conEnlaces(q.respuesta)}</p></details>`).join("")}</div>
 </section>
 ${port.length ? `<section id="trabajos">
   ${cabecera("// trabajos 3d", "Salido del", "taller", "Trabajos reales que hicimos para nuestros clientes.")}
@@ -711,8 +743,8 @@ ${port.length ? `<section id="trabajos">
 </section>`;
   return layout({
     sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${zona(sitio)}: repuestos para autos`,
-    descripcion: `Impresión 3D en ${zona(sitio)}, con taller en ${sitio.comuna}: repuestos para autos, emblemas, lámparas, letreros y prototipos. Cotiza por WhatsApp.`,
-    jsonld: [ldMigas(sitio, items), ldLista(sitio, lista)], cuerpo,
+    descripcion: `Impresión 3D en ${zona(sitio)}, con taller en ${sitio.comuna}: repuestos para autos, emblemas, letreros y más, en PLA, PETG, ABS, ASA y TPU. Cotiza por WhatsApp.`,
+    jsonld: [ldMigas(sitio, items), ldLista(sitio, lista), ldPreguntas(PREGUNTAS_MATERIALES)], cuerpo,
   });
 }
 
@@ -952,7 +984,7 @@ export function paginaLocal({ sitio, productos, portafolio }) {
     { pregunta: "¿Hacen envíos fuera de Talagante?", respuesta: entrega(sitio) },
     { pregunta: "¿Qué se puede imprimir en 3D?", respuesta: "Repuestos plásticos que ya no se venden, emblemas para autos, letreros con tu logo, escudos institucionales, prototipos, maquetas, figuras y lámparas. Si es una pieza plástica y cabe en la impresora, lo más probable es que se pueda hacer." },
     { pregunta: "¿Cuánto cuesta imprimir una pieza en 3D?", respuesta: "Depende de la pieza. Primero cotizamos el diseño, que varía según la complejidad, y con el diseño listo cotizamos la impresión según el material, el tamaño y la cantidad. Algunos productos tienen precio publicado en su ficha." },
-    { pregunta: "¿Qué material conviene para mi pieza?", respuesta: "PLA para decoración y piezas de interior, PETG para piezas que soportan esfuerzo o humedad, ABS para piezas que reciben calor, ASA para piezas al sol o al aire libre y TPU para piezas flexibles. Lo explicamos en la [guía de materiales](/blog/que-material-elegir-para-impresion-3d/)." },
+    { pregunta: "¿Qué material conviene para mi pieza?", respuesta: "PLA para decoración y piezas de interior, PETG para piezas que soportan esfuerzo o humedad, ABS para piezas que reciben calor, ASA para piezas al sol o al aire libre y TPU para piezas flexibles. Lo explicamos en la [sección de materiales](/impresion-3d/#materiales)." },
     { pregunta: "Se me rompió una pieza, ¿qué hago?", respuesta: "Tráela al taller como sea que esté, aunque esté rota o incompleta. Si no puedes venir, mándanos fotos de frente, de lado y desde arriba, con una regla o una moneda al lado. Más detalles en [cómo pedir un repuesto impreso en 3D](/blog/como-pedir-un-repuesto-impreso-en-3d/)." },
   ];
   const cuerpo = `

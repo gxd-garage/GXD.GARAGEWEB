@@ -41,7 +41,7 @@ Un auto estacionado al sol en verano se calienta mucho por dentro, y el tablero 
 - **ABS**: aguanta bastante más calor, cerca de los 95 a 100 °C. Es el plástico de muchas piezas originales y sirve para piezas cercanas al tablero o la calefacción.
 - **ASA**: resiste el calor como el ABS y además la luz del sol, sin ponerse quebradizo. Es lo que recomendamos para **piezas exteriores que pasan todo el día al sol**.
 
-Si la pieza va **en el tablero, a pleno sol**, cuéntanoslo: lo vemos caso a caso, porque ahí el calor de un día de verano puede llegar al límite de los plásticos de impresión 3D. Más detalles en la guía [qué material elegir para tu impresión 3D](/blog/que-material-elegir-para-impresion-3d/).
+Si la pieza va **en el tablero, a pleno sol**, cuéntanoslo: lo vemos caso a caso, porque ahí el calor de un día de verano puede llegar al límite de los plásticos de impresión 3D. Más detalles en nuestra [sección de materiales de impresión 3D](/impresion-3d/#materiales).
 
 ## Cómo pedir el repuesto de tu auto
 
