@@ -1056,12 +1056,6 @@ span.contact-link { cursor: default; }
   .cliente-nombre { font-size: 1.35rem; }
 }
 
-/* Logo horizontal (isotipo + GARAGE) en menú y pie de página */
-.nav-logo .logo-h { display: block; height: 19px; width: auto; color: var(--white); }
-.footer-logo { display: block; margin-bottom: 1.25rem; color: var(--white); }
-.footer-logo .logo-h { display: block; height: 28px; width: auto; max-width: 100%; }
-@media (min-width: 901px) and (max-width: 1120px) { .nav-logo .logo-h { height: 14px; } }
-@media (max-width: 420px) { .nav-logo .logo-h { height: 15px; } }
 
 /* Precio por mayor */
 .mayor-box { border: 1px solid var(--border); background: rgba(255,255,255,0.03); padding: 0.9rem 1.1rem; margin: 0.25rem 0 1.25rem; }
@@ -1101,3 +1095,7 @@ nav .nav-logo { justify-self: start; }
 nav .nav-links { justify-self: center; }
 nav .nav-right { justify-self: end; grid-column: 3; }
 @media (max-width: 900px) { nav .nav-links.open { justify-self: stretch; } }
+
+/* Pie de página: isologo GXD */
+.footer-logo { display: block; margin-bottom: 1.5rem; color: var(--white); }
+.footer-logo .logo-iso { display: block; height: 34px; width: auto; }

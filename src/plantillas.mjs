@@ -109,9 +109,6 @@ const LOGO_D = "M4839.9,3312.8c-127,110.3-274.9,161.9-440.6,179.4l-1118.1.2-446.
 const logo = (fondo = "#0a0a0a", trazo = "#fff", extra = "") =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5669.3 5669.3" ${extra} aria-hidden="true"><rect width="5669.3" height="5669.3" fill="${fondo}"/><path fill="${trazo}" d="${LOGO_D}"/></svg>`;
 // Solo el trazo del logo, recortado a su tamaño (para el hero "capa por capa")
-// logo horizontal: isotipo GXD + GARAGE dibujado a medida (todo en curvas, toma el color del texto)
-const LOGO_GARAGE_D = "M7049.4,2175H6046.2A660,660 0 0 0 6046.2,3495H7128.6V2887.8H6970.2V3336.6H6046.2A501.6,501.6 0 0 1 6046.2,2333.4H7049.4ZM7445.4,3495V2835A660,660 0 0 1 8105.4,2175H8527.8A660,660 0 0 1 9187.8,2835V3495H9029.4V3046.2H7603.8V3495ZM7603.8,2887.8V2835A501.6,501.6 0 0 1 8105.4,2333.4H8527.8A501.6,501.6 0 0 1 9029.4,2835V2887.8ZM9504.6,3495V2175H10692.6A422.4,422.4 0 0 1 10787.38,3008.98L11273.4,3495H11049L10573.8,3019.8H9663V3495ZM9663,2333.4H10692.6A264,264 0 0 1 10692.6,2861.4H9663ZM11590.2,3495V2835A660,660 0 0 1 12250.2,2175H12672.6A660,660 0 0 1 13332.6,2835V3495H13174.2V3046.2H11748.6V3495ZM11748.6,2887.8V2835A501.6,501.6 0 0 1 12250.2,2333.4H12672.6A501.6,501.6 0 0 1 13174.2,2835V2887.8ZM15312.6,2175H14309.4A660,660 0 0 0 14309.4,3495H15391.8V2887.8H15233.4V3336.6H14309.4A501.6,501.6 0 0 1 14309.4,2333.4H15312.6ZM17371.8,2175H16368.6A660,660 0 0 0 16368.6,3495H17371.8V3336.6H16368.6A501.6,501.6 0 0 1 15873.34,2914.2H17187V2755.8H15873.34A501.6,501.6 0 0 1 16368.6,2333.4H17371.8Z";
-const logoHorizontal = () => `<svg class="logo-h" xmlns="http://www.w3.org/2000/svg" viewBox="626 2175 16825 1320" aria-hidden="true" focusable="false"><g fill="currentColor" fill-rule="evenodd"><path d="${LOGO_D}"/><path d="${LOGO_GARAGE_D}"/></g></svg>`;
 // isologo GXD solo (para el menú)
 const isologo = () => `<svg class="logo-iso" xmlns="http://www.w3.org/2000/svg" viewBox="626 2175 4417 1320" aria-hidden="true" focusable="false"><path fill="currentColor" d="${LOGO_D}"/></svg>`;
 const logoTrazo = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="560 2110 4550 1450" aria-hidden="true"><path fill="#fff" d="${LOGO_D}"/></svg>`;
@@ -234,7 +231,7 @@ function pie(sitio) {
   const anio = new Date().getUTCFullYear();
   return `<footer>
   <div class="footer-brand">
-    <span class="footer-logo" role="img" aria-label="${esc(sitio.nombre)}">${logoHorizontal()}</span>
+    <span class="footer-logo" role="img" aria-label="${esc(sitio.nombre)}">${isologo()}</span>
     <p class="footer-slogan">${esc(sitio.slogan)}.<br>Impresión 3D · Diseño gráfico<br>Impresión digital<br>Taller en ${esc(sitio.comuna)}, ${esc(sitio.region)}</p>
   </div>
   <div class="footer-col">
