@@ -207,6 +207,48 @@ content:
       - name: publicado
         label: Publicado
         type: boolean
+      - name: caso
+        label: Publicar como caso real
+        type: boolean
+        description: "Crea una página propia en gxdgarage.cl/casos/ con la historia del trabajo. Necesita el resumen y la historia (abajo)."
+      - name: cliente
+        label: Cliente (opcional)
+        type: string
+        description: Solo si el cliente está de acuerdo en que se nombre.
+      - name: resumen
+        label: Resumen del caso
+        type: text
+        description: Una o dos frases. Aparece bajo el título y en Google.
+      - name: material
+        label: Material (opcional)
+        type: string
+        description: "Por ejemplo: ASA negro, PETG blanco."
+      - name: producto
+        label: Producto relacionado (opcional)
+        type: string
+        description: "La dirección del producto en el sitio, por ejemplo /impresion-3d/letrero-3d/. El caso aparece en esa ficha y enlaza a ella."
+      - name: galeria
+        label: Más fotos (opcional)
+        type: image
+        options:
+          multiple: true
+          extensions: [jpg, jpeg, png, webp]
+      - name: video
+        label: Video del proceso (opcional)
+        type: string
+        description: Enlace al Reel de Instagram o al video de TikTok.
+      - name: seo_titulo
+        label: Título para Google (opcional)
+        type: string
+      - name: seo_descripcion
+        label: Descripción para Google (opcional)
+        type: text
+      - name: body
+        label: Historia del caso
+        type: rich-text
+        description: "Cuenta el encargo, cómo lo hicimos y el resultado. Usa títulos: El encargo, Cómo lo hicimos, El resultado."
+        options:
+          format: markdown
 
   - name: clientes
     label: Marcas que confían en nosotros
@@ -456,6 +498,22 @@ content:
         label: Usuario de Instagram
         type: string
         description: Sin @
+      - name: tiktok
+        label: Usuario de TikTok
+        type: string
+        description: Sin @. Si lo dejas vacío, no se muestra.
+      - name: google_verificacion
+        label: Código de verificación de Google Search Console (opcional)
+        type: string
+        description: "Solo el código que Google entrega en la opción 'Etiqueta HTML' (lo que va en content=\"...\")."
+      - name: cloudflare_analytics
+        label: Token de Cloudflare Web Analytics (opcional)
+        type: string
+        description: Estadísticas de visitas gratis y sin cookies. Se obtiene en Cloudflare › Web Analytics › Agregar sitio.
+      - name: google_maps
+        label: Enlace del Perfil de Empresa en Google
+        type: string
+        description: El enlace de tu ficha en Google Maps (botón Compartir de la ficha). Ayuda a que Google conecte el sitio con tu perfil y las reseñas.
       - name: direccion
         label: Dirección
         type: string

@@ -95,7 +95,7 @@
   var foto = document.getElementById("foto");
   document.querySelectorAll(".thumb").forEach(function (b, _, all) {
     b.addEventListener("click", function () {
-      if (foto) foto.src = b.dataset.src;
+      if (foto) { foto.srcset = b.dataset.srcset || ""; foto.src = b.dataset.src; }
       all.forEach(function (x) { x.setAttribute("aria-current", String(x === b)); });
     });
   });
@@ -268,7 +268,7 @@
       var auto = [v("marca"), v("modelo"), v("anio")].filter(Boolean).join(" ");
       var tengo = fa.querySelector('input[name="tengo"]:checked');
       var txt = "Hola GXD Garage, necesito un repuesto para mi auto:\n\n• Auto: " + auto + "\n• Pieza: " + v("pieza") +
-        "\n• " + (tengo ? tengo.value : "") + "\n\nMi nombre es " + v("nombre") + ".";
+        "\n• " + (tengo ? tengo.value : "") + "\n\nMi nombre es " + v("nombre") + ".\n\n📷 Te envío una foto de la pieza con una regla al lado.";
       window.GXD_abrirWA(txt);
     });
   }

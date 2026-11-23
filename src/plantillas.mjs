@@ -69,8 +69,16 @@ export const waLink = (sitio, texto) =>
 const mapa = (sitio) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`${sitio.direccion}, ${sitio.comuna}, Chile`);
 const ext = 'target="_blank" rel="noopener"';
 
-let OPC = { mostrarPrecios: false, promo: null, hoy: new Date(), banners: {} };
+let OPC = { mostrarPrecios: false, promo: null, hoy: new Date(), banners: {}, imagenes: {} };
 export const fijarOpciones = (o) => { OPC = { ...OPC, ...o }; };
+// Atributos de una foto: la original como respaldo y, si existe en src/imagenes.json, versiones WebP
+// por ancho (srcset) más width/height para que el navegador reserve el espacio y no salte el diseño.
+const foto = (src, sizes = "100vw") => {
+  const m = OPC.imagenes[src];
+  if (!m) return `src="${esc(src)}"`;
+  return `src="${esc(src)}" srcset="${m.webp.map(([w, u]) => `${u} ${w}w`).join(", ")}" sizes="${sizes}" width="${m.w}" height="${m.h}"`;
+};
+const srcsetDe = (src) => { const m = OPC.imagenes[src]; return m ? m.webp.map(([w, u]) => `${u} ${w}w`).join(", ") : ""; };
 let VERSION = "1";
 export const fijarVersion = (v) => { VERSION = v; };
 
@@ -165,6 +173,8 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <script>document.documentElement.classList.add("js");window.GXD_WA=${JSON.stringify(sitio.whatsapp)};</script>
 <script src="/sitio.js?v=${VERSION}" defer></script>
 <script src="/cotizacion.js?v=${VERSION}" defer></script>
+${sitio.google_verificacion ? `<meta name="google-site-verification" content="${esc(sitio.google_verificacion)}">` : ""}
+${sitio.cloudflare_analytics ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='${JSON.stringify({ token: String(sitio.cloudflare_analytics) }).replace(/'/g, "")}'></script>` : ""}
 ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).replace(/</g, "\\u003c")}</script>`).join("\n")}
 </head>
 <body data-root="/">
@@ -212,7 +222,7 @@ function popup(sitio, ruta) {
   <div class="promo-fondo" data-promo-cerrar></div>
   <div class="promo-caja" role="dialog" aria-modal="true" aria-labelledby="promo-titulo">
     <button class="promo-x" type="button" data-promo-cerrar aria-label="Cerrar promoción">×</button>
-    ${pr.imagen ? `<div class="promo-img"><img src="${esc(pr.imagen)}" alt=""></div>` : ""}
+    ${pr.imagen ? `<div class="promo-img"><img ${foto(pr.imagen, "(max-width: 900px) 100vw, 50vw")} alt="" loading="lazy" decoding="async"></div>` : ""}
     <div class="promo-cuerpo">
       ${pr.etiqueta ? `<p class="section-label" style="margin:0">// ${esc(pr.etiqueta)}</p>` : ""}
       <h2 class="section-title" id="promo-titulo">${esc(pr.titulo)}${pr.titulo_cursiva ? `<br><em>${esc(pr.titulo_cursiva)}</em>` : ""}</h2>
@@ -281,7 +291,7 @@ const cabecera = (label, t1, t2, desc) => `<div class="section-header fade-up">
     ${desc ? `<p class="section-desc">${desc}</p>` : ""}
   </div>`;
 const heroInterior = (items, label, t1, t2, desc, extra = "", banner = "") => `<header class="page-hero${banner ? " con-banner" : ""}">
-  ${banner ? `<div class="hero-banner" aria-hidden="true"><img src="${esc(banner)}" alt="" fetchpriority="high"></div>` : ""}
+  ${banner ? `<div class="hero-banner" aria-hidden="true"><img ${foto(banner, "100vw")} alt="" fetchpriority="high" decoding="async"></div>` : ""}
   <div class="hero-grid-lines" aria-hidden="true"></div>
   ${migas(items)}
   <p class="section-label">${label}</p>
@@ -307,7 +317,7 @@ export function tarjetaProducto(sitio, p) {
     : normal;
   return `<article class="product-card fade-up${disp?.agotado ? " is-agotado" : ""}" data-sub="${esc(slug(p.subcategoria || ""))}"${disp?.cls === "ok" ? ' data-stock="1"' : ""} data-q="${esc(buscar)}"${of && of.hasta ? ` data-oferta-hasta="${of.hasta}"` : ""}>
   <a class="product-link" href="${urlProducto(p)}">
-    <div class="product-img">${img ? `<img src="${esc(img)}" alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy">` : marcador(g, etiqueta)}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}${disp && disp.cls !== "pedido" ? `<span class="badge-stock ${disp.cls}">${esc(disp.txt)}</span>` : ""}</div>
+    <div class="product-img">${img ? `<img ${foto(img, "(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 33vw")} alt="${esc(p.titulo)} - ${esc(sitio.nombre)}" loading="lazy" decoding="async">` : marcador(g, etiqueta)}${of ? `<span class="badge-oferta solo-oferta">${esc(of.texto)}</span>` : ""}${disp && disp.cls !== "pedido" ? `<span class="badge-stock ${disp.cls}">${esc(disp.txt)}</span>` : ""}</div>
     <div class="product-body">
       <span class="product-cat">${esc(g.nombre)}${etiqueta ? ` · ${esc(etiqueta)}` : ""}</span>
       <h3 class="product-name">${esc(p.titulo)}</h3>
@@ -325,7 +335,7 @@ export function tarjetaProducto(sitio, p) {
 
 export function tarjetaPost(a, destacado = false) {
   return `<a class="post-card${destacado ? " post-feature" : ""} fade-up" href="/blog/${a.slug}/">
-  <div class="post-card-img">${a.portada ? `<img src="${esc(a.portada)}" alt="" loading="lazy">` : marcador(null, a.categoria, true)}</div>
+  <div class="post-card-img">${a.portada ? `<img ${foto(a.portada, "(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 33vw")} alt="" loading="lazy" decoding="async">` : marcador(null, a.categoria, true)}</div>
   <div class="post-card-body">
     <div class="post-meta"><span>// ${esc(a.categoria)}</span><time datetime="${fechaISO(a.fecha)}">${fechaCorta(a.fecha)}</time></div>
     <h3 class="post-title">${esc(a.titulo)}</h3>
@@ -337,21 +347,102 @@ export function tarjetaPost(a, destacado = false) {
 
 function tarjetaPortafolio(w) {
   return `<figure class="portfolio-card fade-up" data-cat="${esc(slug(w.categoria))}" tabindex="0">
-  ${w.imagen ? `<img class="portfolio-card-img" src="${esc(w.imagen)}" alt="${esc(w.titulo)}" loading="lazy">` : `<div class="portfolio-card-content"><div class="p-card-visual">${esc(grupo(w.categoria).abrev)}</div></div>`}
-  <figcaption class="portfolio-card-overlay"><div class="p-card-category">${esc(w.categoria)}</div><div class="p-card-title">${esc(w.titulo)}</div></figcaption>
+  ${w.imagen ? `<img class="portfolio-card-img" ${foto(w.imagen, "(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 33vw")} alt="${esc(w.titulo)}" loading="lazy" decoding="async">` : `<div class="portfolio-card-content"><div class="p-card-visual">${esc(grupo(w.categoria).abrev)}</div></div>`}
+  <figcaption class="portfolio-card-overlay"><div class="p-card-category">${esc(w.categoria)}${w.caso ? " · caso real" : ""}</div><div class="p-card-title">${esc(w.titulo)}</div>${w.caso ? `<div class="p-card-link-txt">Ver el caso →</div>` : ""}</figcaption>
+  ${w.caso ? `<a class="p-card-link" href="/casos/${esc(w.slug)}/" aria-label="Ver el caso: ${esc(w.titulo)}"></a>` : ""}
 </figure>`;
+}
+
+// ---------- casos reales ----------
+export function paginaCasos({ sitio, casos }) {
+  const items = [["Inicio", "/"], ["Casos reales", null]];
+  const cuerpo = `
+${heroInterior(items, "// casos reales", "Trabajos que", "salieron del taller", `Cómo resolvimos encargos reales de impresión 3D, diseño e impresión digital en ${esc(zona(sitio))}: qué nos pidieron, cómo lo hicimos y cómo quedó.`)}
+<section>
+  <div class="portfolio-grid tres">${casos.map(tarjetaPortafolio).join("")}</div>
+  <div class="catalog-more"><a href="/cotizar/" class="btn-primary">Cotizar mi proyecto</a></div>
+</section>`;
+  return layout({
+    sitio, ruta: "/casos/", actual: "portafolio", titulo: "Casos reales de impresión 3D y diseño",
+    descripcion: `Trabajos reales de ${sitio.nombre}: repuestos, letreros, escudos y etiquetas hechos en nuestro taller en ${sitio.comuna}. Mira cómo los hicimos.`,
+    imagen: casos[0]?.imagen, jsonld: [ldMigas(sitio, items), ldLista(sitio, casos.map((c) => ({ titulo: c.titulo, url: `/casos/${c.slug}/` })))], cuerpo,
+  });
+}
+
+export function paginaCaso({ sitio, c, producto, otros }) {
+  const items = [["Inicio", "/"], ["Casos reales", "/casos/"], [c.titulo, null]];
+  const base = sitio.url.replace(/\/$/, "");
+  const abs = (u) => (u.startsWith("http") ? u : base + u);
+  const precio = producto ? precioTexto(producto) : null;
+  const ficha = [
+    c.cliente && ["Cliente", esc(c.cliente)],
+    ["Servicio", `<a href="${grupo(c.categoria).ruta}">${esc(c.categoria)}</a>`],
+    c.material && ["Material", esc(c.material)],
+    producto && ["Producto", `<a href="${urlProducto(producto)}">${esc(producto.titulo)}</a>${precio ? ` · ${esc(precio)}` : ""}`],
+  ].filter(Boolean);
+  const fotos = [c.imagen, ...c.galeria].filter(Boolean);
+  const ld = {
+    "@context": "https://schema.org", "@type": "CreativeWork", name: c.titulo, description: c.resumen, url: `${base}/casos/${c.slug}/`,
+    inLanguage: "es-CL", genre: "Caso real", about: c.categoria, ...(fotos.length ? { image: fotos.map(abs) } : {}),
+    creator: { "@type": "LocalBusiness", "@id": base + "/#negocio", name: sitio.nombre },
+    ...(c.cliente ? { sourceOrganization: { "@type": "Organization", name: c.cliente } } : {}),
+  };
+  const cuerpo = `
+${heroInterior(items, `// caso real · ${esc(c.categoria)}`, esc(c.titulo), "", esc(c.resumen))}
+<section style="padding-top:4rem">
+  ${c.imagen ? `<div class="article-cover fade-up"><img ${foto(c.imagen, "(max-width: 900px) 100vw, 900px")} alt="${esc(c.titulo)}" decoding="async"></div>` : ""}
+  <div class="article-layout">
+    <article class="prose">
+      <dl class="caso-ficha">${ficha.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>
+      ${c.html}
+      ${c.galeria.length ? `<div class="caso-galeria">${c.galeria.map((g, i) => `<img ${foto(g, "(max-width: 900px) 50vw, 400px")} alt="${esc(c.titulo)}, foto ${i + 2}" loading="lazy" decoding="async">`).join("")}</div>` : ""}
+      ${c.video ? `<p><a class="btn-line" href="${esc(c.video)}" ${ext}>Ver el video del proceso →</a></p>` : ""}
+    </article>
+    <aside class="aside-card">
+      <p class="section-label" style="margin:0">// ${esc(sitio.nombre)}</p>
+      <h3>¿Necesitas algo así?</h3>
+      <p>Cuéntanos qué tienes en mente${c.categoria === "Impresión 3D" ? " y, si es un repuesto, mándanos una foto de la pieza junto a una regla" : ""}. Te respondemos con el diseño, el material y el valor.</p>
+      ${producto ? `<a class="btn-primary" href="${urlProducto(producto)}" style="text-align:center">Ver ${esc(producto.titulo)}</a>` : `<a class="btn-primary" href="/cotizar/" style="text-align:center">Cotizar mi proyecto</a>`}
+      <a class="btn-wa" href="${waLink(sitio, `Hola GXD Garage, vi el caso "${c.titulo}" y quiero cotizar algo parecido.`)}" ${ext} style="justify-content:center">${WA}WhatsApp</a>
+    </aside>
+  </div>
+</section>
+${otros.length ? `<section class="section-alt">
+  ${cabecera("// más trabajos", "Otros", "casos reales")}
+  <div class="portfolio-grid tres">${otros.map(tarjetaPortafolio).join("")}</div>
+</section>` : ""}`;
+  return layout({
+    sitio, ruta: `/casos/${c.slug}/`, actual: "portafolio", titulo: c.seo_titulo || c.titulo,
+    descripcion: c.seo_descripcion || c.resumen, imagen: c.imagen, tipo: "article", jsonld: [ldMigas(sitio, items), ld], cuerpo,
+  });
 }
 
 const zona = (s) => s.zona || "la Región Metropolitana";
 const entrega = (s) => s.entrega || `Envíos a toda ${zona(s)} y a regiones, o retiro coordinado en nuestro taller en ${s.comuna}.`;
+// Nombre del sitio para Google (el que aparece sobre el enlace en los resultados)
+const ldSitio = (sitio) => ({ "@context": "https://schema.org", "@type": "WebSite", "@id": sitio.url.replace(/\/$/, "") + "/#sitio", name: sitio.nombre, alternateName: ["GXD", "GXD Garage SpA"], url: sitio.url, inLanguage: "es-CL", publisher: { "@id": sitio.url.replace(/\/$/, "") + "/#negocio" } });
+// "Lunes a viernes de 10:00 a 19:00" → horario para Google (si el texto no se entiende, no se publica)
+const DIAS = { lunes: "Monday", martes: "Tuesday", "miércoles": "Wednesday", miercoles: "Wednesday", jueves: "Thursday", viernes: "Friday", "sábado": "Saturday", sabado: "Saturday", domingo: "Sunday" };
+const ORDEN_DIAS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+function horarioLD(txt) {
+  const m = String(txt || "").toLowerCase().match(/^(\S+)\s+a\s+(\S+)\s+de\s+(\d{1,2}:\d{2})\s+a\s+(\d{1,2}:\d{2})$/);
+  if (!m || !DIAS[m[1]] || !DIAS[m[2]]) return {};
+  const i = ORDEN_DIAS.indexOf(DIAS[m[1]]), f = ORDEN_DIAS.indexOf(DIAS[m[2]]);
+  if (f < i) return {};
+  return { openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ORDEN_DIAS.slice(i, f + 1), opens: m[3].padStart(5, "0"), closes: m[4].padStart(5, "0") }] };
+}
 const ldNegocio = (sitio) => ({
-  "@context": "https://schema.org", "@type": "LocalBusiness",
+  "@context": "https://schema.org", "@type": "LocalBusiness", "@id": sitio.url.replace(/\/$/, "") + "/#negocio",
   name: sitio.nombre, description: sitio.descripcion, slogan: sitio.slogan, url: sitio.url,
   image: sitio.url.replace(/\/$/, "") + "/brand/icono-512.png", logo: sitio.url.replace(/\/$/, "") + "/brand/icono-512.png",
   telephone: "+" + sitio.whatsapp,
   address: { "@type": "PostalAddress", streetAddress: sitio.direccion, addressLocality: sitio.comuna, addressRegion: sitio.region, postalCode: sitio.codigo_postal, addressCountry: "CL" },
   areaServed: [{ "@type": "AdministrativeArea", name: "Región Metropolitana de Santiago" }, { "@type": "City", name: sitio.comuna }],
-  sameAs: [`https://www.instagram.com/${sitio.instagram}/`],
+  sameAs: [`https://www.instagram.com/${sitio.instagram}/`, ...(sitio.google_maps ? [sitio.google_maps] : []), ...(sitio.tiktok ? [`https://www.tiktok.com/@${String(sitio.tiktok).replace(/^@/, "")}`] : [])],
+  hasMap: sitio.google_maps || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${sitio.nombre}, ${sitio.direccion}, ${sitio.comuna}`)}`,
+  priceRange: "$$",
+  ...horarioLD(sitio.horario),
+  knowsAbout: ["Impresión 3D", "Repuestos para autos impresos en 3D", "Modelado 3D", "Diseño gráfico", "Identidad visual", "Impresión digital", "Etiquetas personalizadas", "Llaveros NFC"],
   contactPoint: { "@type": "ContactPoint", contactType: "customer service", telephone: "+" + sitio.whatsapp, availableLanguage: "Spanish" },
 });
 
@@ -465,6 +556,7 @@ ${portafolio.length ? `<div class="section-divider"></div>
   <div class="portfolio-layout">
     <div class="portfolio-sidebar">
       <p style="font-size:0.78rem;color:var(--dim);line-height:1.9;margin-bottom:2rem;">Escudos, letreros, emblemas y etiquetas que hoy están en manos de nuestros clientes. Filtra por tipo de trabajo.</p>
+      ${portafolio.some((w) => w.caso) ? `<p style="margin-bottom:2rem"><a class="btn-line" href="/casos/">Ver casos reales →</a></p>` : ""}
       <div class="portfolio-filter" role="group" aria-label="Filtrar trabajos">
         <button class="filter-btn active" type="button" data-f="" aria-pressed="true">Todo</button>
         ${catsPorta.map((c) => `<button class="filter-btn" type="button" data-f="${esc(slug(c))}" aria-pressed="false">${esc(c)}</button>`).join("")}
@@ -492,19 +584,19 @@ ${posts.length ? `<section id="blog" class="section-alt">
     ${formContacto(sitio)}
   </div>
 </section>`;
-  return layout({ sitio, ruta: "/", titulo: "Impresión 3D y diseño en la Región Metropolitana", descripcion: sitio.descripcion, jsonld: [ldNegocio(sitio)], cuerpo });
+  return layout({ sitio, ruta: "/", titulo: "Impresión 3D y diseño en la Región Metropolitana", descripcion: sitio.descripcion, jsonld: [ldSitio(sitio), ldNegocio(sitio)], cuerpo });
 }
 
 // ---------- bloque de repuestos para autos (siempre presente en Impresión 3D) ----------
 const EJEMPLOS_AUTO = ["Clips y grapas de tapiz", "Tapas y embellecedores", "Perillas y botones", "Soportes y bases", "Rejillas de ventilación", "Piezas descontinuadas"];
 export function bloqueAuto(sitio, compacto = false, piezas = []) {
-  const msg = "Hola GXD Garage, necesito un repuesto para mi auto.\n\n• Marca y modelo:\n• Año:\n• Pieza:";
+  const msg = "Hola GXD Garage, necesito un repuesto para mi auto.\n\n• Marca y modelo:\n• Año:\n• Pieza:\n\n📷 Te envío una foto de la pieza con una regla al lado.";
   if (compacto) return `<section class="strip-sec" aria-labelledby="auto-strip-t">
   <div class="auto-strip fade-up">
   <div class="auto-strip-txt">
     <p class="section-label">// repuestos para autos a medida</p>
     <h2 class="section-title" id="auto-strip-t">¿Buscas una pieza <em>para tu auto?</em></h2>
-    <p>Clips, tapas, perillas o soportes que ya no venden. Tráenos la pieza original, como sea que esté, y la fabricamos en 3D.</p>
+    <p>Clips, tapas, perillas o soportes que ya no venden. Tráenos la pieza original, como sea que esté, o mándanos una foto por WhatsApp con una regla al lado, y la fabricamos en 3D.</p>
   </div>
   <div class="hero-actions">
     <a class="btn-primary" href="/impresion-3d/#auto-a-medida">Cotizar mi repuesto</a>
@@ -633,7 +725,7 @@ const contactoInfo = (sitio, texto) => `<div class="contact-info fade-up">
 
 const ldLista = (sitio, lista) => ({
   "@context": "https://schema.org", "@type": "ItemList",
-  itemListElement: lista.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: sitio.url.replace(/\/$/, "") + urlProducto(p), name: p.titulo })),
+  itemListElement: lista.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: sitio.url.replace(/\/$/, "") + (p.url || urlProducto(p)), name: p.titulo })),
 });
 
 const portafolioDe = (portafolio, cat, label) => {
@@ -742,7 +834,7 @@ ${port.length ? `<section id="trabajos">
 </section>`;
   return layout({
     sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${zona(sitio)}: repuestos para autos`,
-    descripcion: `Impresión 3D en ${zona(sitio)}, con taller en ${sitio.comuna}: repuestos para autos, emblemas, letreros y más, en PLA, PETG, ABS, ASA y TPU. Cotiza por WhatsApp.`,
+    descripcion: `Impresión 3D en ${zona(sitio)} desde ${sitio.comuna}: repuestos para autos, emblemas y letreros en 12 materiales, de PLA a ASA. Cotiza por WhatsApp.`,
     jsonld: [ldMigas(sitio, items), ldLista(sitio, lista), ldPreguntas(PREGUNTAS_MATERIALES)], cuerpo,
   });
 }
@@ -867,7 +959,7 @@ const bloqueMayor = (sitio, p) => {
       </div>`;
 };
 
-export function paginaProducto({ sitio, p, relacionados }) {
+export function paginaProducto({ sitio, p, relacionados, casos = [] }) {
   const g = grupo(p.categoria);
   const es3D = g.clave === "3d";
   const sec = es3D ? seccion3D(p.seccion) : null;
@@ -881,20 +973,31 @@ export function paginaProducto({ sitio, p, relacionados }) {
   const enStock = disp?.cls === "ok";
   const agotado = disp?.agotado === true;
   const colores = p.colores || [];
+  // Productos físicos con precio visible van como Product (Google puede mostrar el precio en los resultados);
+  // el diseño y el modelado van como Service. Los hechos a pedido se marcan como "MadeToOrder".
+  const esServicio = g.clave === "diseno" || /modelado/i.test(p.slug);
+  const disponibilidadLD = agotado ? "https://schema.org/OutOfStock" : p.tipo_venta === "En stock" ? "https://schema.org/InStock" : "https://schema.org/MadeToOrder";
+  const vendedor = { "@type": "LocalBusiness", "@id": base + "/#negocio", name: sitio.nombre };
+  const offers = of
+    ? { "@type": "Offer", priceCurrency: "CLP", price: p.precio_oferta, url, availability: disponibilidadLD, seller: vendedor, ...(of.hasta ? { priceValidUntil: of.hasta } : {}) }
+    : ref && p.precio > 0
+      ? p.precio_desde
+        ? { "@type": "AggregateOffer", priceCurrency: "CLP", lowPrice: p.precio, offerCount: 1, url, availability: disponibilidadLD, seller: vendedor }
+        : { "@type": "Offer", priceCurrency: "CLP", price: p.precio, url, availability: disponibilidadLD, seller: vendedor }
+      : null;
   const ldServ = {
-    "@context": "https://schema.org", "@type": p.tipo_venta === "En stock" ? "Product" : "Service",
+    "@context": "https://schema.org", "@type": esServicio ? "Service" : "Product",
     name: p.titulo, description: p.resumen, url,
-    ...(p.tipo_venta === "En stock" ? { category: p.subcategoria || g.nombre, ...(colores.length ? { color: colores.join(", ") } : {}), brand: { "@type": "Brand", name: sitio.nombre } }
-      : { serviceType: g.nombre, provider: { "@type": "LocalBusiness", name: sitio.nombre, telephone: "+" + sitio.whatsapp,
+    ...(!esServicio ? { sku: p.slug, category: p.subcategoria || g.nombre, ...(colores.length ? { color: colores.join(", ") } : {}), brand: { "@type": "Brand", name: sitio.nombre } }
+      : { serviceType: g.nombre, provider: { "@type": "LocalBusiness", "@id": base + "/#negocio", name: sitio.nombre, telephone: "+" + sitio.whatsapp,
         address: { "@type": "PostalAddress", streetAddress: sitio.direccion, addressLocality: sitio.comuna, addressRegion: sitio.region, addressCountry: "CL" } },
         areaServed: [{ "@type": "City", name: sitio.comuna }, { "@type": "AdministrativeArea", name: sitio.region }] }),
     ...(p.imagenes.length ? { image: p.imagenes.map(abs) } : {}),
-    ...(of ? { offers: { "@type": "Offer", priceCurrency: "CLP", price: p.precio_oferta, url, ...(of.hasta ? { priceValidUntil: of.hasta } : {}) } }
-      : p.tipo_venta === "En stock" && ref && p.precio > 0 ? { offers: { "@type": "Offer", priceCurrency: "CLP", price: p.precio, url, availability: agotado ? "https://schema.org/OutOfStock" : "https://schema.org/InStock" } } : {}),
+    ...(offers ? { offers } : {}),
   };
   const galeria = p.imagenes.length
-    ? `<div class="gallery-main"><img id="foto" src="${esc(p.imagenes[0])}" alt="${esc(p.titulo)}"></div>
-       ${p.imagenes.length > 1 ? `<div class="thumbs">${p.imagenes.map((src, i) => `<button class="thumb" type="button" data-src="${esc(src)}" aria-label="Ver foto ${i + 1}" aria-current="${i === 0}"><img src="${esc(src)}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}`
+    ? `<div class="gallery-main"><img id="foto" ${foto(p.imagenes[0], "(max-width: 900px) 100vw, 55vw")} alt="${esc(p.titulo)}" decoding="async"></div>
+       ${p.imagenes.length > 1 ? `<div class="thumbs">${p.imagenes.map((src, i) => `<button class="thumb" type="button" data-src="${esc(src)}" data-srcset="${esc(srcsetDe(src))}" aria-label="Ver foto ${i + 1}" aria-current="${i === 0}"><img ${foto(src, "120px")} alt="" loading="lazy" decoding="async"></button>`).join("")}</div>` : ""}`
     : `<div class="gallery-main ph-grande">${marcador(g, p.subcategoria || p.etiqueta)}</div>`;
   const selector = colores.length ? `<fieldset class="color-pick">
         <legend>Color: <b data-color-nombre>${esc(colores[0])}</b>${colores.length > 1 ? ` <span>· ${colores.length} disponibles</span>` : ""}</legend>
@@ -938,6 +1041,10 @@ export function paginaProducto({ sitio, p, relacionados }) {
   </div>
   ${p.html.trim() ? `<div class="prose fade-up" style="margin-top:6rem">${p.html}</div>` : ""}
 </section>
+${casos.length ? `<section>
+  ${cabecera("// casos reales", "Así quedó en", "trabajos reales", "Encargos que hicimos para nuestros clientes con este producto.")}
+  <div class="portfolio-grid tres">${casos.map(tarjetaPortafolio).join("")}</div>
+</section>` : ""}
 ${p.preguntas.length ? bloquePreguntas(p.preguntas) : ""}
 ${es3D ? bloqueAuto(sitio, true) : ""}
 ${relacionados.length ? `<section class="section-alt">
@@ -1144,7 +1251,7 @@ export function paginaPost({ sitio, a, otros }) {
   ${a.descripcion ? `<p class="section-desc">${esc(a.descripcion)}</p>` : ""}
 </header>
 <section style="padding-top:4rem">
-  ${a.portada ? `<div class="article-cover fade-up"><img src="${esc(a.portada)}" alt="${esc(a.titulo)}"></div>` : ""}
+  ${a.portada ? `<div class="article-cover fade-up"><img ${foto(a.portada, "(max-width: 900px) 100vw, 900px")} alt="${esc(a.titulo)}" decoding="async"></div>` : ""}
   <div class="article-layout">
     <article class="prose">${a.html}</article>
     <aside class="aside-card">
@@ -1188,6 +1295,29 @@ ${posts.slice(0, 30).map((a) => `<item>
 </channel>
 </rss>
 `;
+}
+
+// ---------- enlaces para la bio de Instagram y TikTok ----------
+// Cada red tiene su página y sus mensajes de WhatsApp: así se sabe de dónde llega cada consulta.
+export function paginaEnlaces({ sitio, red }) {
+  const utm = (u) => `${u}${u.includes("?") ? "&" : "?"}utm_source=${red.clave}&utm_medium=bio`;
+  const enlaces = [
+    ["Cotizar por WhatsApp", waLink(sitio, `Hola GXD Garage, vengo de ${red.nombre} y quiero cotizar.`), true, true],
+    ["Repuesto para mi auto", waLink(sitio, `Hola GXD Garage, vengo de ${red.nombre}. Necesito un repuesto para mi auto.\n\n• Marca y modelo:\n• Año:\n• Pieza:\n\n📷 Te envío una foto de la pieza con una regla al lado.`), true, true],
+    ["Productos y precios", utm("/catalogo/")],
+    ["Casos reales", utm("/casos/")],
+    ["¿Qué material elijo?", utm("/impresion-3d/") + "#materiales"],
+    ["Diseño gráfico", utm("/diseno-grafico/")],
+    ["Etiquetas e impresión digital", utm("/impresion-digital/")],
+  ];
+  const cuerpo = `
+<section class="enlaces">
+  <a class="enlaces-logo" href="${utm("/")}" aria-label="${esc(sitio.nombre)}">${isologo()}</a>
+  <p class="section-label" style="text-align:center">${esc(sitio.slogan)}</p>
+  <p class="enlaces-sub">Impresión 3D, diseño gráfico e impresión digital · Taller en ${esc(sitio.comuna)} · Despachos a regiones</p>
+  <ul class="enlaces-lista">${enlaces.map(([t, h, wa, nueva]) => `<li><a class="${wa ? "btn-wa" : "btn-line"}" href="${esc(h)}"${nueva ? ` ${ext}` : ""}>${wa ? WA : ""}${esc(t)}</a></li>`).join("")}</ul>
+</section>`;
+  return layout({ sitio, ruta: `/${red.clave}/`, titulo: `${sitio.nombre} en ${red.nombre}`, descripcion: sitio.descripcion, cuerpo, noindex: true, flotante: false });
 }
 
 export function pagina404({ sitio }) {

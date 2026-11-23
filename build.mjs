@@ -117,11 +117,22 @@ const productos = leerColeccion("contenido/productos")
   .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
 
 const portafolio = leerColeccion("contenido/portafolio")
-  .map(({ archivo, datos: d }) => {
+  .map(({ archivo, slug, datos: d, cuerpo }) => {
     if (!d.titulo) { avisos.push(`${archivo}: falta el nombre del trabajo, no se publicó`); return null; }
     let categoria = d.categoria ? String(d.categoria).trim() : T.CATEGORIAS[0];
     if (!T.CATEGORIAS.includes(categoria)) categoria = T.CATEGORIAS[0];
-    return { titulo: String(d.titulo), categoria, imagen: ruta(d.imagen), orden: numero(d.orden) ?? 100, publicado: d.publicado !== false };
+    const w = { slug, titulo: String(d.titulo), categoria, imagen: ruta(d.imagen), orden: numero(d.orden) ?? 100, publicado: d.publicado !== false };
+    // "Caso real": página propia con la historia del trabajo (se publica si está marcado y tiene resumen e historia)
+    if (d.caso === true) {
+      if (!d.resumen || !String(cuerpo || "").trim()) avisos.push(`${archivo}: está marcado como caso real, pero le falta el resumen o la historia; no se publicó la página`);
+      else Object.assign(w, {
+        caso: true, cliente: d.cliente ? String(d.cliente) : "", resumen: String(d.resumen),
+        material: d.material ? String(d.material) : "", producto: ruta(d.producto), video: ruta(d.video),
+        galeria: lista(d.galeria).map(ruta).filter(Boolean), html: md(cuerpo),
+        seo_titulo: d.seo_titulo ? String(d.seo_titulo) : "", seo_descripcion: d.seo_descripcion ? String(d.seo_descripcion) : "",
+      });
+    }
+    return w;
   })
   .filter((w) => w && w.publicado)
   .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
@@ -224,7 +235,11 @@ if (fs.existsSync(archivoServicios)) {
     banners = { "3d": ruta(d.banner_3d), diseno: ruta(d.banner_diseno), digital: ruta(d.banner_digital) };
   } catch (e) { avisos.push(`contenido/servicios.json tiene un error y se ignoró (${e.message})`); }
 }
-T.fijarOpciones({ mostrarPrecios: sitio.mostrar_precios === true, promo, hoy: new Date(), banners });
+// versiones WebP de las fotos (las genera scripts/optimizar-imagenes.py); si falta el archivo, se usan las originales
+let imagenes = {};
+try { imagenes = JSON.parse(fs.readFileSync(path.join(RAIZ, "src", "imagenes.json"), "utf8")); } catch { avisos.push("No se encontró src/imagenes.json: las fotos se publican sin versiones livianas"); }
+for (const k of Object.keys(imagenes)) if (!fs.existsSync(path.join(RAIZ, "public", k))) delete imagenes[k];
+T.fijarOpciones({ mostrarPrecios: sitio.mostrar_precios === true, promo, hoy: new Date(), banners, imagenes });
 
 function relativizar(html, archivo) {
   const prof = archivo.split("/").length - 1;
@@ -237,19 +252,19 @@ function relativizar(html, archivo) {
 }
 
 const paginas = [];
-function escribir(archivo, html, enMapa = true, lastmod) {
+function escribir(archivo, html, enMapa = true, lastmod, imagenesPagina = []) {
   const destino = path.join(SALIDA, archivo);
   fs.mkdirSync(path.dirname(destino), { recursive: true });
   fs.writeFileSync(destino, PREVIEW ? relativizar(html, archivo) : html);
-  if (enMapa) paginas.push({ loc: "/" + archivo.replace(/index\.html$/, ""), lastmod });
+  if (enMapa) paginas.push({ loc: "/" + archivo.replace(/index\.html$/, ""), lastmod, imagenes: imagenesPagina.filter(Boolean) });
 }
 
 const hoy = new Date();
-escribir("index.html", T.paginaInicio({ sitio, productos, posts, portafolio, clientes }), true, hoy);
-escribir("catalogo/index.html", T.paginaCatalogo({ sitio, productos }), true, hoy);
+escribir("index.html", T.paginaInicio({ sitio, productos, posts, portafolio, clientes }), true, undefined, portafolio.map((w) => w.imagen));
+escribir("catalogo/index.html", T.paginaCatalogo({ sitio, productos }), true);
 for (const g of T.GRUPOS) {
   const html = g.clave === "3d" ? T.paginaImpresion3D({ sitio, productos, portafolio, posts }) : T.paginaGrupo({ sitio, g, productos, portafolio });
-  escribir(`${g.ruta.slice(1)}index.html`, html, true, hoy);
+  escribir(`${g.ruta.slice(1)}index.html`, html, true);
 }
 const redirecciones = [];
 for (const p of productos) {
@@ -258,7 +273,8 @@ for (const p of productos) {
   const misma = (r) => (p.seccion ? r.seccion === p.seccion : true);
   const relacionados = [...mismaLinea.filter(misma), ...mismaLinea.filter((r) => !misma(r))].slice(0, 3);
   const destino = T.urlProducto(p);
-  escribir(`${destino.slice(1)}index.html`, T.paginaProducto({ sitio, p, relacionados }), true, hoy);
+  const casosDe = portafolio.filter((w) => w.caso && w.producto && w.producto.replace(/\/?$/, "/") === destino);
+  escribir(`${destino.slice(1)}index.html`, T.paginaProducto({ sitio, p, relacionados, casos: casosDe }), true, undefined, p.imagenes);
   // las direcciones antiguas /catalogo/<producto>/ siguen funcionando
   redirecciones.push(`/catalogo/${p.slug}/ ${destino} 301`, `/catalogo/${p.slug} ${destino} 301`);
 }
@@ -266,8 +282,16 @@ for (const p of productos) {
 for (const v of ["pla-petg-o-resina", "que-material-elegir-para-impresion-3d"]) redirecciones.push(`/blog/${v}/ /impresion-3d/#materiales 301`, `/blog/${v} /impresion-3d/#materiales 301`);
 redirecciones.push("/impresion-3d/repuesto-para-auto-a-medida/ /impresion-3d/#auto-a-medida 301", "/impresion-3d/repuesto-para-auto-a-medida /impresion-3d/#auto-a-medida 301");
 if (!PREVIEW) fs.writeFileSync(path.join(SALIDA, "_redirects"), redirecciones.join("\n") + "\n");
-escribir("cotizar/index.html", T.paginaCotizar({ sitio }), true, hoy);
-escribir("impresion-3d-talagante/index.html", T.paginaLocal({ sitio, productos, portafolio }), true, hoy);
+escribir("cotizar/index.html", T.paginaCotizar({ sitio }), true);
+const casos = portafolio.filter((w) => w.caso);
+if (casos.length) {
+  escribir("casos/index.html", T.paginaCasos({ sitio, casos }), true, undefined, casos.map((c) => c.imagen));
+  for (const c of casos) {
+    const producto = c.producto ? productos.find((p) => T.urlProducto(p) === c.producto.replace(/\/?$/, "/")) : null;
+    escribir(`casos/${c.slug}/index.html`, T.paginaCaso({ sitio, c, producto, otros: casos.filter((o) => o.slug !== c.slug).slice(0, 3) }), true, undefined, [c.imagen, ...c.galeria]);
+  }
+}
+escribir("impresion-3d-talagante/index.html", T.paginaLocal({ sitio, productos, portafolio }), true);
 const categorias = T.CATEGORIAS_BLOG;
 escribir("blog/index.html", T.paginaBlog({ sitio, posts, categorias }), true, posts[0]?.fecha || hoy);
 for (const c of categorias) {
@@ -277,14 +301,17 @@ for (const c of categorias) {
 }
 fs.writeFileSync(path.join(SALIDA, "blog/rss.xml"), T.rss({ sitio, posts }));
 for (const a of posts) {
-  escribir(`blog/${a.slug}/index.html`, T.paginaPost({ sitio, a, otros: posts.filter((o) => o.slug !== a.slug).slice(0, 3) }), true, a.actualizado || a.fecha);
+  escribir(`blog/${a.slug}/index.html`, T.paginaPost({ sitio, a, otros: posts.filter((o) => o.slug !== a.slug).slice(0, 3) }), true, a.actualizado || a.fecha, [a.portada]);
 }
 escribir("404.html", T.pagina404({ sitio }), false);
+// páginas para la bio de las redes (no van al mapa del sitio ni a Google)
+for (const red of [{ clave: "ig", nombre: "Instagram" }, { clave: "tiktok", nombre: "TikTok" }]) escribir(`${red.clave}/index.html`, T.paginaEnlaces({ sitio, red }), false);
 
 const base = sitio.url.replace(/\/$/, "");
 fs.writeFileSync(path.join(SALIDA, "sitemap.xml"),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  paginas.map((p) => `  <url><loc>${base}${p.loc}</loc>${p.lastmod ? `<lastmod>${T.fechaISO(p.lastmod)}</lastmod>` : ""}</url>`).join("\n") +
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n` +
+  // fecha solo donde es real (artículos); las fotos van para que aparezcan en Google Imágenes
+  paginas.map((p) => `  <url><loc>${base}${p.loc}</loc>${p.lastmod ? `<lastmod>${T.fechaISO(p.lastmod)}</lastmod>` : ""}${[...new Set(p.imagenes)].map((i) => `<image:image><image:loc>${T.esc(base + encodeURI(decodeURI(i)))}</image:loc></image:image>`).join("")}</url>`).join("\n") +
   `\n</urlset>\n`);
 fs.writeFileSync(path.join(SALIDA, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`);
 

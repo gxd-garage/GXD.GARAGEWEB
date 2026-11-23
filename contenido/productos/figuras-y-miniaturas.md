@@ -14,7 +14,7 @@ destacado: false
 orden: 7
 publicado: true
 seo_titulo: "Figuras y miniaturas impresas en 3D"
-seo_descripcion: "Figuras, miniaturas y piezas decorativas con detalle fino, impresas en 3D en el color que elijas. Para regalos, colecciones y decoración, del tamaño que necesites."
+seo_descripcion: "Figuras, miniaturas y piezas decorativas con detalle fino, impresas en 3D en el color que elijas. Para regalos, colecciones y decoración."
 preguntas:
   - pregunta: "¿En qué material se imprimen?"
     respuesta: "Normalmente en PLA, que tiene muy buen acabado y viene en muchos colores. Para piezas que tienen que aguantar golpes usamos PLA+ o PETG."

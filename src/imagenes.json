@@ -1,0 +1,416 @@
+{
+ "/media/banner-diseno-grafico.jpg": {
+  "w": 1600,
+  "h": 1200,
+  "webp": [
+   [
+    480,
+    "/media/opt/banner-diseno-grafico-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/banner-diseno-grafico-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/banner-diseno-grafico-1200.webp"
+   ],
+   [
+    1600,
+    "/media/opt/banner-diseno-grafico-1600.webp"
+   ]
+  ]
+ },
+ "/media/banner-impresion-3d.jpg": {
+  "w": 1080,
+  "h": 1350,
+  "webp": [
+   [
+    480,
+    "/media/opt/banner-impresion-3d-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/banner-impresion-3d-800.webp"
+   ],
+   [
+    1080,
+    "/media/opt/banner-impresion-3d-1080.webp"
+   ]
+  ]
+ },
+ "/media/banner-impresion-digital.jpg": {
+  "w": 1200,
+  "h": 1600,
+  "webp": [
+   [
+    480,
+    "/media/opt/banner-impresion-digital-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/banner-impresion-digital-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/banner-impresion-digital-1200.webp"
+   ]
+  ]
+ },
+ "/media/blog-etiquetas.jpg": {
+  "w": 1200,
+  "h": 675,
+  "webp": [
+   [
+    480,
+    "/media/opt/blog-etiquetas-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/blog-etiquetas-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/blog-etiquetas-1200.webp"
+   ]
+  ]
+ },
+ "/media/blog-lamparas.jpg": {
+  "w": 1080,
+  "h": 608,
+  "webp": [
+   [
+    480,
+    "/media/opt/blog-lamparas-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/blog-lamparas-800.webp"
+   ],
+   [
+    1080,
+    "/media/opt/blog-lamparas-1080.webp"
+   ]
+  ]
+ },
+ "/media/blog-materiales.jpg": {
+  "w": 1080,
+  "h": 608,
+  "webp": [
+   [
+    480,
+    "/media/opt/blog-materiales-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/blog-materiales-800.webp"
+   ],
+   [
+    1080,
+    "/media/opt/blog-materiales-1080.webp"
+   ]
+  ]
+ },
+ "/media/blog-repuesto-impresora.jpg": {
+  "w": 1760,
+  "h": 880,
+  "webp": [
+   [
+    480,
+    "/media/opt/blog-repuesto-impresora-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/blog-repuesto-impresora-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/blog-repuesto-impresora-1200.webp"
+   ],
+   [
+    1600,
+    "/media/opt/blog-repuesto-impresora-1600.webp"
+   ]
+  ]
+ },
+ "/media/colgador-casco-detalle.jpg": {
+  "w": 1024,
+  "h": 768,
+  "webp": [
+   [
+    480,
+    "/media/opt/colgador-casco-detalle-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/colgador-casco-detalle-800.webp"
+   ],
+   [
+    1024,
+    "/media/opt/colgador-casco-detalle-1024.webp"
+   ]
+  ]
+ },
+ "/media/colgador-casco.jpg": {
+  "w": 1024,
+  "h": 768,
+  "webp": [
+   [
+    480,
+    "/media/opt/colgador-casco-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/colgador-casco-800.webp"
+   ],
+   [
+    1024,
+    "/media/opt/colgador-casco-1024.webp"
+   ]
+  ]
+ },
+ "/media/emblema-toyota-estudio.jpg": {
+  "w": 1600,
+  "h": 1200,
+  "webp": [
+   [
+    480,
+    "/media/opt/emblema-toyota-estudio-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/emblema-toyota-estudio-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/emblema-toyota-estudio-1200.webp"
+   ],
+   [
+    1600,
+    "/media/opt/emblema-toyota-estudio-1600.webp"
+   ]
+  ]
+ },
+ "/media/escudo-gendarmeria-detalle.jpg": {
+  "w": 1600,
+  "h": 1200,
+  "webp": [
+   [
+    480,
+    "/media/opt/escudo-gendarmeria-detalle-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/escudo-gendarmeria-detalle-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/escudo-gendarmeria-detalle-1200.webp"
+   ],
+   [
+    1600,
+    "/media/opt/escudo-gendarmeria-detalle-1600.webp"
+   ]
+  ]
+ },
+ "/media/escudo-gendarmeria.jpg": {
+  "w": 1600,
+  "h": 1200,
+  "webp": [
+   [
+    480,
+    "/media/opt/escudo-gendarmeria-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/escudo-gendarmeria-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/escudo-gendarmeria-1200.webp"
+   ],
+   [
+    1600,
+    "/media/opt/escudo-gendarmeria-1600.webp"
+   ]
+  ]
+ },
+ "/media/escudos-institucionales.jpg": {
+  "w": 1600,
+  "h": 1200,
+  "webp": [
+   [
+    480,
+    "/media/opt/escudos-institucionales-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/escudos-institucionales-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/escudos-institucionales-1200.webp"
+   ],
+   [
+    1600,
+    "/media/opt/escudos-institucionales-1600.webp"
+   ]
+  ]
+ },
+ "/media/etiquetas-personalizadas.jpg": {
+  "w": 1600,
+  "h": 1200,
+  "webp": [
+   [
+    480,
+    "/media/opt/etiquetas-personalizadas-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/etiquetas-personalizadas-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/etiquetas-personalizadas-1200.webp"
+   ],
+   [
+    1600,
+    "/media/opt/etiquetas-personalizadas-1600.webp"
+   ]
+  ]
+ },
+ "/media/lampara-imprimiendo.jpg": {
+  "w": 1080,
+  "h": 1350,
+  "webp": [
+   [
+    480,
+    "/media/opt/lampara-imprimiendo-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/lampara-imprimiendo-800.webp"
+   ],
+   [
+    1080,
+    "/media/opt/lampara-imprimiendo-1080.webp"
+   ]
+  ]
+ },
+ "/media/lampara-lateral.jpg": {
+  "w": 1080,
+  "h": 1350,
+  "webp": [
+   [
+    480,
+    "/media/opt/lampara-lateral-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/lampara-lateral-800.webp"
+   ],
+   [
+    1080,
+    "/media/opt/lampara-lateral-1080.webp"
+   ]
+  ]
+ },
+ "/media/lampara-portada.jpg": {
+  "w": 1080,
+  "h": 1350,
+  "webp": [
+   [
+    480,
+    "/media/opt/lampara-portada-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/lampara-portada-800.webp"
+   ],
+   [
+    1080,
+    "/media/opt/lampara-portada-1080.webp"
+   ]
+  ]
+ },
+ "/media/lampara-textura.jpg": {
+  "w": 1080,
+  "h": 1350,
+  "webp": [
+   [
+    480,
+    "/media/opt/lampara-textura-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/lampara-textura-800.webp"
+   ],
+   [
+    1080,
+    "/media/opt/lampara-textura-1080.webp"
+   ]
+  ]
+ },
+ "/media/letrero-3d-sg-autos.jpg": {
+  "w": 1287,
+  "h": 965,
+  "webp": [
+   [
+    480,
+    "/media/opt/letrero-3d-sg-autos-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/letrero-3d-sg-autos-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/letrero-3d-sg-autos-1200.webp"
+   ],
+   [
+    1287,
+    "/media/opt/letrero-3d-sg-autos-1287.webp"
+   ]
+  ]
+ },
+ "/media/repuesto-auto-impresora.jpg": {
+  "w": 1080,
+  "h": 810,
+  "webp": [
+   [
+    480,
+    "/media/opt/repuesto-auto-impresora-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/repuesto-auto-impresora-800.webp"
+   ],
+   [
+    1080,
+    "/media/opt/repuesto-auto-impresora-1080.webp"
+   ]
+  ]
+ },
+ "/media/repuesto-auto-pieza.jpg": {
+  "w": 1226,
+  "h": 920,
+  "webp": [
+   [
+    480,
+    "/media/opt/repuesto-auto-pieza-480.webp"
+   ],
+   [
+    800,
+    "/media/opt/repuesto-auto-pieza-800.webp"
+   ],
+   [
+    1200,
+    "/media/opt/repuesto-auto-pieza-1200.webp"
+   ],
+   [
+    1226,
+    "/media/opt/repuesto-auto-pieza-1226.webp"
+   ]
+  ]
+ }
+}
