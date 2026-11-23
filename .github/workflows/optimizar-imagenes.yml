@@ -1,0 +1,26 @@
+# Cuando subes una foto nueva (por ejemplo desde Pages CMS), genera sus versiones WebP livianas
+# y actualiza src/imagenes.json. Cloudflare vuelve a publicar el sitio con el cambio.
+name: Optimizar imágenes
+on:
+  push:
+    branches: [main]
+    paths: ["public/media/**", "scripts/optimizar-imagenes.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  optimizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow
+      - run: python3 scripts/optimizar-imagenes.py
+      - name: Guardar las versiones nuevas
+        run: |
+          git config user.name "gxd-bot"
+          git config user.email "bot@gxdgarage.cl"
+          git add public/media/opt src/imagenes.json
+          git diff --cached --quiet || (git commit -m "Optimiza imágenes nuevas (WebP)" && git push)
