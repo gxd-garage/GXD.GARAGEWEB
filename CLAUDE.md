@@ -3,6 +3,7 @@
 Sitio estático de GXD Garage SpA: impresión 3D, diseño gráfico e impresión digital, taller en Talagante (Región Metropolitana), despachos a regiones. El dueño escribe en español de Chile; todo texto visible va en ese registro ("garage" se escribe así, no "garaje").
 
 ## Cómo se trabaja
+- **Todo cambio pasa por el visto bueno del dueño antes de publicarse.** Primero se muestra (capturas o vista previa local) y se explica qué cambia; solo con su aprobación se hace commit y push. Esto incluye textos, diseño, contenido, SEO y archivos técnicos.
 - Contenido en `contenido/` (md con front matter y `sitio.json`), editable en Pages CMS (`.pages.yml`). Plantillas en `src/plantillas.mjs`, estilos en `src/estilos.css`, JS en `src/sitio.js`. `node build.mjs` genera `dist/`.
 - Cloudflare publica solo al hacer push a `main`. Flujo: commit → `git pull --rebase` → `node build.mjs` → `git push`.
 - Fotos nuevas en `public/media/`: correr `python3 scripts/optimizar-imagenes.py` (también lo hace la GitHub Action) para generar WebP y `src/imagenes.json`.

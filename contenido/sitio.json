@@ -22,5 +22,22 @@
     "Rojo",
     "Azul"
   ],
-  "mayor_minimo": 12
+  "mayor_minimo": 12,
+  "portada_fotos": [
+    {
+      "imagen": "/media/repuesto-auto-pieza.jpg",
+      "texto": "Repuesto plástico a medida",
+      "enlace": "/impresion-3d/repuesto-a-medida/"
+    },
+    {
+      "imagen": "/media/letrero-3d-sg-autos.jpg",
+      "texto": "Letrero 3D · SG Autos",
+      "enlace": "/impresion-3d/letrero-3d/"
+    },
+    {
+      "imagen": "/media/escudo-gendarmeria.jpg",
+      "texto": "Escudo · Gendarmería de Chile",
+      "enlace": "/impresion-3d/escudos-institucionales/"
+    }
+  ]
 }
