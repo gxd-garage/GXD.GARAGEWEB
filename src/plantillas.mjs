@@ -120,7 +120,7 @@ const logo = (fondo = "#0a0a0a", trazo = "#fff", extra = "") =>
 // isologo GXD solo (para el menú)
 const isologo = () => `<svg class="logo-iso" xmlns="http://www.w3.org/2000/svg" viewBox="626 2175 4417 1320" aria-hidden="true" focusable="false"><path fill="currentColor" d="${LOGO_D}"/></svg>`;
 const logoTrazo = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="560 2110 4550 1450" aria-hidden="true"><path fill="#fff" d="${LOGO_D}"/></svg>`;
-const WA = `<svg viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.523 5.837L.057 23.928l6.257-1.439A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.848 0-3.575-.504-5.063-1.383l-.363-.214-3.724.856.883-3.63-.235-.374A9.957 9.957 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>`;
+const WA = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.523 5.837L.057 23.928l6.257-1.439A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.848 0-3.575-.504-5.063-1.383l-.363-.214-3.724.856.883-3.63-.235-.374A9.957 9.957 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>`;
 // Íconos de línea: impresora 3D con pieza en capas, pluma de vector con curva y nodos, círculos CMYK
 const ICONO = {
   "Impresión 3D": `<svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 44V5h34v39"/><line x1="7" y1="15" x2="41" y2="15"/><rect x="19" y="12" width="10" height="8" rx="1"/><path d="M22 20h4l-2 3z"/><line x1="24" y1="25" x2="24" y2="27" stroke-dasharray="1 2"/><line x1="19" y1="29" x2="29" y2="29"/><line x1="18" y1="32" x2="30" y2="32"/><line x1="17" y1="35" x2="31" y2="35"/><line x1="16" y1="38" x2="32" y2="38"/><rect x="11" y="40" width="26" height="3" rx="0.5"/></svg>`,
@@ -458,15 +458,17 @@ function tarjetaCliente(c) {
 }
 
 export function paginaInicio({ sitio, productos, posts, portafolio, clientes = [] }) {
-  const marcados = productos.filter((p) => p.destacado);
-  const destacados = (marcados.length ? marcados : productos).slice(0, 6);
+  // en portada solo productos con foto: un cuadro vacío en "Lo más pedido" resta confianza
+  const conFoto = productos.filter((p) => p.imagenes.length);
+  const marcados = conFoto.filter((p) => p.destacado);
+  const destacados = (marcados.length ? marcados : conFoto.length ? conFoto : productos).slice(0, 6);
   const marquee = ["Impresión 3D", "Diseño gráfico", "Impresión digital", "Repuestos a medida", "Lámparas", "Prototipos", "Branding", "Llaveros NFC", "Innovación capa por capa"];
   const catsPorta = GRUPOS.map((g) => g.nombre).filter((c) => portafolio.some((w) => w.categoria === c));
   const cuerpo = `
 <section id="hero">
   <div class="hero-left">
-    <div class="hero-tag">${esc(sitio.slogan)}</div>
-    <h1 class="hero-title">Creamos<br><em>lo que</em><br>imaginas</h1>
+    <h1 class="hero-tag">Impresión 3D, diseño e impresión digital en ${esc(sitio.comuna)}</h1>
+    <p class="hero-title">Creamos<br><em>lo que</em><br>imaginas</p>
     <p class="hero-subtitle">Impresión 3D, diseño gráfico e impresión digital para toda ${esc(zona(sitio))}, desde nuestro taller en ${esc(sitio.comuna)}. Transformamos tus ideas en objetos reales: repuestos que ya no venden, lámparas, regalos y la identidad de tu marca.</p>
     <div class="hero-actions">
       <a href="/impresion-3d/" class="btn-primary">Ver Impresión 3D</a>
@@ -494,7 +496,12 @@ export function paginaInicio({ sitio, productos, posts, portafolio, clientes = [
   <div class="marquee-track">${[...marquee, ...marquee].map((m) => `<span class="marquee-item">${esc(m)}</span>`).join("")}</div>
 </div>
 
-<section id="servicios">
+${clientes.length ? `<section id="clientes" class="clientes-top">
+  ${cabecera("// clientes", "Marcas que", "confían en nosotros", "Empresas, instituciones y emprendimientos que ya trabajaron con nuestro taller.")}
+  <ul class="clientes-grid" role="list">${clientes.map(tarjetaCliente).join("")}</ul>
+</section>
+` : ""}
+<section id="servicios"${clientes.length ? ' class="section-alt"' : ""}>
   ${cabecera("// 01 — lo que hacemos", "Nuestros", "servicios", "Unimos el diseño gráfico con la tecnología 3D para darte soluciones que no encuentras en tiendas.")}
   <div class="services-grid">
     <article class="service-card fade-up">
@@ -566,19 +573,15 @@ ${portafolio.length ? `<div class="section-divider"></div>
   </div>
 </section>` : ""}
 
-${clientes.length ? `<section id="clientes">
-  ${cabecera("// 05 — clientes", "Marcas que", "confían en nosotros", "Empresas, instituciones y emprendimientos que ya trabajaron con nuestro taller.")}
-  <ul class="clientes-grid" role="list">${clientes.map(tarjetaCliente).join("")}</ul>
-</section>
-` : ""}
+
 ${posts.length ? `<section id="blog" class="section-alt">
-  ${cabecera(`// ${clientes.length ? "06" : "05"} — blog`, "Guías y", "novedades", "Respondemos lo que más nos preguntan sobre impresión 3D, materiales y diseño.")}
+  ${cabecera("// 05 — blog", "Guías y", "novedades", "Respondemos lo que más nos preguntan sobre impresión 3D, materiales y diseño.")}
   <div class="blog-grid">${posts.slice(0, 3).map((a) => tarjetaPost(a)).join("")}</div>
   <div class="catalog-more"><a href="/blog/" class="btn-primary">Ver todos los artículos</a></div>
 </section>` : ""}
 
 <section id="contacto"${posts.length ? "" : ' class="section-alt"'}>
-  ${cabecera(`// ${clientes.length ? "07" : "06"} — hablemos`, "¿Tienes un", "proyecto?", "Cuéntanos tu idea y cotizamos sin compromiso. Te respondemos por WhatsApp.")}
+  ${cabecera("// 06 — hablemos", "¿Tienes un", "proyecto?", "Cuéntanos tu idea y cotizamos sin compromiso. Te respondemos por WhatsApp.")}
   <div class="contact-layout">
     ${contactoInfo(sitio, `Nuestro taller está en ${esc(sitio.comuna)} y trabajamos con clientes de toda ${esc(zona(sitio))}. Ya sea una pieza única en 3D, la identidad de tu marca o material impreso, en ${esc(sitio.nombre)} lo hacemos realidad.`)}
     ${formContacto(sitio)}
@@ -1075,7 +1078,7 @@ const bloquePreguntas = (qs, titulo = ["Preguntas", "frecuentes"]) => `<section 
 export function paginaLocal({ sitio, productos, portafolio }) {
   const items = [["Inicio", "/"], ["Impresión 3D", "/impresion-3d/"], ["Talagante y alrededores", null]];
   const orden = ["repuesto-a-medida", "emblemas-para-autos", "escudos-institucionales", "letrero-3d", "prototipos-y-maquetas", "lampara-3d"];
-  const destacados = orden.map((s) => productos.find((p) => p.slug === s)).filter(Boolean);
+  const destacados = orden.map((s) => productos.find((p) => p.slug === s)).filter((p) => p && p.imagenes.length);
   const port = portafolio.filter((w) => w.categoria === "Impresión 3D").slice(0, 3);
   const zonas = [
     ["Talagante", `Nuestro taller está aquí. Puedes traer la pieza y retirar tu pedido coordinando antes por WhatsApp.`],

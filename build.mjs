@@ -114,7 +114,8 @@ const productos = leerColeccion("contenido/productos")
   .filter((p) => p && p.publicado)
   // colores: los propios del producto o, si no tiene, los por defecto; nada si se ocultaron
   .map((p) => ({ ...p, colores: p.ocultar_colores ? [] : p.colores.length ? p.colores : coloresDefecto }))
-  .sort((a, b) => a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
+  // los productos con foto van primero; los que aún no tienen quedan al final de cada listado
+  .sort((a, b) => (b.imagenes.length > 0) - (a.imagenes.length > 0) || a.orden - b.orden || a.titulo.localeCompare(b.titulo, "es"));
 
 const portafolio = leerColeccion("contenido/portafolio")
   .map(({ archivo, slug, datos: d, cuerpo }) => {

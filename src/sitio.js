@@ -308,3 +308,19 @@
     });
   }
 })();
+
+// Oculta el botón flotante de WhatsApp mientras otro botón de WhatsApp (o el pie de página) está en pantalla
+(function () {
+  var flot = document.querySelector(".wa-float");
+  if (!flot || !("IntersectionObserver" in window)) return;
+  var visibles = new Set();
+  // arriba de la página ya está el botón de WhatsApp del menú: el flotante aparece al bajar
+  function actualizar() { flot.classList.toggle("oculto", visibles.size > 0 || window.scrollY < 500); }
+  var obs = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) { if (e.isIntersecting) visibles.add(e.target); else visibles.delete(e.target); });
+    actualizar();
+  }, { threshold: 0.01 });
+  window.addEventListener("scroll", actualizar, { passive: true });
+  actualizar();
+  document.querySelectorAll("main .btn-wa, main .btn-wa-product, main .btn-submit, footer").forEach(function (el) { obs.observe(el); });
+})();

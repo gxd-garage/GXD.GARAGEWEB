@@ -48,7 +48,7 @@ body::before {
 .wa-float {
   position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 700;
   width: 52px; height: 52px; border-radius: 50%;
-  background: var(--wa); border: none;
+  background: var(--wa); border: none; color: #fff;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 20px rgba(37,211,102,.35);
   animation: waPulse 2.5s infinite; transition: transform .2s;
@@ -89,7 +89,7 @@ nav {
 .nav-cta {
   font-family: 'DM Mono', monospace; font-size: 0.72rem;
   letter-spacing: 0.12em; text-transform: uppercase;
-  background: var(--wa); color: #fff;
+  background: var(--wa); color: #0a0a0a;
   padding: 0.6rem 1.4rem; border: none; cursor: pointer;
   transition: opacity 0.2s; text-decoration: none;
   display: flex; align-items: center; gap: 0.4rem;
@@ -131,7 +131,7 @@ nav {
 .btn-wa {
   font-family: 'DM Mono', monospace; font-size: 0.72rem;
   letter-spacing: 0.12em; text-transform: uppercase;
-  background: var(--wa); color: #fff;
+  background: var(--wa); color: #0a0a0a;
   padding: 0.9rem 2rem; border: 1px solid var(--wa);
   cursor: pointer; transition: opacity 0.25s; text-decoration: none;
   display: inline-flex; align-items: center; gap: 0.5rem;
@@ -247,7 +247,7 @@ section { padding: 8rem 3rem; }
 .product-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.06em; }
 .btn-wa-product {
   font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
-  background: var(--wa); color: #fff; border: none;
+  background: var(--wa); color: #0a0a0a; border: none;
   padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.4rem;
   transition: opacity 0.2s; cursor: pointer; text-decoration: none; white-space: nowrap;
 }
@@ -316,7 +316,7 @@ section { padding: 8rem 3rem; }
 .form-group select option { background: var(--black); }
 .btn-submit {
   font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
-  background: var(--wa); color: #fff; padding: 1rem 2.5rem;
+  background: var(--wa); color: #0a0a0a; padding: 1rem 2.5rem;
   border: none; cursor: pointer; transition: opacity 0.25s; align-self: flex-start;
   display: flex; align-items: center; gap: 0.5rem;
 }
@@ -751,7 +751,7 @@ body { font-family: var(--f-text); font-size: 1rem; line-height: 1.7; -webkit-fo
   font-family: var(--f-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
   padding: 0.35rem 0.6rem; line-height: 1.2; background: var(--black); color: var(--white); border: 1px solid var(--border);
 }
-.badge-stock.ok { background: var(--wa); border-color: var(--wa); color: #fff; }
+.badge-stock.ok { background: var(--wa); border-color: var(--wa); color: #0a0a0a; }
 .badge-stock.agotado { background: rgba(10,10,10,0.85); color: var(--dim); }
 .product-card.is-agotado .product-img img { opacity: 0.45; filter: grayscale(1); }
 .swatches { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 0.25rem; }
@@ -1124,3 +1124,15 @@ nav .nav-right { justify-self: end; grid-column: 3; }
 
 /* Las fotos llevan width/height para reservar espacio; el alto real lo define el CSS de cada bloque */
 :where(img[width][height]) { height: auto; }
+
+/* Título principal de la portada: dice qué hacemos (para Google y la IA) sin cambiar el diseño */
+h1.hero-tag { font-weight: 400; margin: 0 0 1.5rem; line-height: 1.6; }
+p.hero-title { font-weight: 700; }
+/* Marcas justo después de la portada: prueba de confianza temprana */
+.clientes-top { padding-top: 5rem; padding-bottom: 5rem; }
+/* Botón flotante: en computador ya está el botón Cotizar fijo arriba; en celular se oculta
+   cuando hay otro botón de WhatsApp a la vista, para no tapar contenido */
+.wa-float { transition: transform .2s, opacity .25s; }
+.wa-float.oculto { opacity: 0; pointer-events: none; transform: translateY(12px); }
+@media (max-width: 900px) { .wa-float { width: 48px; height: 48px; bottom: 1.1rem; right: 1.1rem; } }
+@media (min-width: 901px) { .wa-float { display: none; } }
