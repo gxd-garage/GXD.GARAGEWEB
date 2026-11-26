@@ -315,6 +315,22 @@ fs.writeFileSync(path.join(SALIDA, "sitemap.xml"),
   paginas.map((p) => `  <url><loc>${base}${p.loc}</loc>${p.lastmod ? `<lastmod>${T.fechaISO(p.lastmod)}</lastmod>` : ""}${[...new Set(p.imagenes)].map((i) => `<image:image><image:loc>${T.esc(base + encodeURI(decodeURI(i)))}</image:loc></image:image>`).join("")}</url>`).join("\n") +
   `\n</urlset>\n`);
 fs.writeFileSync(path.join(SALIDA, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`);
+// llms.txt: resumen del negocio y sus páginas clave para asistentes de IA (formato propuesto en llmstxt.org)
+const linea = (titulo, url, desc) => `- [${titulo}](${base}${url})${desc ? `: ${desc}` : ""}`;
+fs.writeFileSync(path.join(SALIDA, "llms.txt"), [
+  `# ${sitio.nombre}`, "",
+  `> ${sitio.nombre}: taller de impresión 3D en ${sitio.comuna} (${sitio.region}, Chile) que fabrica repuestos plásticos, letreros y emblemas a medida, con diseño gráfico propio e impresión digital. Atiende toda la ${sitio.region} y despacha a regiones. Cotizaciones por WhatsApp (+${sitio.whatsapp}).`, "",
+  "No es una tienda de repuestos: fabrica piezas plásticas a partir de la pieza original o de fotos; no hace piezas de motor, frenos ni partes eléctricas o de metal.", "",
+  "## Servicios",
+  ...T.GRUPOS.map((g) => linea(g.nombre, g.ruta)),
+  linea("Materiales de impresión 3D (PLA, PETG, ABS, ASA, TPU y versiones +/CF)", "/impresion-3d/#materiales"),
+  linea("Impresión 3D en Talagante", "/impresion-3d-talagante/"), "",
+  "## Productos",
+  ...productos.map((p) => linea(p.titulo, T.urlProducto(p), p.resumen)), "",
+  ...(casos.length ? ["## Casos reales", ...casos.map((c) => linea(c.titulo, `/casos/${c.slug}/`, c.resumen)), ""] : []),
+  ...(posts.length ? ["## Guías", ...posts.map((a) => linea(a.titulo, `/blog/${a.slug}/`, a.resumen || a.descripcion)), ""] : []),
+  "## Contacto", `- WhatsApp: +${sitio.whatsapp}`, `- Instagram: https://www.instagram.com/${sitio.instagram}/`, `- Dirección: ${sitio.direccion}, ${sitio.comuna}`, `- Horario: ${sitio.horario}`, "",
+].join("\n"));
 
 console.log(`Sitio generado en ${path.relative(RAIZ, SALIDA)}/: ${productos.length} productos, ${posts.length} artículos, ${paginas.length} páginas en el mapa del sitio.`);
 if (avisos.length) { console.log("\nRevisa esto:"); avisos.forEach((a) => console.log("  - " + a)); }
