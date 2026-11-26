@@ -267,7 +267,7 @@
       errA.hidden = true;
       var auto = [v("marca"), v("modelo"), v("anio")].filter(Boolean).join(" ");
       var tengo = fa.querySelector('input[name="tengo"]:checked');
-      var txt = "Hola GXD Garage, necesito un repuesto para mi auto:\n\n• Auto: " + auto + "\n• Pieza: " + v("pieza") +
+      var txt = "Hola GXD Garage, necesito fabricar en 3D una pieza plástica para mi auto:\n\n• Auto: " + auto + "\n• Pieza plástica: " + v("pieza") +
         "\n• " + (tengo ? tengo.value : "") + "\n\nMi nombre es " + v("nombre") + ".\n\n📷 Te envío una foto de la pieza con una regla al lado.";
       window.GXD_abrirWA(txt);
     });
@@ -323,4 +323,30 @@
   window.addEventListener("scroll", actualizar, { passive: true });
   actualizar();
   document.querySelectorAll("main .btn-wa, main .btn-wa-product, main .btn-submit, footer").forEach(function (el) { obs.observe(el); });
+})();
+
+// Carrusel de fotos de la portada: avanza solo cada 5 s (se detiene al pasar el mouse o con movimiento reducido)
+(function () {
+  var caja = document.querySelector(".hero-fotos");
+  if (!caja) return;
+  var fotos = caja.querySelectorAll(".hf"), puntos = caja.querySelectorAll(".hf-dot");
+  if (fotos.length < 2) return;
+  var actual = 0, timer = null;
+  var quieto = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function ir(n) {
+    actual = (n + fotos.length) % fotos.length;
+    fotos.forEach(function (f, i) { f.classList.toggle("activa", i === actual); });
+    puntos.forEach(function (d, i) { if (i === actual) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
+  }
+  function iniciar() { if (!quieto) { parar(); timer = setInterval(function () { ir(actual + 1); }, 5000); } }
+  function parar() { if (timer) clearInterval(timer); timer = null; }
+  caja.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-hf], [data-hf-ir]");
+    if (!b) return;
+    if (b.hasAttribute("data-hf-ir")) ir(parseInt(b.getAttribute("data-hf-ir"), 10)); else ir(actual + parseInt(b.getAttribute("data-hf"), 10));
+    iniciar();
+  });
+  caja.addEventListener("mouseenter", parar); caja.addEventListener("mouseleave", iniciar);
+  caja.addEventListener("focusin", parar); caja.addEventListener("focusout", iniciar);
+  iniciar();
 })();

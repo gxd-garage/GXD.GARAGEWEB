@@ -498,6 +498,22 @@ content:
         label: Usuario de Instagram
         type: string
         description: Sin @
+      - name: portada_fotos
+        label: Fotos de la portada
+        type: object
+        list: true
+        description: "Trabajos reales que se muestran a la derecha del título principal (solo en computador). Si pones varias, se van alternando cada 4 segundos. Si lo dejas vacío, se muestra la animación del logo."
+        fields:
+          - name: imagen
+            label: Foto
+            type: image
+          - name: texto
+            label: Nombre del trabajo
+            type: string
+          - name: enlace
+            label: Página del producto (opcional)
+            type: string
+            description: "Por ejemplo /impresion-3d/letrero-3d/. El nombre de la foto enlaza ahí; el botón Cotizar abre WhatsApp."
       - name: tiktok
         label: Usuario de TikTok
         type: string

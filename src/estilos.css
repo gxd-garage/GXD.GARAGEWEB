@@ -1136,3 +1136,27 @@ p.hero-title { font-weight: 700; }
 .wa-float.oculto { opacity: 0; pointer-events: none; transform: translateY(12px); }
 @media (max-width: 900px) { .wa-float { width: 48px; height: 48px; bottom: 1.1rem; right: 1.1rem; } }
 @media (min-width: 901px) { .wa-float { display: none; } }
+
+/* Portada con fotos reales: una fija o un carrusel con flechas y puntos (se configura en el sitio) */
+.hero-fotos { position: relative; z-index: 2; width: min(86%, 620px); }
+.hero-fotos .hf { position: absolute; top: 0; left: 0; right: 0; margin: 0; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--border); background: var(--gray); opacity: 0; visibility: hidden; transition: opacity .7s ease, visibility 0s linear .7s; }
+.hero-fotos .hf:first-child { position: relative; }
+.hero-fotos .hf.activa { opacity: 1; visibility: visible; z-index: 1; transition: opacity .7s ease; }
+html:not(.js) .hero-fotos .hf:first-child { opacity: 1; visibility: visible; }
+.hero-fotos .hf img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-fotos .hf figcaption a { color: inherit; text-decoration: none; }
+.hero-fotos .hf figcaption a:hover { text-decoration: underline; }
+.hf-cta { position: absolute; right: 0.9rem; bottom: 0.9rem; display: inline-flex; align-items: center; gap: 0.45rem; background: var(--wa); color: #0a0a0a; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.65rem 1.1rem; text-decoration: none; transition: opacity .2s; }
+.hf-cta:hover { opacity: .88; }
+.hf-cta svg { width: 14px; height: 14px; }
+.hero-fotos .hf figcaption { position: absolute; left: 0; bottom: 0; padding: 0.7rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: rgba(10,10,10,0.72); }
+.hero-fotos .hp-hud { margin-top: 1.2rem; align-items: center; }
+.hf-ctrl { display: inline-flex; align-items: center; gap: 0.6rem; }
+.hf-btn { background: none; border: 1px solid var(--border); color: var(--white); width: 36px; height: 36px; font-size: 1rem; cursor: pointer; transition: border-color .2s; }
+.hf-btn:hover, .hf-btn:focus-visible { border-color: var(--white); }
+.hf-dot { width: 9px; height: 9px; padding: 0; border: 1px solid var(--dim); border-radius: 50%; background: none; cursor: pointer; }
+.hf-dot[aria-current="true"] { background: var(--white); border-color: var(--white); }
+
+/* Aviso de qué NO hacemos en repuestos (filtra consultas de repuestos de tienda) */
+.auto-no { margin-top: 1.5rem; padding: 1rem 1.2rem; border-left: 2px solid var(--white); background: rgba(255,255,255,0.03); font-size: 0.82rem; line-height: 1.7; color: var(--text, #c9c9c2); }
+.auto-no b { color: var(--white); }

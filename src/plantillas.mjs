@@ -12,7 +12,7 @@ export const GRUPOS = [
 // Subcategorías de Impresión 3D (las mismas del panel). El orden define el orden de los filtros.
 // Impresión 3D se ordena en tres secciones; el "tipo" (subcategoría) es opcional y sirve para filtros y grupos
 export const SECCIONES_3D = [
-  { nombre: "Repuestos para autos", id: "auto-a-medida", num: "01" },
+  { nombre: "Repuestos para autos", etiqueta: "Piezas plásticas para autos", id: "auto-a-medida", num: "01" },
   { nombre: "Productos", id: "productos", num: "02" },
   { nombre: "Hecho a medida", id: "a-medida", num: "03" },
 ];
@@ -246,7 +246,7 @@ function pie(sitio) {
   </div>
   <div class="footer-col">
     <h4>Servicios</h4>
-    <ul>${GRUPOS.map((g) => `<li><a href="${g.ruta}">${esc(g.nombre)}</a></li>`).join("")}<li><a href="/impresion-3d/#auto-a-medida">Repuestos para autos</a></li><li><a href="/impresion-3d-talagante/">Impresión 3D en Talagante</a></li></ul>
+    <ul>${GRUPOS.map((g) => `<li><a href="${g.ruta}">${esc(g.nombre)}</a></li>`).join("")}<li><a href="/impresion-3d/#auto-a-medida">Piezas plásticas para autos</a></li><li><a href="/impresion-3d-talagante/">Impresión 3D en Talagante</a></li></ul>
   </div>
   <div class="footer-col">
     <h4>Sitio</h4>
@@ -442,7 +442,7 @@ const ldNegocio = (sitio) => ({
   hasMap: sitio.google_maps || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${sitio.nombre}, ${sitio.direccion}, ${sitio.comuna}`)}`,
   priceRange: "$$",
   ...horarioLD(sitio.horario),
-  knowsAbout: ["Impresión 3D", "Repuestos para autos impresos en 3D", "Modelado 3D", "Diseño gráfico", "Identidad visual", "Impresión digital", "Etiquetas personalizadas", "Llaveros NFC"],
+  knowsAbout: ["Impresión 3D", "Repuestos plásticos para autos impresos en 3D", "Modelado 3D", "Diseño gráfico", "Identidad visual", "Impresión digital", "Etiquetas personalizadas", "Llaveros NFC"],
   contactPoint: { "@type": "ContactPoint", contactType: "customer service", telephone: "+" + sitio.whatsapp, availableLanguage: "Spanish" },
 });
 
@@ -459,6 +459,7 @@ function tarjetaCliente(c) {
 
 export function paginaInicio({ sitio, productos, posts, portafolio, clientes = [] }) {
   // en portada solo productos con foto: un cuadro vacío en "Lo más pedido" resta confianza
+  const fotosPortada = (sitio.portada_fotos || []).filter((f) => f && f.imagen);
   const conFoto = productos.filter((p) => p.imagenes.length);
   const marcados = conFoto.filter((p) => p.destacado);
   const destacados = (marcados.length ? marcados : conFoto.length ? conFoto : productos).slice(0, 6);
@@ -475,15 +476,18 @@ export function paginaInicio({ sitio, productos, posts, portafolio, clientes = [
       <a href="${waLink(sitio, "Hola GXD Garage, quiero cotizar un proyecto.")}" ${ext} class="btn-wa">${WA}Cotizar ahora</a>
     </div>
   </div>
-  <div class="hero-right" aria-hidden="true">
-    <div class="hero-grid-lines"></div>
-    <div class="hero-print">
+  <div class="hero-right"${fotosPortada.length ? "" : ' aria-hidden="true"'}>
+    <div class="hero-grid-lines" aria-hidden="true"></div>
+    ${fotosPortada.length ? `<div class="hero-fotos"${fotosPortada.length > 1 ? ' role="region" aria-roledescription="carrusel" aria-label="Trabajos reales"' : ""}>
+      ${fotosPortada.map((f, i) => `<figure class="hf${i ? "" : " activa"}"${fotosPortada.length > 1 ? ` aria-roledescription="foto" aria-label="${i + 1} de ${fotosPortada.length}"` : ""}><img ${foto(f.imagen, "(max-width: 900px) 0px, 45vw")} alt="${esc(f.texto || "")}" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async">${f.texto ? `<figcaption>${f.enlace ? `<a href="${esc(f.enlace)}">${esc(f.texto)} →</a>` : esc(f.texto)}</figcaption>` : ""}<a class="hf-cta" href="${waLink(sitio, `Hola GXD Garage, vi en el sitio "${f.texto || "un trabajo"}" y quiero cotizar algo así.`)}" ${ext}>${WA}Cotizar</a></figure>`).join("")}
+      <div class="hp-hud"><span>// trabajos reales · ${esc(sitio.comuna)}</span>${fotosPortada.length > 1 ? `<span class="hf-ctrl"><button type="button" class="hf-btn" data-hf="-1" aria-label="Foto anterior">←</button>${fotosPortada.map((_, i) => `<button type="button" class="hf-dot" data-hf-ir="${i}" aria-label="Ver foto ${i + 1}"${i ? "" : ' aria-current="true"'}></button>`).join("")}<button type="button" class="hf-btn" data-hf="1" aria-label="Foto siguiente">→</button></span>` : `<span>hechos en taller</span>`}</div>
+    </div>` : `<div class="hero-print" aria-hidden="true">
       <div class="hp-marco">
         <div class="hp-logo">${logoTrazo()}</div>
         <div class="hp-boquilla"></div>
       </div>
       <div class="hp-hud"><span>// capa por capa</span><span data-capa>capa 120 / 120</span></div>
-    </div>
+    </div>`}
   </div>
   <div class="hero-stats">
     <div><div class="stat-num">3</div><div class="stat-label">Servicios</div></div>
@@ -508,7 +512,7 @@ ${clientes.length ? `<section id="clientes" class="clientes-top">
       <div class="service-num">01</div>
       ${ICONO["Impresión 3D"]}
       <h3 class="service-name">Impresión 3D</h3>
-      <p class="service-desc">Nuestro fuerte: <b>repuestos para autos a medida</b>. Además, piezas en stock, fidgets, lámparas, prototipos y piezas personalizadas en PLA, PETG, ABS, ASA o TPU.</p>
+      <p class="service-desc">Nuestro fuerte: <b>piezas plásticas para autos, fabricadas a medida en 3D</b>. Además, piezas en stock, fidgets, lámparas, prototipos y piezas personalizadas en PLA, PETG, ABS, ASA o TPU.</p>
       <a href="/impresion-3d/" class="service-arrow">Ver Impresión 3D →</a>
     </article>
     <article class="service-card fade-up">
@@ -593,22 +597,22 @@ ${posts.length ? `<section id="blog" class="section-alt">
 // ---------- bloque de repuestos para autos (siempre presente en Impresión 3D) ----------
 const EJEMPLOS_AUTO = ["Clips y grapas de tapiz", "Tapas y embellecedores", "Perillas y botones", "Soportes y bases", "Rejillas de ventilación", "Piezas descontinuadas"];
 export function bloqueAuto(sitio, compacto = false, piezas = []) {
-  const msg = "Hola GXD Garage, necesito un repuesto para mi auto.\n\n• Marca y modelo:\n• Año:\n• Pieza:\n\n📷 Te envío una foto de la pieza con una regla al lado.";
+  const msg = "Hola GXD Garage, necesito fabricar en 3D una pieza plástica para mi auto.\n\n• Marca y modelo:\n• Año:\n• Pieza plástica:\n\n📷 Te envío una foto de la pieza con una regla al lado.";
   if (compacto) return `<section class="strip-sec" aria-labelledby="auto-strip-t">
   <div class="auto-strip fade-up">
   <div class="auto-strip-txt">
-    <p class="section-label">// repuestos para autos a medida</p>
+    <p class="section-label">// piezas plásticas para autos · impresión 3D</p>
     <h2 class="section-title" id="auto-strip-t">¿Buscas una pieza <em>para tu auto?</em></h2>
-    <p>Clips, tapas, perillas o soportes que ya no venden. Tráenos la pieza original, como sea que esté, o mándanos una foto por WhatsApp con una regla al lado, y la fabricamos en 3D.</p>
+    <p>Clips, tapas, perillas o soportes <b>plásticos</b> que ya no venden. Tráenos la pieza original, como sea que esté, o mándanos una foto por WhatsApp con una regla al lado, y la fabricamos en 3D. No vendemos repuestos de tienda, mecánicos ni eléctricos.</p>
   </div>
   <div class="hero-actions">
-    <a class="btn-primary" href="/impresion-3d/#auto-a-medida">Cotizar mi repuesto</a>
+    <a class="btn-primary" href="/impresion-3d/#auto-a-medida">Cotizar mi pieza</a>
     <a class="btn-wa" href="${waLink(sitio, msg)}" ${ext}>${WA}WhatsApp</a>
   </div>
   </div>
 </section>`;
   return `<section id="auto-a-medida" class="auto-block">
-  ${cabecera("// 01 — repuestos para autos", "Repuestos para autos", "a medida", "Esa pieza plástica que ya no venden o que cuesta encontrar. Tráenos la original, como sea que esté, y la fabricamos en 3D.")}
+  ${cabecera("// 01 — piezas plásticas para autos", "Piezas plásticas", "para tu auto", "Esa pieza plástica que ya no venden o que cuesta encontrar. Tráenos la original, como sea que esté, y la fabricamos en impresión 3D.")}
   <div class="auto-layout">
     <div class="auto-info fade-up">
       <ul class="auto-chips" aria-label="Ejemplos de piezas">${EJEMPLOS_AUTO.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>
@@ -618,6 +622,7 @@ export function bloqueAuto(sitio, compacto = false, piezas = []) {
         <li><span><b>Con el diseño listo,</b> te damos el valor de la impresión según el material y la cantidad.</span></li>
       </ol>
       <p class="fine">Elegimos el material según dónde va la pieza: dentro del auto, al sol o cerca del calor.</p>
+      <div class="auto-no" role="note"><b>Solo fabricamos piezas plásticas en 3D.</b> No vendemos repuestos originales ni de tienda, y no hacemos piezas de motor, frenos, suspensión ni partes eléctricas o de metal.</div>
     </div>
     <form class="contact-form auto-form fade-up" id="auto-form" novalidate>
       <div class="form-row tres">
@@ -625,7 +630,7 @@ export function bloqueAuto(sitio, compacto = false, piezas = []) {
         <div class="form-group"><label for="auto-modelo">Modelo</label><input id="auto-modelo" name="modelo" type="text" placeholder="Ej.: Yaris" autocomplete="off"></div>
         <div class="form-group"><label for="auto-anio">Año</label><input id="auto-anio" name="anio" type="text" inputmode="numeric" maxlength="4" placeholder="Ej.: 2012" autocomplete="off"></div>
       </div>
-      <div class="form-group"><label for="auto-pieza">¿Qué pieza necesitas?</label><textarea id="auto-pieza" name="pieza" placeholder="Ej.: El clip que sujeta el tapiz de la puerta del conductor. Se quebró y no lo encuentro."></textarea></div>
+      <div class="form-group"><label for="auto-pieza">¿Qué pieza plástica necesitas fabricar?</label><textarea id="auto-pieza" name="pieza" placeholder="Ej.: El clip plástico que sujeta el tapiz de la puerta del conductor. Se quebró y no lo encuentro."></textarea></div>
       <div class="form-group">
         <span class="section-label" id="auto-tengo-l" style="margin-bottom:0.25rem">¿Tienes la pieza original?</span>
         <div class="choices" role="radiogroup" aria-labelledby="auto-tengo-l">
@@ -755,7 +760,7 @@ export function paginaImpresion3D({ sitio, productos, portafolio, posts = [] }) 
   const proyecto = medida.filter((p) => p.subcategoria !== "Letreros y emblemas");
   const port = portafolio.filter((w) => w.categoria === g.nombre);
   const secciones = [
-    ["Repuestos para autos", "auto-a-medida", "01"],
+    ["Piezas para autos", "auto-a-medida", "01"],
     ...(prods.length ? [["Productos", "productos", "02"]] : []),
     ...(medida.length ? [["Hecho a medida", "a-medida", prods.length ? "03" : "02"]] : []),
     ["Materiales", "materiales", ""],
@@ -767,7 +772,7 @@ export function paginaImpresion3D({ sitio, productos, portafolio, posts = [] }) 
   </div>` : "";
   const cuerpo = `
 ${heroInterior(items, "// impresión 3d", "Impresión", "3D",
-    `Repuestos para autos a medida, productos en el color que elijas y piezas hechas a medida para toda ${esc(zona(sitio))}, desde ${esc(sitio.comuna)}. Todo impreso capa por capa y cotizado por WhatsApp.`,
+    `Piezas plásticas para autos fabricadas a medida, productos en el color que elijas y piezas hechas a medida para toda ${esc(zona(sitio))}, desde ${esc(sitio.comuna)}. Todo impreso capa por capa y cotizado por WhatsApp.`,
     `<div class="hero-actions" style="margin-top:2.5rem"><a class="btn-primary" href="#auto-a-medida">Repuesto para mi auto</a><a class="btn-line" href="#${prods.length ? "productos" : "a-medida"}">Ver productos</a></div>`, OPC.banners["3d"])}
 <div class="subnav" role="navigation" aria-label="Secciones de Impresión 3D">
   <div class="subnav-in">${secciones.map(([t, id, n]) => `<a href="#${id}" data-subnav="${id}">${n ? `<span>${n}</span>` : ""}${esc(t)}</a>`).join("")}</div>
@@ -836,8 +841,8 @@ ${port.length ? `<section id="trabajos">
   <p class="fine fade-up" style="margin-top:2rem">¿Estás en la provincia de Talagante o en Melipilla? Mira cómo trabajamos con <a href="/impresion-3d-talagante/">impresión 3D en Talagante y alrededores</a>.</p>
 </section>`;
   return layout({
-    sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${zona(sitio)}: repuestos para autos`,
-    descripcion: `Impresión 3D en ${zona(sitio)} desde ${sitio.comuna}: repuestos para autos, emblemas y letreros en 12 materiales, de PLA a ASA. Cotiza por WhatsApp.`,
+    sitio, ruta: g.ruta, actual: g.clave, titulo: `Impresión 3D en ${zona(sitio)}: repuestos plásticos para autos`,
+    descripcion: `Impresión 3D en ${zona(sitio)} desde ${sitio.comuna}: repuestos plásticos para autos, emblemas y letreros en 12 materiales, de PLA a ASA. Cotiza por WhatsApp.`,
     jsonld: [ldMigas(sitio, items), ldLista(sitio, lista), ldPreguntas(PREGUNTAS_MATERIALES)], cuerpo,
   });
 }
@@ -966,7 +971,7 @@ export function paginaProducto({ sitio, p, relacionados, casos = [] }) {
   const g = grupo(p.categoria);
   const es3D = g.clave === "3d";
   const sec = es3D ? seccion3D(p.seccion) : null;
-  const items = [["Inicio", "/"], [g.nombre, g.ruta], ...(sec ? [[sec.nombre, `${g.ruta}#${sec.id}`]] : []), [p.titulo, null]];
+  const items = [["Inicio", "/"], [g.nombre, g.ruta], ...(sec ? [[sec.etiqueta || sec.nombre, `${g.ruta}#${sec.id}`]] : []), [p.titulo, null]];
   const base = sitio.url.replace(/\/$/, "");
   const abs = (u) => (u.startsWith("http") ? u : base + u);
   const url = base + urlProducto(p);

@@ -1,5 +1,5 @@
 ---
-titulo: Repuesto a medida
+titulo: Repuesto plástico a medida
 categoria: Impresión 3D
 seccion: Hecho a medida
 subcategoria: Hogar y repuestos varios
@@ -19,9 +19,11 @@ precio: 24990
 precio_visible: true
 precio_desde: true
 publicado: true
-seo_titulo: "Repuestos impresos en 3D a medida"
+seo_titulo: "Repuestos plásticos impresos en 3D a medida"
 seo_descripcion: "¿Se rompió una pieza plástica que ya no venden? La modelamos y la imprimimos en 3D en PLA, PETG, ABS, ASA o TPU. Taller en Talagante, envíos a la RM y regiones."
 preguntas:
+  - pregunta: "¿Venden repuestos originales o de tienda?"
+    respuesta: "No. No somos una tienda de repuestos: fabricamos piezas plásticas a medida con impresión 3D, a partir de la pieza original o de fotos. No hacemos piezas de motor, frenos, suspensión ni partes eléctricas o de metal."
   - pregunta: "¿Qué repuestos se pueden imprimir en 3D?"
     respuesta: "Piezas plásticas como perillas, tapas, soportes, clips, piezas de interior del auto y repuestos de electrodomésticos que ya no se venden. Si nos traes la pieza, aunque esté rota, te decimos si se puede fabricar."
   - pregunta: "¿Necesito llevar la pieza original?"
